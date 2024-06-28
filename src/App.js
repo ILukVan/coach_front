@@ -1,13 +1,14 @@
 
 
 import React from 'react';
-import { Layout, theme } from 'antd';
+import { Layout, theme, notification } from 'antd';
 import "./App.css";
 import Activity from "./components/activity";
 import AddActivity from "./components/addActivity";
 import { useState } from "react";
 import axios from "axios";
 
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('tokens')}`;
 
 const { Content } = Layout;
 
@@ -52,10 +53,13 @@ const App = () => {
   };
 
   const selectDateActivity = async (values) => {
-
+    
     const data = await axios.post("http://localhost:3500/date_activity", values);
+    console.log(data.data);
+    data.data !== null && setTableData(data.data);
 
-    setTableData(data.data);
+
+    
   };
 
   return (

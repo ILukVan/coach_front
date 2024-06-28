@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Form, Layout, theme } from "antd";
+import { Button, Form, Layout, theme, notification } from "antd";
 import { MaskedInput } from "antd-mask-input";
 import axios from "axios";
 import SingIn from "./SignIn";
@@ -18,24 +18,25 @@ const SignInPage = () => {
   };
 
   const signIn = async (values) => {
-    const data = await axios.post(
-      "http://localhost:3500/signIn",
-      values
-    );
+    const data = await axios.post("http://localhost:3500/signIn", values);
     console.log(data.data);
+    localStorage.setItem("tokens", JSON.stringify(data.data));
   };
 
   const registration = async (values) => {
-    const data = await axios.post(
-      "http://localhost:3500/registration",
-      values
-    );
-    console.log(data.data);
+    const data = await axios.post("http://localhost:3500/registration", values);
+    console.log(data);
+    if (data.statusText === "Ok") {
+      console.log("da");
+    } else {
+      notification.error({
+        message: "Ошибка!",
+        description: "Не удалось зарегистрировать",
+      });
+    }
   };
 
-
   const onFinish = (values) => {
-
     SignInOrRegistration(values);
     setPhoneNumber(values.phone_number);
   };
@@ -63,11 +64,16 @@ const SignInPage = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-        {user[0] !== "" ? user === 'sign' ?
-           <SingIn phone_number={phone_number} signIn={signIn}/>
-           :
-            <Registration registration={registration} phone_number={phone_number}/>
-           :
+          {user[0] !== "" ? (
+            user === "sign" ? (
+              <SingIn phone_number={phone_number} signIn={signIn} />
+            ) : (
+              <Registration
+                registration={registration}
+                phone_number={phone_number}
+              />
+            )
+          ) : (
             <Form
               name="SingOrRegistrathion"
               labelCol={{
@@ -101,7 +107,7 @@ const SignInPage = () => {
                 </Button>
               </Form.Item>
             </Form>
-          }
+          )}
         </div>
       </Content>
     </Layout>

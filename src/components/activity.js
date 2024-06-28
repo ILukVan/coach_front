@@ -95,7 +95,7 @@ const Activity = ({ activity, fetchActivities, deleteActivity, updateActivity, s
 
   return (
     <div>
-      <DatePicker onChange={onChangeDate} defaultValue={dayjs()}/>
+      <DatePicker onChange={onChangeDate} defaultValue={dayjs()} allowClear={false}/>
       <Table
         columns={columns}
         expandable={{
