@@ -2,28 +2,20 @@ import React from "react";
 import {
   Button,
   Form,
-  Input,
+  InputNumber,
   Modal,
   Select,
   TimePicker,
   DatePicker,
+
 } from "antd";
-// import dayjs from 'dayjs';
 import { useState } from "react";
+import dayjs from 'dayjs';
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
-
-const onChangeDate = (date, dateString) => {
-  console.log(date);
-  console.log(dateString);
-};
-
-const onChangeTime = (time, timeString) => {
-  console.log(time);
-  console.log(timeString);
-};
+const disabledDate = (current) => {
+  // Can not select days before today and today
+  return current < dayjs().startOf('date');
+}
 
 const AddActivity = ({ createActivity }) => {
   const [form] = Form.useForm();
@@ -31,22 +23,26 @@ const AddActivity = ({ createActivity }) => {
   const [open, setOpen] = useState(false);
 
   const onCreate = (values) => {
-    // console.log('Received values of form: ', values);
-    // const d = values.Date.unix()
-    // const a = values.time[0].unix()
-    // const a2 = values.time[0].format('HH/mm')
-    // const b = values.time[1].unix()
-    // const b2 = values.time[1].format('HH/mm')
-    // const d2 = values.Date.format('DD/MM/YYYY')
-    // console.log(a, "начало времени");
-    // console.log(a2, "начало времени");
-    // console.log(b, "конец времени");
-    // console.log(b2, "конец времени");
-    // console.log(d, "дата");
-    // console.log(d2, "дата");
-
+    console.log(values);
     createActivity(values);
     setOpen(false);
+  };
+
+  const [valueHour, setValueHour] = useState(null);
+  const onChange = (time) => {
+    setValueHour(time);
+
+  };
+
+  const disabledHours = () => {
+    const hours = [];
+    const currentHour = dayjs(valueHour).hour();
+
+    for (let i = 0; i < currentHour; i++) {
+      hours.push(i);
+    }
+
+    return hours;
   };
 
   return (
@@ -71,9 +67,11 @@ const AddActivity = ({ createActivity }) => {
             layout="vertical"
             form={form}
             name="form_in_modal"
-            initialValues={{
-              modifier: "public",
-            }}
+            // initialValues={{
+
+            //   start_time_train: dayjs('09:00', 'HH:mm'),
+
+            // }}
             clearOnDestroy
             onFinish={(values) => onCreate(values)}
           >
@@ -81,18 +79,31 @@ const AddActivity = ({ createActivity }) => {
           </Form>
         )}
       >
-        <Form.Item name="Date">
-          <DatePicker onChange={onChangeDate} />
+        <Form.Item name="weekday_train">
+          <DatePicker disabledDate={disabledDate}/>
         </Form.Item>
-        <Form.Item name="time">
-          <TimePicker.RangePicker
+
+        <Form.Item label="Начало тренировки" name="start_time_train">
+            <TimePicker
+              changeOnScroll
+              needConfirm={false}
+              format="HH:mm"
+              value={valueHour}
+        onChange={onChange}
+            />
+          </Form.Item>
+
+        <Form.Item name="end_time_train" label="Конец тренировки" >
+          <TimePicker
             format="HH:mm"
-            onChange={onChangeTime}
             needConfirm={false}
+            disabledTime={(value) => ({
+              disabledHours,
+            })}
           />
         </Form.Item>
         <Form.Item
-          name="title"
+          name="occupancy_train"
           label="Максимальное количество клиентов на занятии "
           rules={[
             {
@@ -101,19 +112,18 @@ const AddActivity = ({ createActivity }) => {
             },
           ]}
         >
-          <Input />
+          <InputNumber />
         </Form.Item>
         <p> Тип занятия </p>
         <Form.Item
-          name="modifier"
+          name="type_of_training"
           className="collection-create-form_last-form-item"
         >
           <Select
-            defaultValue="Растяжка"
+
             style={{
               width: 120,
             }}
-            onChange={handleChange}
             options={[
               {
                 value: "индивидуальное занятие",
@@ -139,7 +149,6 @@ const AddActivity = ({ createActivity }) => {
                 value: "стрип пластика",
                 label: "стрип пластика",
               },
-
             ]}
           />
         </Form.Item>
