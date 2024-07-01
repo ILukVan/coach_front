@@ -1,14 +1,15 @@
-
-
-import React from 'react';
-import { Layout, theme, notification } from 'antd';
+import React from "react";
+import { Layout, theme, notification } from "antd";
 import "./App.css";
 import Activity from "./components/activity";
 import AddActivity from "./components/addActivity";
 import { useState } from "react";
 import axios from "axios";
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('tokens')}`;
+import { instance } from "./request";
+import dayjs from "dayjs";
+
+// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('tokens')}`;
 
 const { Content } = Layout;
 
@@ -23,54 +24,59 @@ const App = () => {
     setActivity(activity);
   };
   const [tableData, setTableData] = useState([]);
-
-
+  const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"))
   const fetchActivities = async () => {
-    const data = await axios.get("http://localhost:3500/activities");
-    
+    const data = await instance.get("/activities");
+
     setTableData(data.data);
   };
 
   const createActivity = async (values) => {
-
-    const data = await axios.post("http://localhost:3500/add_activity", values);
+    const data = await instance.post("/add_activity", values);
 
     setTableData((prevData) => [...prevData, data.data]);
   };
 
   const deleteActivity = async (values) => {
-    console.log(values);
-  
-    const data = await axios.delete("http://localhost:3500/delete_activity", {
-      data: { training_id: values }});
-     setTableData(data.data);
+
+
+    const data = await instance.delete("/delete_activity", {
+      data: { training_id: values, date: date.date },
+    });
+    setTableData(data.data);
   };
 
   const updateActivity = async (values) => {
-  
-    const data = await axios.put("http://localhost:3500/update_activity", values );
-     setTableData(data.data);
+    console.log(values);
+    console.log(date);
+    values.date = date.date
+    console.log(values);
+    const data = await instance.put(
+      "/update_activity",
+      values
+    );
+    setTableData(data.data);
   };
 
   const selectDateActivity = async (values) => {
-    
-    const data = await axios.post("http://localhost:3500/date_activity", values);
+    console.log(values);
+    setDate(values)
+
+    const data = await instance.post(
+      "/date_activity",
+      values
+    );
     console.log(data.data);
     data.data !== null && setTableData(data.data);
-
-
-    
   };
 
   return (
     <Layout>
-    
       <Content
         style={{
-          padding: '0 48px',
+          padding: "0 48px",
         }}
       >
-
         <div
           style={{
             padding: 24,
@@ -79,12 +85,17 @@ const App = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-                <Activity activity={tableData} fetchActivities={fetchActivities} deleteActivity={deleteActivity} updateActivity={updateActivity} selectDateActivity={selectDateActivity}/>
-                <AddActivity sendActyv={myFun} createActivity={createActivity} />
-
+          <Activity
+            activity={tableData}
+            fetchActivities={fetchActivities}
+            deleteActivity={deleteActivity}
+            updateActivity={updateActivity}
+            selectDateActivity={selectDateActivity}
+            date={date}
+          />
+          <AddActivity sendActyv={myFun} createActivity={createActivity} date={date}/>
         </div>
       </Content>
-
     </Layout>
   );
 };

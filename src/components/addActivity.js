@@ -17,7 +17,7 @@ const disabledDate = (current) => {
   return current < dayjs().startOf('date');
 }
 
-const AddActivity = ({ createActivity }) => {
+const AddActivity = ({ createActivity, date }) => {
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
@@ -67,11 +67,13 @@ const AddActivity = ({ createActivity }) => {
             layout="vertical"
             form={form}
             name="form_in_modal"
-            // initialValues={{
+            initialValues={{
 
-            //   start_time_train: dayjs('09:00', 'HH:mm'),
+              weekday_train: dayjs(date.date),
+              start_time_train: dayjs("09:00", "HH:mm"),
+              end_time_train: dayjs("10:00", "HH:mm"),
 
-            // }}
+            }}
             clearOnDestroy
             onFinish={(values) => onCreate(values)}
           >
@@ -80,7 +82,7 @@ const AddActivity = ({ createActivity }) => {
         )}
       >
         <Form.Item name="weekday_train">
-          <DatePicker disabledDate={disabledDate}/>
+          <DatePicker disabledDate={disabledDate} disabled/>
         </Form.Item>
 
         <Form.Item label="Начало тренировки" name="start_time_train">

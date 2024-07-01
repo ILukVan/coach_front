@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
-const Activity = ({ activity, fetchActivities, deleteActivity, updateActivity, selectDateActivity}) => {
+const Activity = ({ activity, fetchActivities, deleteActivity, updateActivity, selectDateActivity, date}) => {
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
   }, []);
@@ -84,8 +84,8 @@ const Activity = ({ activity, fetchActivities, deleteActivity, updateActivity, s
       render: (_, record) => {
         return (
           <>
-            <ModalEdit record={record} updateActivity={updateActivity}/>
-            <DeleteActivity record={record} deleteActivity={deleteActivity} />
+            <ModalEdit record={record} updateActivity={updateActivity} date={date}/>
+            <DeleteActivity record={record} deleteActivity={deleteActivity} date={date}/>
 
           </>
         );
