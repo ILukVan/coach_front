@@ -1,5 +1,6 @@
 import axios from "axios";
 import dayjs from "dayjs";
+import { Navigate } from "react-router-dom";
 export const instance = axios.create({
   // к запросу будет приуепляться cookies
   //   withCredentials: true,
@@ -84,6 +85,9 @@ instance.interceptors.response.use(
       //   // переотправляем запрос с обновленным accessToken
 
       return instance.request(originalConfigRequest);
+    } else {
+      console.log("я тут");
+      <Navigate to="/profile" />
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции

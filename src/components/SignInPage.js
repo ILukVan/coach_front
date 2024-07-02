@@ -5,7 +5,10 @@ import { MaskedInput } from "antd-mask-input";
 import axios from "axios";
 import SingIn from "./SignIn";
 import Registration from "./Registration";
+
+import { useNavigate } from "react-router-dom";
 const SignInPage = () => {
+  const navigate = useNavigate();
   const [phone_number, setPhoneNumber] = useState([]);
   const [user, setUser] = useState([""]);
 
@@ -21,13 +24,15 @@ const SignInPage = () => {
     const data = await axios.post("http://localhost:3500/signIn", values);
     console.log(data.data);
     localStorage.setItem("tokens", JSON.stringify(data.data));
+    navigate("/");
   };
 
   const registration = async (values) => {
     const data = await axios.post("http://localhost:3500/registration", values);
-    console.log(data);
-    if (data.statusText === "Ok") {
+    console.log(data, "<-------------- после регистрации");
+    if (data.statusText === "OK") {
       console.log("da");
+      navigate("/profile")
     } else {
       notification.error({
         message: "Ошибка!",

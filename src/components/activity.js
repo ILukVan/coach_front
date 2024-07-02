@@ -82,13 +82,20 @@ const Activity = ({ activity, fetchActivities, deleteActivity, updateActivity, s
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-        return (
+if (record.client_id === JSON.parse(localStorage.getItem("tokens")).user) {
+  return (
           <>
+
             <ModalEdit record={record} updateActivity={updateActivity} date={date}/>
             <DeleteActivity record={record} deleteActivity={deleteActivity} date={date}/>
 
           </>
         );
+
+} else { return(
+<p>нет доступа</p>)}
+
+        
       },
     },
   ];

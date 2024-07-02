@@ -85,6 +85,7 @@ const App = () => {
             borderRadius: borderRadiusLG,
           }}
         >
+       
           <Activity
             activity={tableData}
             fetchActivities={fetchActivities}
