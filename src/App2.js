@@ -1,10 +1,14 @@
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { Layout } from "antd";
 import SignInPage from "./components/SignInPage";
-import App from "./App";
-import axios from "axios";
+import App from "./components/forClients/Client";
 import { instance } from "./request";
 import { useNavigate } from "react-router-dom";
+import Coach from "./components/forCoaches/Coach";
+import SuperCoach from "./components/forSuperCoach/SuperCoach";
+import ClientList from "./components/forSuperCoach/ClientList";
+import PrivateRouteClient from "./components/utils/router/PrivateRouteClient";
+import PrivateRouteCoach from "./components/utils/router/PrivateRouteCoach";
 const { Header, Footer } = Layout;
 
 function App2() {
@@ -33,7 +37,10 @@ function App2() {
           }}
         >
           <div className="demo-logo" />
-          <Link to="/">Расписание</Link>
+          <Link to="/">Расписание Клиентов</Link>
+          <Link to="/coach">Расписание Тренеров</Link>
+          <Link to="/management">Управление</Link>
+          {/* <Link to="/management/client">Управление клиентами</Link> */}
           {JSON.parse(localStorage.getItem("tokens")) ? (
             <Link to="/logout" onClick={handleLogOut}>
               Выйти
@@ -44,7 +51,14 @@ function App2() {
         </Header>
         <Routes>
           <Route path="/profile" element={<SignInPage />}></Route>
-          <Route path="/" element={<App />}></Route>
+          <Route element={<PrivateRouteClient />}>
+            <Route path="/" element={<App />}></Route>
+          </Route>
+          <Route element={<PrivateRouteCoach />}>
+          <Route path="/coach" element={<Coach />}></Route>
+          </Route>
+          <Route path="/management" element={<SuperCoach />}></Route>
+          <Route path="/management/client" element={<ClientList />}></Route>
         </Routes>
 
         <Footer

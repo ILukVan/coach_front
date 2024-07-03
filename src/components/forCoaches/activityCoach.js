@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
-const Activity = ({ activity, fetchActivities, deleteActivity, updateActivity, selectDateActivity, date}) => {
+const ActivityCoach = ({ activity, fetchActivities, deleteActivity, updateActivity, selectDateActivity, date}) => {
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
   }, []);
@@ -125,4 +125,4 @@ if (record.client_id === JSON.parse(localStorage.getItem("tokens")).user) {
   );
 };
 
-export default Activity;
+export default ActivityCoach;
