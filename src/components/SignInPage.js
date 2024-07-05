@@ -7,6 +7,7 @@ import SingIn from "./SignIn";
 import Registration from "./Registration";
 
 import { useNavigate } from "react-router-dom";
+
 const SignInPage = () => {
   const navigate = useNavigate();
   const [phone_number, setPhoneNumber] = useState([]);
@@ -20,11 +21,24 @@ const SignInPage = () => {
     setUser(data.data);
   };
 
+
+
+
   const signIn = async (values) => {
     const data = await axios.post("http://localhost:3500/signIn", values);
-    console.log(data.data);
-    localStorage.setItem("tokens", JSON.stringify(data.data));
-    navigate("/");
+
+    localStorage.setItem("tokens", JSON.stringify(data.data.tokens));
+    localStorage.setItem("data", JSON.stringify(data.data.data));
+    if (JSON.parse(localStorage.getItem("data")).role === "coach") {
+       navigate("/coach");
+    }
+    if (JSON.parse(localStorage.getItem("data")).role === "client") {
+      navigate("/");
+   }
+
+   
+
+
   };
 
   const registration = async (values) => {

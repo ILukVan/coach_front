@@ -82,7 +82,7 @@ const ActivityCoach = ({ activity, fetchActivities, deleteActivity, updateActivi
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-if (record.client_id === JSON.parse(localStorage.getItem("tokens")).user) {
+if (record.client_id === JSON.parse(localStorage.getItem("data")).user) {
   return (
           <>
 

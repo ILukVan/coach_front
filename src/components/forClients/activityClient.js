@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { Table, DatePicker } from "antd";
+import { Table, DatePicker, Progress } from "antd";
 import SignUpTrain from "./SignUpTrain";
-import dayjs from 'dayjs';
-
+import UnSignUpTrain from "./UnSignUpTrain ";
+import dayjs from "dayjs";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
 };
-const ActivityClient = ({ activity, fetchActivities, selectDateActivity}) => {
+const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
   }, []);
@@ -15,13 +15,12 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity}) => {
   // хук который забирает данные из стора
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
-    let selectDate ={
-      date: dateString
-    } 
-  
-    selectDateActivity(selectDate)
-  };
+    let selectDate = {
+      date: dateString,
+    };
 
+    selectDateActivity(selectDate);
+  };
 
   const columns = [
     {
@@ -69,38 +68,50 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity}) => {
         multiple: 3,
       },
     },
+
     {
       title: "Количество мест",
       dataIndex: "occupancy_train",
-      sorter: {
-        compare: (a, b) => a.occupancy_train - b.occupancy_train,
-        multiple: 4,
+      render: (_, record) => {
+        return (
+          <>
+            <Progress
+              type="circle"
+              size="small"
+              percent={
+                (record.recorded_client.length * 100) / record.occupancy_train
+              }
+              format={(percent) =>
+                `${record.recorded_client.length} / ${record.occupancy_train}`
+              }
+            />
+          </>
+        );
       },
     },
     {
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-if (JSON.parse(localStorage.getItem("tokens")).user) {
-  return (
+        console.log(record);
+        console.log((record.recorded_client).includes(JSON.parse(localStorage.getItem("data") || '{}').fio));
+        return (
           <>
-
-            <SignUpTrain />
-
+          {(record.recorded_client).includes(JSON.parse(localStorage.getItem("data") || '{}').fio) ? <UnSignUpTrain record={record} /> : <SignUpTrain record={record} />}
+            
           </>
         );
-
-} else { return(
-<p>нет доступа</p>)}
-
-        
       },
     },
   ];
 
   return (
     <div>
-      <DatePicker onChange={onChangeDate} defaultValue={dayjs()} allowClear={false}/>
+      <DatePicker
+        onChange={onChangeDate}
+        defaultValue={dayjs()}
+        allowClear={false}
+      />
       <Table
         columns={columns}
         expandable={{
@@ -118,7 +129,6 @@ if (JSON.parse(localStorage.getItem("tokens")).user) {
         rowKey={(activity) => activity.training_id}
         onChange={onChange}
       />
-
     </div>
   );
 };

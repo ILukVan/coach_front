@@ -77,10 +77,11 @@ instance.interceptors.response.use(
     // console.log(error.response);
     const originalConfigRequest = { ...error.config };
     // originalConfigRequest._isRetry = true;
-
+    console.log(error.response);
     if (error.response.status === 401) {
-      localStorage.setItem("tokens", JSON.stringify(error.response.data));
-
+      // localStorage.setItem("tokens", JSON.stringify(error.response.data));
+      localStorage.setItem("tokens", JSON.stringify(error.response.data.tokens));
+      localStorage.setItem("data", JSON.stringify(error.response.data.data));
       // localStorage.setItem("token", error.response.data.accessToken);
       //   // переотправляем запрос с обновленным accessToken
 

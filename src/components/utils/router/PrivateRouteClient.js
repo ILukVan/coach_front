@@ -2,13 +2,15 @@ import { Navigate, Outlet } from "react-router-dom"
 
 const PrivateRouteClient = () => {
 
-    let role = JSON.parse(localStorage.getItem("tokens")).role
+    const role = JSON.parse(localStorage.getItem("tokens") || '{ }')
 
-    if (role === "client") {
-        return <Outlet />
-    } else {
+    if(!role.role) {
         return <Navigate to={"/profile"} />
-    }
+    } 
+
+    if (role.role === "client") {
+        return <Outlet />
+    } 
 }
 
 export default PrivateRouteClient
