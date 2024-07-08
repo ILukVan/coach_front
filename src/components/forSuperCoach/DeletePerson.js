@@ -4,16 +4,16 @@ import { Button, Modal } from 'antd';
 const { confirm } = Modal;
 
 
-const MakeCoach = ({ record, createCoach }) => {
+const DeletePerson = ({ record, deletePerson }) => {
 
 // const onClick = () => {
     
 //     console.log(record.training_id)
 // }
 
-const showEditConfirm = () => {
+const showDeleteConfirm = () => {
   confirm({
-    title: `Вы уверены, что хотите сделать ${record.client_surname} ${record.client_name} трененром?`,
+    title: 'Вы уверены, что хотите удалить ?',
 
  
     okText: 'Да',
@@ -21,8 +21,8 @@ const showEditConfirm = () => {
     cancelText: 'Нет',
     onOk() {
       console.log('OK');
-      console.log();
-      createCoach(record)
+      console.log(record.client_id);
+      deletePerson(record.client_id)
     },
     onCancel() {
       console.log('Cancel');
@@ -32,11 +32,11 @@ const showEditConfirm = () => {
 
 return (      
 
-  <Button onClick={showEditConfirm} >
+  <Button onClick={showDeleteConfirm} >
   
-      Сделать тренером
+      Удалить анкету
   </Button>
 )
 };
 
-export default MakeCoach;
+export default DeletePerson;

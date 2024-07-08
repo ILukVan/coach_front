@@ -56,8 +56,8 @@ const ModalEdit = ({ record, updateActivity }) => {
         title="Basic Modal"
         open={isModalOpen}
         onOk={handleOk}
-        okText="Cancel"
-        cancelText="Ok"
+        okText="Сохранить"
+        cancelText="Отменить"
         onCancel={handleCancel}
       >
         <Form

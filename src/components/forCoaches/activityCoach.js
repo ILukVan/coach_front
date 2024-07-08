@@ -112,7 +112,7 @@ if (record.client_id === JSON.parse(localStorage.getItem("data")).user) {
                 margin: 0,
               }}
             >
-              {record.description}
+              {record.description_of_train}
             </p>
           ),
         }}

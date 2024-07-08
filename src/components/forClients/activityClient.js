@@ -54,7 +54,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
           value: "Барре",
         },
       ],
-      filterMode: "tree",
+
       filterSearch: true,
       onFilter: (value, record) => record.type_of_training.startsWith(value),
       width: "30%",
@@ -93,8 +93,8 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-        console.log(record);
-        console.log((record.recorded_client).includes(JSON.parse(localStorage.getItem("data") || '{}').fio));
+
+
         return (
           <>
           {(record.recorded_client).includes(JSON.parse(localStorage.getItem("data") || '{}').fio) ? <UnSignUpTrain record={record} /> : <SignUpTrain record={record} />}
@@ -121,7 +121,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
                 margin: 0,
               }}
             >
-              {record.description}
+              {record.description_of_train}
             </p>
           ),
         }}

@@ -7,11 +7,15 @@ import { useNavigate } from "react-router-dom";
 import Coach from "./components/forCoaches/Coach";
 import SuperCoach from "./components/forSuperCoach/SuperCoach";
 import ClientList from "./components/forSuperCoach/ClientList";
-
+import CoachList from "./components/forSuperCoach/CoachList";
+import WorkOutList from "./components/forSuperCoach/WorkOutList";
+import { useSelector } from "react-redux";
 import PrivateRouteCoach from "./components/utils/router/PrivateRouteCoach";
 
 
 const { Header, Footer } = Layout;
+
+
 
 function App2() {
   const navigate = useNavigate();
@@ -27,6 +31,12 @@ function App2() {
       navigate("/profile");
     }
   };
+
+const name = useSelector((state) => state.rootReducer.sign.user.name)
+console.log(name);
+const role = useSelector((state) => state.rootReducer.sign.user.role);
+console.log(role);
+
 
   return (
     <>
@@ -44,7 +54,7 @@ function App2() {
           <div className="demo-logo" />
           <Space size={"large"}>
            <Link to="/">Расписание</Link>
-          {JSON.parse(localStorage.getItem("data") || '{}').role === "coach" &&  <Link to="/coach">Редактор расписания</Link>}
+          {role === "coach" &&  <Link to="/coach">Редактор расписания</Link>}
          
           <Link to="/management">Управление</Link>
           {/* <Link to="/management/client">Управление клиентами</Link> */}
@@ -56,6 +66,8 @@ function App2() {
             <Link to="/profile">Профиль</Link>
           )}
           <span style={{color:"white"}}>{JSON.parse(localStorage.getItem("data") || '{}').fio}</span>
+          <span style={{color:"yellow"}}>{name}</span>
+  
          </Space> 
         </Header>
         <Routes>
@@ -69,6 +81,8 @@ function App2() {
           </Route>
           <Route path="/management" element={<SuperCoach />}></Route>
           <Route path="/management/client" element={<ClientList />}></Route>
+          <Route path="/management/coach" element={<CoachList />}></Route>
+          <Route path="/management/workout" element={<WorkOutList />}></Route>
         </Routes>
 
         <Footer

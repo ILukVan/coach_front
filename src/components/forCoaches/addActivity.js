@@ -9,18 +9,32 @@ import {
   DatePicker,
 
 } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from 'dayjs';
+import { instance } from "../../request";
 
 const disabledDate = (current) => {
   // Can not select days before today and today
   return current < dayjs().startOf('date');
 }
 
+const { Option } = Select;
+
 const AddActivity = ({ createActivity, date }) => {
+  useEffect(() => {
+    getTypeWorkout()
+  }, []);
+  const [workoutList, setWorkOutList] = useState([])
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
+
+  const getTypeWorkout = async() =>{
+    const type = await instance.get("/workout_list")
+    console.log(type.data);
+
+    setWorkOutList(type.data)
+  } 
 
   const onCreate = (values) => {
     console.log(values);
@@ -47,12 +61,13 @@ const AddActivity = ({ createActivity, date }) => {
 
   return (
     <>
-      <Button type="primary" onClick={() => setOpen(true)}>
+      <Button type="primary" onClick={() => { setOpen(true);}}>
         Добавить тренировку
       </Button>
 
       <Modal
         open={open}
+        
         title="Добавить новую тренировку"
         okText="Добавить"
         cancelText="Отменить"
@@ -72,6 +87,7 @@ const AddActivity = ({ createActivity, date }) => {
               weekday_train: dayjs(date.date),
               start_time_train: dayjs("09:00", "HH:mm"),
               end_time_train: dayjs("10:00", "HH:mm"),
+              occupancy_train: 10,
 
             }}
             clearOnDestroy
@@ -114,45 +130,23 @@ const AddActivity = ({ createActivity, date }) => {
             },
           ]}
         >
-          <InputNumber />
+          <InputNumber min={1} max={17}/>
         </Form.Item>
         <p> Тип занятия </p>
         <Form.Item
           name="type_of_training"
           className="collection-create-form_last-form-item"
         >
-          <Select
-
-            style={{
-              width: 120,
-            }}
-            options={[
-              {
-                value: "индивидуальное занятие",
-                label: "индивидуальное занятие",
-              },
-              {
-                value: "растяжка",
-                label: "растяжка",
-              },
-              {
-                value: "барре",
-                label: "барре",
-              },
-              {
-                value: "йога",
-                label: "йога",
-              },
-              {
-                value: "фит микс",
-                label: "фит микс",
-              },
-              {
-                value: "стрип пластика",
-                label: "стрип пластика",
-              },
-            ]}
-          />
+  <Select placeholder="Выберите тип занятия" style={{ width: '100%' }}>
+        {workoutList.map((item) => (
+          <Option
+            key={item.workout_id}
+            value={item.type_of_workout}
+            label={item.type_of_workout}
+          >
+          </Option>
+        ))}
+      </Select>
         </Form.Item>
       </Modal>
     </>

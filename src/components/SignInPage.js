@@ -5,8 +5,11 @@ import { MaskedInput } from "antd-mask-input";
 import axios from "axios";
 import SingIn from "./SignIn";
 import Registration from "./Registration";
+import { useDispatch  } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
+import { login } from "./store/slice/signIn";
+import { jwtDecode } from "jwt-decode";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -20,13 +23,14 @@ const SignInPage = () => {
     );
     setUser(data.data);
   };
-
+ const dispatch = useDispatch();
 
 
 
   const signIn = async (values) => {
     const data = await axios.post("http://localhost:3500/signIn", values);
-
+   
+    dispatch(login(jwtDecode(data.data.tokens.token)))
     localStorage.setItem("tokens", JSON.stringify(data.data.tokens));
     localStorage.setItem("data", JSON.stringify(data.data.data));
     if (JSON.parse(localStorage.getItem("data")).role === "coach") {

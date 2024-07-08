@@ -27,12 +27,10 @@ const ClientList = () => {
     const createCoach = async (values) => {
         const coach = await instance.post("/create_coach", values)
         console.log(coach);
+        setClientList(coach.data);
     }  
 
-    const onClick = (value) => {
-        console.log(value);
-        console.log("prereeeess");
-    }
+
 
     useEffect(() => {
         fetchClients(); // функция которая делает запрос в сторе
