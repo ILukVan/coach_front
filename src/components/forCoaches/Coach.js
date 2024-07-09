@@ -25,6 +25,7 @@ const Coach = () => {
     const data = await instance.get("/activities");
 
     setTableData(data.data);
+    console.log("=============get  activiti==========", data.data );
   };
 
   const createActivity = async (values) => {

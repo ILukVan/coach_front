@@ -32,14 +32,12 @@ instance.interceptors.response.use(
 
     if (error.response.status === 401) {
     
-      // localStorage.setItem("tokens", JSON.stringify(error.response.data));
-      console.log(jwtDecode(error.response.data.tokens.token));
-      // dispatch(login(jwtDecode(error.response.data.tokens.token)));
+
       localStorage.setItem(
         "tokens",
-        JSON.stringify(error.response.data.tokens)
+        JSON.stringify(error.response.data)
       );
-      localStorage.setItem("data", JSON.stringify(error.response.data.data));
+
 
       // localStorage.setItem("token", error.response.data.accessToken);
       //   // переотправляем запрос с обновленным accessToken

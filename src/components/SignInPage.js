@@ -5,7 +5,7 @@ import { MaskedInput } from "antd-mask-input";
 import axios from "axios";
 import SingIn from "./SignIn";
 import Registration from "./Registration";
-import { useDispatch  } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { login } from "./store/slice/signIn";
@@ -23,34 +23,31 @@ const SignInPage = () => {
     );
     setUser(data.data);
   };
- const dispatch = useDispatch();
-
-
+  const dispatch = useDispatch();
 
   const signIn = async (values) => {
-    const data = await axios.post("http://localhost:3500/signIn", values);
-   
-    dispatch(login(jwtDecode(data.data.tokens.token)))
-    localStorage.setItem("tokens", JSON.stringify(data.data.tokens));
-    localStorage.setItem("data", JSON.stringify(data.data.data));
-    if (JSON.parse(localStorage.getItem("data")).role === "coach") {
-       navigate("/coach");
+    try {
+      const data = await axios.post("http://localhost:3500/signIn", values);
+      if (data.statusText === "OK") {
+        dispatch(login(jwtDecode(data.data.token)));
+        localStorage.setItem("tokens", JSON.stringify(data.data));
+        navigate("/");
+      }
+    } catch (err) {
+      notification.error({
+        message: "Ошибка!",
+        description: err.response.data,
+      });
     }
-    if (JSON.parse(localStorage.getItem("data")).role === "client") {
-      navigate("/");
-   }
-
-   
-
-
   };
 
   const registration = async (values) => {
     const data = await axios.post("http://localhost:3500/registration", values);
     console.log(data, "<-------------- после регистрации");
     if (data.statusText === "OK") {
-      console.log("da");
-      navigate("/profile")
+      dispatch(login(jwtDecode(data.data.token)));
+      localStorage.setItem("tokens", JSON.stringify(data.data));
+      navigate("/");
     } else {
       notification.error({
         message: "Ошибка!",

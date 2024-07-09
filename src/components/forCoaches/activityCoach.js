@@ -3,6 +3,9 @@ import { Table, DatePicker } from "antd";
 import ModalEdit from "./modalEdit ";
 import DeleteActivity from "./DeleteActivity";
 import dayjs from 'dayjs';
+import { useSelector } from "react-redux";
+import { render } from "@testing-library/react";
+import RecordedList from "./RecordedList";
 
 
 const onChange = (pagination, filters, sorter, extra) => {
@@ -12,7 +15,7 @@ const ActivityCoach = ({ activity, fetchActivities, deleteActivity, updateActivi
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
   }, []);
-
+  const id = useSelector((state) => state.rootReducer.sign.user.id);
   // хук который забирает данные из стора
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
@@ -77,12 +80,20 @@ const ActivityCoach = ({ activity, fetchActivities, deleteActivity, updateActivi
         compare: (a, b) => a.occupancy_train - b.occupancy_train,
         multiple: 4,
       },
+      render: (_, record) => {
+        return(
+          <RecordedList record={record}/>
+        )
+      }
     },
+
     {
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-if (record.client_id === JSON.parse(localStorage.getItem("data")).user) {
+        console.log(record);
+        console.log(id, "------render---", record.client_id);
+if (record.client_id === id) {
   return (
           <>
 

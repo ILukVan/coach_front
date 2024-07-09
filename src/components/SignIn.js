@@ -4,7 +4,7 @@ import { MaskedInput } from "antd-mask-input";
 import { useEffect } from "react";
 
 const SingIn = ( {phone_number ,signIn} ) => {
-  console.log(signIn, phone_number)
+
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log("Success:", values);

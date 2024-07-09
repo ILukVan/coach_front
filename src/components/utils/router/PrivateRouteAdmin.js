@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useSelector } from "react-redux"
 
-const PrivateRouteCoach = () => {
+const PrivateRouteAdmin = () => {
     
 
     const role = useSelector((state) => state.rootReducer.sign.user.role);
@@ -9,8 +9,8 @@ const PrivateRouteCoach = () => {
     if(!role) {
         return <Navigate to={"/profile"} />
     } 
-    console.log(role);
-    if (role === "coach" || role === "super_coach") {
+
+    if (role === "super_coach") {
         return <Outlet />
     } 
   
@@ -24,4 +24,4 @@ const PrivateRouteCoach = () => {
 
 
 
-export default PrivateRouteCoach
+export default PrivateRouteAdmin

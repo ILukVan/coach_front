@@ -3,6 +3,7 @@ import { Table, DatePicker, Progress } from "antd";
 import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -11,7 +12,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
   }, []);
-
+  const name = useSelector((state) => state.rootReducer.sign.user.name);
   // хук который забирает данные из стора
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
@@ -97,7 +98,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
 
         return (
           <>
-          {(record.recorded_client).includes(JSON.parse(localStorage.getItem("data") || '{}').fio) ? <UnSignUpTrain record={record} /> : <SignUpTrain record={record} />}
+          {(record.recorded_client).includes(name) ? <UnSignUpTrain record={record} /> : <SignUpTrain record={record} />}
             
           </>
         );
