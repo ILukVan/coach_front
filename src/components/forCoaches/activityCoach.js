@@ -4,9 +4,8 @@ import ModalEdit from "./modalEdit ";
 import DeleteActivity from "./DeleteActivity";
 import dayjs from 'dayjs';
 import { useSelector } from "react-redux";
-import { render } from "@testing-library/react";
-import RecordedList from "./RecordedList";
 
+import RecordedList2 from "./RecordedList2";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -64,15 +63,6 @@ const ActivityCoach = ({ activity, fetchActivities, deleteActivity, updateActivi
       onFilter: (value, record) => record.type_of_training.startsWith(value),
       width: "30%",
     },
-
-    {
-      title: "Статус тренировки",
-      dataIndex: "status_train",
-      sorter: {
-        compare: (a, b) => a.status_train.localeCompare(b.status_train),
-        multiple: 3,
-      },
-    },
     {
       title: "Количество мест",
       dataIndex: "occupancy_train",
@@ -81,11 +71,17 @@ const ActivityCoach = ({ activity, fetchActivities, deleteActivity, updateActivi
         multiple: 4,
       },
       render: (_, record) => {
+        if (record.client_id === id) {
         return(
-          <RecordedList record={record}/>
+          <>
+          <RecordedList2 record={record} />
+          </>
         )
+      } else { return(
+<p>нет доступа</p>)}
+
       }
-    },
+      },
 
     {
       title: "Edit Delet",

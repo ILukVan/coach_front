@@ -13,6 +13,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
     fetchActivities(); // функция которая делает запрос в сторе
   }, []);
   const name = useSelector((state) => state.rootReducer.sign.user.name);
+  const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
@@ -94,14 +95,31 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
+        if (role.includes("coach")) {
+          return <p>Ты тренер</p>;
+        }
+        if (record.recorded_client.length === record.occupancy_train && record.recorded_client.includes(name)) {
+          return <UnSignUpTrain record={record} />;
+        } 
 
+        if (record.recorded_client.length === record.occupancy_train) {
+          return <p>Мест нет</p>;
+        } 
 
-        return (
-          <>
-          {(record.recorded_client).includes(name) ? <UnSignUpTrain record={record} /> : <SignUpTrain record={record} />}
-            
-          </>
-        );
+        if (record.status_train !== "тренировка завершена") {
+          return (
+            <>
+              {record.recorded_client.includes(name) ? (
+                <UnSignUpTrain record={record} />
+              ) : (
+                <SignUpTrain record={record} />
+              )}
+            </>
+          );
+        } else {
+          return <p>Запись завершена</p>;
+        }
+        
       },
     },
   ];

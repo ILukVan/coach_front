@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -7,21 +7,39 @@ import {
   InputNumber,
   TimePicker,
   notification,
+  Input
 } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { instance } from "../../request";
+
 dayjs.extend(customParseFormat);
 
 
+const { Option } = Select;
+
 const ModalEdit = ({ record, updateActivity }) => {
+  useEffect(() => {
+    getTypeWorkout()
+  }, []);
+
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [workoutList, setWorkOutList] = useState([])
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
     form.submit();
   };
+  const getTypeWorkout = async() =>{
+    const type = await instance.get("/workout_list")
+
+
+    setWorkOutList(type.data)
+  } 
+
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
@@ -46,6 +64,23 @@ const ModalEdit = ({ record, updateActivity }) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  const findIndexWorkout = (value) => {
+    console.log(value);
+    workoutList.forEach( function (train, index) {
+      // console.log(train.type_of_workout, index);
+      if (train.type_of_workout === value) {
+        form.setFieldValue('description', workoutList[index].description_of_workout)
+      }
+
+      
+
+    })
+
+    // index
+
+    
+  }
 
   return (
     <>
@@ -77,10 +112,12 @@ const ModalEdit = ({ record, updateActivity }) => {
               ...record,
               start_time_train: dayjs(record.start_time_train),
               end_time_train: dayjs(record.end_time_train),
-              range_time_train: [
-                dayjs(record.start_time_train),
-                dayjs(record.end_time_train),
-              ],
+              // range_time_train: [
+              //   dayjs(record.start_time_train),
+              //   dayjs(record.end_time_train),
+              // ],
+              description: record.description_of_train
+
             }
             // remember: true,
           }
@@ -106,45 +143,22 @@ const ModalEdit = ({ record, updateActivity }) => {
           </Form.Item>
 
           <Form.Item label="Тип тренировки" name="type_of_training">
-            <Select
-              options={[
-                {
-                  value: "индивидуальное занятие",
-                  label: "индивидуальное занятие",
-                },
-                {
-                  value: "растяжка",
-                  label: "растяжка",
-                },
-                {
-                  value: "барре",
-                  label: "барре",
-                },
-                {
-                  value: "йога",
-                  label: "йога",
-                },
-                {
-                  value: "фит микс",
-                  label: "фит микс",
-                },
-                {
-                  value: "стрип пластика",
-                  label: "стрип пластика",
-                },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
+  <Select placeholder="Выберите тип занятия" style={{ width: '100%' }} onChange={findIndexWorkout}>
+        {workoutList.map((item) => (
+          <Option
+            key={item.workout_id}
+            value={item.type_of_workout}
+            label={item.type_of_workout}
           >
-            {/* <Button type="primary" htmlType="submit">
-              Submit
-            </Button> */}
+          </Option>
+        ))}
+      </Select>
+        </Form.Item>
+
+        <Form.Item label="Описание тренировки" name="description">
+            <Input />
           </Form.Item>
+
         </Form>
       </Modal>
     </>

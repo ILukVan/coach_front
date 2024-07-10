@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { login } from "./components/store/slice/signIn";
+
 
 
 
@@ -31,7 +29,7 @@ instance.interceptors.response.use(
     // originalConfigRequest._isRetry = true;
 
     if (error.response.status === 401) {
-    
+    console.log(error.response.data, "---------------------------------------новый токен?------------------------------------------");
 
       localStorage.setItem(
         "tokens",

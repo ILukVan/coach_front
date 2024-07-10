@@ -1,11 +1,8 @@
 import React from "react";
 import { Layout, theme} from "antd";
-
 import ActivityCoach from "./activityCoach";
 import AddActivity from "./addActivity";
 import { useState } from "react";
-
-
 import { instance } from "../../request";
 import dayjs from "dayjs";
 
@@ -25,7 +22,7 @@ const Coach = () => {
     const data = await instance.get("/activities");
 
     setTableData(data.data);
-    console.log("=============get  activiti==========", data.data );
+
   };
 
   const createActivity = async (values) => {

@@ -80,9 +80,7 @@ function App2() {
         <Routes>
           <Route path="/profile" element={<SignInPage />}></Route>
           <Route path="/" element={<App />}></Route>
-          {/* <Route element={<PrivateRouteClient />}>
-           
-          </Route> */}
+
           <Route element={<PrivateRouteCoach />}>
             <Route path="/coach" element={<Coach />}></Route>
             <Route path="/management" element={<SuperCoach />}></Route>

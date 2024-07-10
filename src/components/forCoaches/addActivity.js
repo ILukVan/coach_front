@@ -31,7 +31,7 @@ const AddActivity = ({ createActivity, date }) => {
 
   const getTypeWorkout = async() =>{
     const type = await instance.get("/workout_list")
-    console.log(type.data);
+
 
     setWorkOutList(type.data)
   } 

@@ -7,9 +7,13 @@ const PrivateRouteCoach = () => {
     const role = useSelector((state) => state.rootReducer.sign.user.role);
 
     if(!role) {
+        console.log(role);
+            console.log("tut redirect&");
         return <Navigate to={"/profile"} />
+
+
     } 
-    console.log(role);
+
     if (role === "coach" || role === "super_coach") {
         return <Outlet />
     } 
