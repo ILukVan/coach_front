@@ -4,23 +4,22 @@ import { Button, Modal } from 'antd';
 const { confirm } = Modal;
 
 
-const DeletePerson = ({ record, deletePerson }) => {
+const DeleteWorkOut = ({ record, deleteWorkOut }) => {
 
 
 const showDeleteConfirm = () => {
   confirm({
-    title: 'Вы уверены, что хотите удалить ?',
+    title: 'Вы уверены, что хотите удалить тренировку?',
 
  
     okText: 'Да',
     okType: 'danger',
     cancelText: 'Нет',
     onOk() {
-
-      deletePerson(record.client_id)
+      deleteWorkOut(record.workout_id)
     },
     onCancel() {
-
+      console.log('Cancel');
     },
   });
 };
@@ -29,9 +28,9 @@ return (
 
   <Button onClick={showDeleteConfirm} >
   
-      Удалить анкету
+      Удалить тренировку
   </Button>
 )
 };
 
-export default DeletePerson;
+export default DeleteWorkOut;

@@ -29,7 +29,7 @@ instance.interceptors.response.use(
     // originalConfigRequest._isRetry = true;
 
     if (error.response.status === 401) {
-    console.log(error.response.data, "---------------------------------------новый токен?------------------------------------------");
+    console.log("получил новый токен");
 
       localStorage.setItem(
         "tokens",
@@ -42,8 +42,8 @@ instance.interceptors.response.use(
 
       return instance.request(originalConfigRequest);
     } else {
-      console.log("я тут");
-      <Navigate to="/profile" />;
+      console.log("токен протух");
+      <Navigate to="/sign" />;
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции

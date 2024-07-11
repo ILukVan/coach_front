@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Layout, theme } from 'antd';
 import { instance } from '../../request';
 import MakeCoach from './makeCoach';
+import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -14,19 +15,17 @@ const ClientList = () => {
 
     const fetchClients = async () => {
         const data = await instance.get("/client_list");
-        console.log("my clients");
-        console.log(data.data, "<--------------------- my clients");
+
         setClientList(data.data);
       };
 
       const onChange = (pagination, filters, sorter, extra) => {
-        console.log("params", pagination, filters, sorter, extra);
+
       };
 
 
     const createCoach = async (values) => {
         const coach = await instance.post("/create_coach", values)
-        console.log(coach);
         setClientList(coach.data);
     }  
 
@@ -43,7 +42,7 @@ const ClientList = () => {
           dataIndex: "client_name",
 
           render: (_, record) => (
-            <span>{`${record.client_name !== null? record.client_name : "" } ${record.client_patronymic !== null? record.client_patronymic : ""}  ${record.client_surname !== null? record.client_surname : ""}`}</span>
+            <Link to={`/id/${record.client_id}`}>{record.client_fio}</Link>
           ),
        
         },

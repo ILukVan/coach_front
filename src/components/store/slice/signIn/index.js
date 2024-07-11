@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { jwtDecode } from "jwt-decode";
 
 const initialState = {
-    user: {},
+    user: JSON.parse(localStorage.getItem("tokens")) ? jwtDecode(JSON.parse(localStorage.getItem("tokens")).token) : {},
     isLogged: false,
 }
 
@@ -9,14 +10,18 @@ export const signInSlice = createSlice({
     name: 'sign',
     initialState,
     reducers: {
-        login: (state, action) => {
-            state.user = action.payload
+        login: (state) => {
+            const token = jwtDecode(JSON.parse(localStorage.getItem("tokens")).token)
+            state.user = token
             state.isLogged = true
-
-        }
+        },
+        logout: (state) => {
+            state.user = {}
+            state.isLogged = false
+        },
     }
 })
 
-export const { login } = signInSlice.actions
+export const { login, logout } = signInSlice.actions
 
 export default signInSlice.reducer;

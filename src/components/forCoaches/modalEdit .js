@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -11,41 +11,31 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { instance } from "../../request";
 
 dayjs.extend(customParseFormat);
 
 
 const { Option } = Select;
 
-const ModalEdit = ({ record, updateActivity }) => {
-  useEffect(() => {
-    getTypeWorkout()
-  }, []);
+const ModalEdit = ({ record, updateActivity, workoutList }) => {
+
 
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [workoutList, setWorkOutList] = useState([])
+
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
     form.submit();
   };
-  const getTypeWorkout = async() =>{
-    const type = await instance.get("/workout_list")
-
-
-    setWorkOutList(type.data)
-  } 
 
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
   const onFinish = async (values) => {
-    console.log("Success:", values);
     values.training_id = record.training_id;
     try {
       await updateActivity(values);
@@ -61,12 +51,12 @@ const ModalEdit = ({ record, updateActivity }) => {
       });
     }
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  // const onFinishFailed = (errorInfo) => {
+  //   console.log("Failed:", errorInfo);
+  // };
 
   const findIndexWorkout = (value) => {
-    console.log(value);
+
     workoutList.forEach( function (train, index) {
       // console.log(train.type_of_workout, index);
       if (train.type_of_workout === value) {
@@ -85,7 +75,7 @@ const ModalEdit = ({ record, updateActivity }) => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        Edit initialValues
+        Редактировать тренировку
       </Button>
       <Modal
         title="Basic Modal"
@@ -139,7 +129,7 @@ const ModalEdit = ({ record, updateActivity }) => {
           </Form.Item>
 
           <Form.Item label="Вместимость" name="occupancy_train">
-            <InputNumber />
+            <InputNumber min={1} max={17}/>
           </Form.Item>
 
           <Form.Item label="Тип тренировки" name="type_of_training">

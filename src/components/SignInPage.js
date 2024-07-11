@@ -29,15 +29,17 @@ const SignInPage = () => {
     try {
       const data = await axios.post("http://localhost:3500/signIn", values);
       if (data.statusText === "OK") {
-        dispatch(login(jwtDecode(data.data.token)));
         localStorage.setItem("tokens", JSON.stringify(data.data));
+        dispatch(login());
+        
         navigate("/");
       }
     } catch (err) {
-      notification.error({
-        message: "Ошибка!",
-        description: err.response.data,
-      });
+      console.log(err);
+      // notification.error({
+      //   message: "Ошибка!",
+      //   description: err.response.data,
+      // });
     }
   };
 
@@ -86,7 +88,9 @@ const SignInPage = () => {
         >
           {user[0] !== "" ? (
             user === "sign" ? (
+
               <SingIn phone_number={phone_number} signIn={signIn} />
+              
             ) : (
               <Registration
                 registration={registration}

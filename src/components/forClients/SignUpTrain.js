@@ -13,9 +13,10 @@ const SignUpTrain = ({record}) => {
 const signUpTrain = async (values) => {
 
     const data = await instance.post("/sign_up_train", values);
-
+    console.log(data.status, "--------------");
   };
 
+  
 
   
   const navigate = useNavigate();
@@ -26,15 +27,16 @@ const signUpTrain = async (values) => {
     if (!role) {
         console.log("не зареган");
         console.log(record.training_id);
-      navigate("/profile");
+      navigate("/sign");
     } 
     if (role === "client" ) {
       console.log("ты записался как зарегистрированный");
       signUpTrain(record)
+
     }
   };
   if (role !== "coach") {
-    return <Button onClick={signUp}>Записаться</Button>;
+    return <Button style={{background:"#A8E4A0"}} onClick={signUp}>Записаться</Button>;
   }
   
 };

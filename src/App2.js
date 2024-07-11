@@ -2,7 +2,7 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Layout, Space } from "antd";
 import SignInPage from "./components/SignInPage";
-import App from "./components/forClients/Client";
+import Client from "./components/forClients/Client";
 import { instance } from "./request";
 import Coach from "./components/forCoaches/Coach";
 import SuperCoach from "./components/forSuperCoach/SuperCoach";
@@ -11,19 +11,22 @@ import CoachList from "./components/forSuperCoach/CoachList";
 import WorkOutList from "./components/forSuperCoach/WorkOutList";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRouteCoach from "./components/utils/router/PrivateRouteCoach";
-import { login } from "./components/store/slice/signIn";
-import { jwtDecode } from "jwt-decode";
+import { login, logout as logoutAction } from "./components/store/slice/signIn";
 import PrivateRouteAdmin from "./components/utils/router/PrivateRouteAdmin";
+import Profile from "./components/profile";
+import Registration from "./components/Registration";
+import SingIn from "./components/SignIn";
+import "./App.css";
 
 const { Header, Footer } = Layout;
 
-function App2() {
+function App2 () {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    localStorage.getItem("tokens") !== null &&
+  useEffect( () => {
+    localStorage.getItem("tokens") !== null && 
       dispatch(
-        login(jwtDecode(JSON.parse(localStorage.getItem("tokens")).token))
+        login()
       );
   }, []);
 
@@ -37,13 +40,14 @@ function App2() {
     if (logout.statusText === "OK") {
       localStorage.removeItem("tokens");
       localStorage.removeItem("data");
-      dispatch(login({}));
-      navigate("/profile");
+      dispatch(logoutAction());
+      navigate("/sign");
     }
   };
 
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
+  const id = useSelector((state) => state.rootReducer.sign.user.id);
 
   return (
     <>
@@ -58,29 +62,36 @@ function App2() {
             alignItems: "center",
           }}
         >
-          <div className="demo-logo" />
+    
           <Space size={"large"}>
+            <div >
             <Link to="/">Расписание</Link>
             {role === "coach" && <Link to="/coach">Редактор расписания</Link>}
             {role === "super_coach" && <Link to="/coach">Редактор расписания</Link>}
 
             {role === "coach" && <Link to="/management">Управление</Link>}
             {role === "super_coach" && <Link to="/management">Управление</Link>}
-
+            </div>
+<div className="header-Profile">
             {name ? (
               <Link to="/logout" onClick={handleLogOut}>
                 Выйти
               </Link>
             ) : (
-              <Link to="/profile">Профиль</Link>
+              <Link to="/sign">Профиль</Link>
             )}
-            <span style={{ color: "yellow" }}>{name} {role}</span>
+            <Link to={`/id/${id}`}>{name}</Link>
+            </div>
+       
+
           </Space>
         </Header>
         <Routes>
-          <Route path="/profile" element={<SignInPage />}></Route>
-          <Route path="/" element={<App />}></Route>
-
+          <Route path="/sign" element={<SignInPage />}></Route>
+          <Route path="/sign_in" element={<SingIn />}></Route>
+          <Route path="/sign_up" element={<Registration />}></Route>
+          <Route path="/" element={<Client />}></Route>
+            <Route path="/id/:id" element={<Profile />}></Route>
           <Route element={<PrivateRouteCoach />}>
             <Route path="/coach" element={<Coach />}></Route>
             <Route path="/management" element={<SuperCoach />}></Route>

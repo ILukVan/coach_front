@@ -8,7 +8,7 @@ const PrivateRouteAdmin = () => {
 
     if(!role) {
         console.log("tut redirect%%%");
-        return <Navigate to={"/profile"} />
+        return <Navigate to={"/sign"} />
     } 
 
     if (role === "super_coach") {

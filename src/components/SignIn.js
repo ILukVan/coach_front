@@ -7,7 +7,6 @@ const SingIn = ( {phone_number ,signIn} ) => {
 
   const [form] = Form.useForm();
   const onFinish = (values) => {
-    console.log("Success:", values);
     signIn(values);
   };
   const onFinishFailed = (errorInfo) => {

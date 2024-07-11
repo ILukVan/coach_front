@@ -15,7 +15,7 @@ const AddWorkOut = ({createWorkOut}) => {
   const [open, setOpen] = useState(false);
 
   const onCreate = (values) => {
-    console.log(values);
+
     createWorkOut(values);
     setOpen(false);
   };

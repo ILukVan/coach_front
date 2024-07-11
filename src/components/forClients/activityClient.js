@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 
 const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
+
 };
 const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
   useEffect(() => {
@@ -16,7 +16,6 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
     let selectDate = {
       date: dateString,
     };
@@ -95,16 +94,23 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-        if (role.includes("coach")) {
+        if ((role || "").includes("coach") ) {
           return <p>Ты тренер</p>;
-        }
-        if (record.recorded_client.length === record.occupancy_train && record.recorded_client.includes(name)) {
-          return <UnSignUpTrain record={record} />;
         } 
+        if (record.status_train === "тренировка завершена") {
+          return <p>Запись завершена</p>;
+        }
+
+        if (
+          record.recorded_client.length === record.occupancy_train &&
+          record.recorded_client.includes(name)
+        ) {
+          return <UnSignUpTrain record={record} />;
+        }
 
         if (record.recorded_client.length === record.occupancy_train) {
           return <p>Мест нет</p>;
-        } 
+        }
 
         if (record.status_train !== "тренировка завершена") {
           return (
@@ -116,10 +122,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
               )}
             </>
           );
-        } else {
-          return <p>Запись завершена</p>;
         }
-        
       },
     },
   ];

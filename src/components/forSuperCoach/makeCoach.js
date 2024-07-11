@@ -6,10 +6,6 @@ const { confirm } = Modal;
 
 const MakeCoach = ({ record, createCoach }) => {
 
-// const onClick = () => {
-    
-//     console.log(record.training_id)
-// }
 
 const showEditConfirm = () => {
   confirm({
@@ -20,12 +16,11 @@ const showEditConfirm = () => {
     okType: 'danger',
     cancelText: 'Нет',
     onOk() {
-      console.log('OK');
-      console.log();
+
       createCoach(record)
     },
     onCancel() {
-      console.log('Cancel');
+
     },
   });
 };

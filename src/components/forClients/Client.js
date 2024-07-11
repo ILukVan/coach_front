@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 
 const { Content } = Layout;
 
-const App = () => {
+const Client = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -29,14 +29,14 @@ const App = () => {
 
 
   const selectDateActivity = async (values) => {
-    console.log(values);
+
     setDate(values)
 
     const data = await instance.post(
       "/date_activity",
       values
     );
-    console.log(data.data);
+
     data.data !== null && setTableData(data.data);
   };
 
@@ -70,4 +70,4 @@ const App = () => {
     </Layout>
   );
 };
-export default App;
+export default Client;

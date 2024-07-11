@@ -1,53 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal, Space, List, Select } from "antd";
+import React, { useState} from "react";
+import { Button, Modal, List, Select } from "antd";
 import { Link } from "react-router-dom";
-import { instance } from "../../request";
 
-const RecordedList2 = ({ record }) => {
-  useEffect(() => {
-    getClientList();
-  }, []);
 
-  const getClientList = async () => {
-    console.log(record, "--------------------------sdgsdgsdg------------");
+const RecordedList2 = ({ record, getClientList, clientList, recordedList, deleteClient, addClient}) => {
 
-    const clients = await instance.post("/client_list_for_coach", record);
-
-    setClientList(clients.data.difference);
-    setRecordedList(clients.data.recorded);
-  };
-
-  const [clientList, setClientList] = useState([]);
-  const [recordedList, setRecordedList] = useState(record.recorded_client);
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { Option } = Select;
 
-  const deleteClient = async (value) => {
-    const dataUnSign = {
-      client: value,
-      training_id: record.training_id,
-    }
-    const data = await instance.post("/unsign_up_train_coach", dataUnSign);
-    setClientList(data.data.difference);
-    setRecordedList(data.data.recorded);
-  } 
-  const handleChange = async (value) => {
-    const dataSign = {
-      client: value,
-      training_id: record.training_id,
-    }
-    const data = await instance.post("/sign_up_train_coach", dataSign);
-    setClientList(data.data.difference);
-    setRecordedList(data.data.recorded);
+
+  const handleChange = async (value, ) => {
+    await addClient(value, record.training_id)
     setIsOpen(!isOpen)
   };
 
 
   return (
     <>
-      <Button type="primary" onClick={() => setIsModalOpen(true)}>
+      <Button type="primary" onClick={() => {setIsModalOpen(true); getClientList(record)}}>
         Список записавшихся
       </Button>
       <Modal
@@ -64,7 +36,7 @@ const RecordedList2 = ({ record }) => {
           dataSource={recordedList}
           
           renderItem={(item, index) => (
-            <List.Item   actions={[<Button onClick={() => deleteClient(item)}>Удалить</Button>]}>
+            <List.Item   actions={[<Button onClick={() => deleteClient(item, record.training_id)}>Удалить</Button>]}>
               <List.Item.Meta title={<Link to="/management/client">{item}</Link>} />
             </List.Item>
            

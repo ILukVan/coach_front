@@ -20,8 +20,6 @@ const showDeleteConfirm = () => {
     okType: 'danger',
     cancelText: 'Нет',
     onOk() {
-      console.log('OK');
-      console.log(record.training_id);
       deleteActivity(record.training_id)
     },
     onCancel() {
@@ -34,7 +32,7 @@ return (
 
   <Button onClick={showDeleteConfirm} >
   
-      Удалить тренирову
+      Удалить тренировку
   </Button>
 )
 };

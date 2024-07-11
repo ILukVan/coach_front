@@ -9,9 +9,9 @@ import {
   DatePicker,
 
 } from "antd";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dayjs from 'dayjs';
-import { instance } from "../../request";
+
 
 const disabledDate = (current) => {
   // Can not select days before today and today
@@ -20,24 +20,15 @@ const disabledDate = (current) => {
 
 const { Option } = Select;
 
-const AddActivity = ({ createActivity, date }) => {
-  useEffect(() => {
-    getTypeWorkout()
-  }, []);
-  const [workoutList, setWorkOutList] = useState([])
+const AddActivity = ({ createActivity, date, workoutList }) => {
+
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
 
-  const getTypeWorkout = async() =>{
-    const type = await instance.get("/workout_list")
-
-
-    setWorkOutList(type.data)
-  } 
 
   const onCreate = (values) => {
-    console.log(values);
+
     createActivity(values);
     setOpen(false);
   };
@@ -138,7 +129,7 @@ const AddActivity = ({ createActivity, date }) => {
           className="collection-create-form_last-form-item"
         >
   <Select placeholder="Выберите тип занятия" style={{ width: '100%' }}>
-        {workoutList.map((item) => (
+        {(workoutList).map((item) => (
           <Option
             key={item.workout_id}
             value={item.type_of_workout}

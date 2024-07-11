@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Table, DatePicker } from "antd";
-// import ModalEdit from "./modalEdit ";
-// import DeleteActivity from "./DeleteActivity";
+import { Table } from "antd";
+import DeleteWorkOut from "./DeleteWorkOut.js";
+import ModalEditWorkOut from "./modalEditWorkOut.js";
 import { instance } from "../../request";
 import AddWorkOut from "./AddWorkOut";
 const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
+
 };
 const WorkOutList = () => {
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
+    console.log("рендер страницы управления")
   }, []);
 
   const [workOutList, setWorkOutList] = useState();
   const fetchActivities = async () => {
     const data = await instance.get("/workout_list");
-    console.log("------------------data-----------", data.data);
 
     setWorkOutList(data.data);
   };
@@ -24,6 +24,19 @@ const WorkOutList = () => {
     const data = await instance.post("/add_workout", values);
 
     setWorkOutList((prevData) => [...prevData, data.data]);
+  };
+
+  const deleteWorkOut = async (values) => {
+    const data = await instance.delete("/delete_workout_activity", {
+      data: { training_id: values},
+    });
+    setWorkOutList(data.data);
+  };
+
+  const updateWorkOut = async (values) => {
+
+    const data = await instance.put("/update_workout", values);
+    setWorkOutList(data.data);
   };
 
   const columns = [
@@ -41,8 +54,8 @@ const WorkOutList = () => {
       render: (_, record) => {
         return (
           <>
-            {/* <ModalEdit record={record} />
-            <DeleteActivity record={record} /> */}
+            <ModalEditWorkOut record={record} updateWorkOut={updateWorkOut}/>
+            <DeleteWorkOut record={record} deleteWorkOut={deleteWorkOut}/> 
           </>
         );
       },

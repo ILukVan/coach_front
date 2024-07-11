@@ -12,7 +12,7 @@ const CoachList = () => {
 
   const fetchCoach = async () => {
     const data = await instance.get("/coach_list");
-    console.log("my clients");
+
 
     setCoachList(data.data);
   };
@@ -26,7 +26,7 @@ const CoachList = () => {
 }
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+
   };
 
 

@@ -5,7 +5,7 @@ const PrivateRouteClient = () => {
     const role = JSON.parse(localStorage.getItem("tokens") || '{ }')
 
     if(!role) {
-        return <Navigate to={"/profile"} />
+        return <Navigate to={"/sign"} />
     } 
 
     if (role.role === "client") {
