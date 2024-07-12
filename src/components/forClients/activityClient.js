@@ -8,9 +8,11 @@ import { useSelector } from "react-redux";
 const onChange = (pagination, filters, sorter, extra) => {
 
 };
-const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
+const ActivityClient = ({ activity, fetchActivities, selectDateActivity, getTypeWorkout, workoutList,getCoachList,  coachList  }) => {
   useEffect(() => {
     fetchActivities(); // функция которая делает запрос в сторе
+    getTypeWorkout();
+    getCoachList();
   }, []);
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
@@ -23,6 +25,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
     selectDateActivity(selectDate);
   };
 
+  console.log(coachList);
   const columns = [
     {
       title: "Время занятия",
@@ -41,26 +44,22 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity }) => {
     {
       title: "Тип занятия",
       dataIndex: "type_of_training",
-      filters: [
-        {
-          text: "Растяжка",
-          value: "Растяжка",
-        },
-        {
-          text: "Йога",
-          value: "Йога",
-        },
-        {
-          text: "Барре",
-          value: "Барре",
-        },
-      ],
-
-      filterSearch: true,
+      filters: workoutList.map(item => ({
+        text: item.type_of_workout,
+        value: item.type_of_workout,
+      })), 
       onFilter: (value, record) => record.type_of_training.startsWith(value),
-      width: "30%",
-    },
 
+    },
+    {
+      title: "Тренер",
+      dataIndex: "coach_train",
+      filters: coachList.map(item => ({
+        text: item.client_fio,
+        value: item.client_fio,
+      })), 
+      onFilter: (value, record) => record.coach_train.startsWith(value),
+    },
     {
       title: "Статус тренировки",
       dataIndex: "status_train",

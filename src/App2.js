@@ -17,6 +17,7 @@ import Profile from "./components/profile";
 import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
 import "./App.css";
+import ActivityClientList from "./components/forClients/activityClientList";
 
 const { Header, Footer } = Layout;
 
@@ -66,6 +67,7 @@ function App2 () {
           <Space size={"large"}>
             <div >
             <Link to="/">Расписание</Link>
+
             {role === "coach" && <Link to="/coach">Редактор расписания</Link>}
             {role === "super_coach" && <Link to="/coach">Редактор расписания</Link>}
 
@@ -89,6 +91,7 @@ function App2 () {
         <Routes>
           <Route path="/sign" element={<SignInPage />}></Route>
           <Route path="/sign_in" element={<SingIn />}></Route>
+
           <Route path="/sign_up" element={<Registration />}></Route>
           <Route path="/" element={<Client />}></Route>
             <Route path="/id/:id" element={<Profile />}></Route>
