@@ -6,7 +6,6 @@ import { useState } from "react";
 import { instance } from "../../request";
 import dayjs from "dayjs";
 
-// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('tokens')}`;
 
 const { Content } = Layout;
 
@@ -64,7 +63,6 @@ const Coach = () => {
 // ---------------------------------------запрос типа тренировок ----------------------------
 const getTypeWorkout = async() =>{
   const type = await instance.get("/workout_list")
-
 
   setWorkOutList(type.data)
 } 

@@ -17,7 +17,8 @@ import Profile from "./components/profile";
 import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
 import "./App.css";
-import ActivityClientList from "./components/forClients/activityClientList";
+import Menu from "./menu";
+
 
 const { Header, Footer } = Layout;
 
@@ -49,7 +50,7 @@ function App2 () {
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   const id = useSelector((state) => state.rootReducer.sign.user.id);
-
+  console.log(role, "dfsadfsd");
   return (
     <>
       <Layout>
@@ -63,16 +64,10 @@ function App2 () {
             alignItems: "center",
           }}
         >
-    
-          <Space size={"large"}>
+          <Menu role={role}/>
+          <div className="all-header">
             <div >
-            <Link to="/">Расписание</Link>
 
-            {role === "coach" && <Link to="/coach">Редактор расписания</Link>}
-            {role === "super_coach" && <Link to="/coach">Редактор расписания</Link>}
-
-            {role === "coach" && <Link to="/management">Управление</Link>}
-            {role === "super_coach" && <Link to="/management">Управление</Link>}
             </div>
 <div className="header-Profile">
             {name ? (
@@ -84,14 +79,13 @@ function App2 () {
             )}
             <Link to={`/id/${id}`}>{name}</Link>
             </div>
-       
+            </div>
 
-          </Space>
+          
         </Header>
         <Routes>
           <Route path="/sign" element={<SignInPage />}></Route>
           <Route path="/sign_in" element={<SingIn />}></Route>
-
           <Route path="/sign_up" element={<Registration />}></Route>
           <Route path="/" element={<Client />}></Route>
             <Route path="/id/:id" element={<Profile />}></Route>

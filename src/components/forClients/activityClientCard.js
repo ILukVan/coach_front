@@ -1,43 +1,26 @@
 import React, { useEffect } from "react";
-import { List, DatePicker, Progress, Flex, Col, Row, Space, Card } from "antd";
+import { List, Progress, DatePicker, Card, Divider } from "antd";
 import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import "./activityClientList.css";
 
-const onChange = (pagination, filters, sorter, extra) => {};
+
 const ActivityClientCard = ({
   activity,
-  fetchActivities,
-  selectDateActivity,
-  getTypeWorkout,
-  workoutList,
-  getCoachList,
-  coachList,
 }) => {
-  useEffect(() => {
-    fetchActivities(); // функция которая делает запрос в сторе
-    getTypeWorkout();
-    getCoachList();
-  }, []);
+
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
-  const onChangeDate = (date, dateString) => {
-    let selectDate = {
-      date: dateString,
-    };
-
-    selectDateActivity(selectDate);
-  };
 
   function verifyRole(record) {
     if ((role || "").includes("coach")) {
       return <p>Ты тренер</p>;
     }
     if (record.status_train === "тренировка завершена") {
-      return <p>Запись завершена</p>;
+      return <span style={{padding:"0px"}}>Запись завершена</span>;
     }
 
     if (
@@ -48,7 +31,7 @@ const ActivityClientCard = ({
     }
 
     if (record.recorded_client.length === record.occupancy_train) {
-      return <p>Мест нет</p>;
+      return <span style={{padding:"0px"}}>Мест нет</span>;
     }
 
     if (record.status_train !== "тренировка завершена") {
@@ -65,45 +48,52 @@ const ActivityClientCard = ({
   }
   return (
     <div>
-      <DatePicker
-        onChange={onChangeDate}
-        defaultValue={dayjs()}
-        allowClear={false}
-      />
       <List
-     grid={{
-      gutter: 2,
-      xs: 1,
-      sm: 2,
-      md: 3,
-      lg: 3,
-      xl: 6,
-      xxl: 3,
-    }}
+        grid={{
+          gutter: 2,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 3,
+          xl: 6,
+          xxl: 3,
+        }}
         dataSource={activity}
         renderItem={(item, index) => (
           <List.Item>
-            <Card className="card"
-              title={<>{item.start_time_train.slice(
-                -5
-              )} - {item.end_time_train.slice(-5)} <br/>  {item.type_of_training} </>}
-            >
-              <div>{item.coach_train}</div>
-              <div>
-                <Progress
-                  type="circle"
-                  size="small"
-                  percent={
-                    (item.recorded_client.length * 100) / item.occupancy_train
-                  }
-                  format={(percent) =>
-                    `${item.recorded_client.length} / ${item.occupancy_train}`
-                  }
-                />
-              </div>
+              <div className="card">
+              <p className="title-name">{item.type_of_training}</p>
+              <div className="div1">
+                
+                <div className="time-train">
+                  <p>{item.start_time_train.slice(-5)}
+                    <br />
+                  -
+                  <br />
+                  {item.end_time_train.slice(-5)}</p>
+                </div>
+                <Divider type="vertical"></Divider>
+                <div>
+                  {item.coach_train}
+                  </div>
+                  <Divider type="vertical"></Divider>
+                <div>
 
-              <div>{verifyRole(item)}</div>
-            </Card>
+                  <Progress
+                    type="circle"
+                    size="small"
+                    percent={
+                      (item.recorded_client.length * 100) / item.occupancy_train
+                    }
+                    format={(percent) =>
+                      `${item.recorded_client.length} / ${item.occupancy_train}`
+                    }
+                  />
+                </div>
+              </div>
+              <p>{item.status_train}</p>
+              <Divider>{verifyRole(item)}</Divider>
+              </div>
           </List.Item>
         )}
       />

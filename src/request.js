@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -24,7 +24,7 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    
+ 
     const originalConfigRequest = { ...error.config };
     // originalConfigRequest._isRetry = true;
 
@@ -42,8 +42,9 @@ instance.interceptors.response.use(
 
       return instance.request(originalConfigRequest);
     } else {
+
       console.log("токен протух");
-      <Navigate to="/sign" />;
+
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции

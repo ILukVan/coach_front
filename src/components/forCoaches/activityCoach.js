@@ -56,6 +56,7 @@ const ActivityCoach = ({
           -5
         )} - ${record.end_time_train.slice(-5)} `}</span>
       ),
+
     },
     Table.EXPAND_COLUMN,
     {
@@ -119,6 +120,7 @@ const ActivityCoach = ({
           return <p>нет доступа</p>;
         }
       },
+
     },
   ];
 
@@ -131,6 +133,7 @@ const ActivityCoach = ({
       />
       <Table
         columns={columns}
+      virtual
         expandable={{
           expandedRowRender: (record) => (
             <p

@@ -9,21 +9,17 @@ const onChange = (pagination, filters, sorter, extra) => {
 
 };
 const ActivityClient = ({ activity, fetchActivities, selectDateActivity, getTypeWorkout, workoutList,getCoachList,  coachList  }) => {
-  useEffect(() => {
-    fetchActivities(); // функция которая делает запрос в сторе
-    getTypeWorkout();
-    getCoachList();
-  }, []);
+
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
-  const onChangeDate = (date, dateString) => {
-    let selectDate = {
-      date: dateString,
-    };
+  // const onChangeDate = (date, dateString) => {
+  //   let selectDate = {
+  //     date: dateString,
+  //   };
 
-    selectDateActivity(selectDate);
-  };
+  //   selectDateActivity(selectDate);
+  // };
 
   console.log(coachList);
   const columns = [
@@ -128,13 +124,10 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity, getType
 
   return (
     <div>
-      <DatePicker
-        onChange={onChangeDate}
-        defaultValue={dayjs()}
-        allowClear={false}
-      />
+
       <Table
         columns={columns}
+        size="small"
         expandable={{
           expandedRowRender: (record) => (
             <p

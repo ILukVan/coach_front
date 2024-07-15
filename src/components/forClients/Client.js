@@ -1,18 +1,14 @@
 import React from "react";
-import { Layout, theme } from "antd";
-
+import { Layout, theme, DatePicker } from "antd";
 import ActivityClient from "./activityClient";
-
+import ActivityClientCard from "./activityClientCard";
 import { useState,useEffect } from "react";
-
-
 import { instance } from "../../request";
 import dayjs from "dayjs";
-import ActivityClientList from "./activityClientList";
-import ActivityClientCard from "./activityClientCard";
 
 
-// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('tokens')}`;
+
+
 
 const { Content } = Layout;
 
@@ -20,10 +16,21 @@ const Client = () => {
 
   const [windowWidth, setWindowWidth] = useState(window.screen.width);
 
+
+useEffect(() => {
+  selectDateActivity({date: dayjs().format("YYYY-MM-DD")})
+  // fetchActivities()
+  getTypeWorkout();
+  getCoachList();
+}, [])
+
   useEffect(() => {
+    
       window.onresize = () => {setWindowWidth(window.screen.width)};
       // Ваш код
       return () => {window.onresize = false};
+
+           
   }, [windowWidth]);
   
 
@@ -34,27 +41,27 @@ const Client = () => {
 
 
   const [tableData, setTableData] = useState([]);
-  const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"))
+  const [date, setDate] = useState()
   const [workoutList, setWorkOutList] = useState([])
   const [coachList, setCoachList] = useState([])
-  const fetchActivities = async () => {
-    const data = await instance.get("/activities");
 
-    setTableData(data.data);
-  };
+//   // ---------------------------------------запрос тренировок----------------------------
+//   const fetchActivities = async () => {
+//     const data = await instance.get("/activities");
+//     console.log(date, " -----------------вызываю дату в эффекте");
+//     setTableData(data.data);
+//   };
+// // ---------------------------------------запрос тренировок ----------------------------
 
+// ---------------------------------------запрос тренировок по дате ----------------------------
+const selectDateActivity = async (values) => {
+  setDate(values);
 
-  const selectDateActivity = async (values) => {
+  const data = await instance.post("/date_activity", values);
 
-    setDate(values)
-
-    const data = await instance.post(
-      "/date_activity",
-      values
-    );
-
-    data.data !== null && setTableData(data.data);
-  };
+  data.data !== null && setTableData(data.data);
+};
+// ---------------------------------------запрос тренировок по дате ----------------------------
 // ---------------------------------------запрос типа тренировок ----------------------------
 const getTypeWorkout = async() =>{
   const type = await instance.get("/workout_list")
@@ -63,14 +70,23 @@ const getTypeWorkout = async() =>{
   setWorkOutList(type.data)
 } 
 // ---------------------------------------запрос типа тренировок ----------------------------
-// ---------------------------------------запрос типа тренировок ----------------------------
+// ---------------------------------------запрос трениров ----------------------------
 const getCoachList = async() =>{
   const coach = await instance.get("/coaches_list")
 
 
   setCoachList(coach.data)
 } 
-// ---------------------------------------запрос типа тренировок ----------------------------
+// ---------------------------------------запрос трениров ----------------------------
+const onChangeDate = (date, dateString) => {
+  let selectDate = {
+    date: dateString,
+  };
+  
+  selectDateActivity(selectDate);
+};
+
+
 console.log("размер экрана", windowWidth) ;
   return (
     <Layout>
@@ -87,41 +103,27 @@ console.log("размер экрана", windowWidth) ;
             borderRadius: borderRadiusLG,
           }}
         >
-
+                <DatePicker
+        onChange={onChangeDate}
+        defaultValue={dayjs()}
+        allowClear={false}
+      />
+          {windowWidth > 900 ?
           <ActivityClient
             activity={tableData}
-            fetchActivities={fetchActivities}
-            getTypeWorkout={getTypeWorkout}
-            selectDateActivity={selectDateActivity}
             date={date}
             workoutList={workoutList}
-            getCoachList={getCoachList}
             coachList={coachList}
-            
           /> :
-           {/*
-          <ActivityClientList 
-            activity={tableData}
-            fetchActivities={fetchActivities}
-            getTypeWorkout={getTypeWorkout}
-            selectDateActivity={selectDateActivity}
-            date={date}
-            workoutList={workoutList}
-            getCoachList={getCoachList}
-            coachList={coachList}
-            
-          /> */}
+
           <ActivityClientCard 
                     activity={tableData}
-                    fetchActivities={fetchActivities}
-                    getTypeWorkout={getTypeWorkout}
-                    selectDateActivity={selectDateActivity}
                     date={date}
                     workoutList={workoutList}
-                    getCoachList={getCoachList}
                     coachList={coachList}
                     
                   />
+           }
            
         </div>
       </Content>

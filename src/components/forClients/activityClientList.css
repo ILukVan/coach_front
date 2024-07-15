@@ -1,6 +1,17 @@
+.div1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 5px;
+}
+.title-name{
+    text-align: center;
+    font-weight: bolder;
+    margin: 2px;
+    margin-top: 5px;
+}
 .card {
-
-    width: 230px;
-    height: 250px;
-    text-wrap: wrap;
+    border: 1px solid rgba(0, 0, 0, 0.135);
+    border-radius: 15px;
+    text-align: center;
 }

@@ -1,13 +1,16 @@
 
 
 .header-Profile{
-  display: flex;
-  justify-items: end;
-  background-color: red;
-  width: 80%;
-}
+
+
+ }
 
 .demo-logo{
-  background-color: aquamarine;
+
 }
 
+.all-header{
+  display: flex;
+  width: 105%;
+  justify-content: space-between;
+} 
