@@ -32,8 +32,8 @@ const Menu = (role) => {
         {ScheduleEditor()}
     <br />
 
-        {role === "coach" && <Link to="/management">Управление</Link>}
-        {role.role === "super_coach" && <Link to="/management">Управление</Link>}
+        {role === "coach" && <Link to="/management" onClick={onClose}>Управление</Link>}
+        {role.role === "super_coach" && <Link to="/management" onClick={onClose}>Управление</Link>}
       </Drawer>
     </>
   );

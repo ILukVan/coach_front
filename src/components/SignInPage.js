@@ -46,9 +46,14 @@ const SignInPage = () => {
   const registration = async (values) => {
     const data = await axios.post("http://localhost:3500/registration", values);
     console.log(data, "<-------------- после регистрации");
-    if (data.statusText === "OK") {
-      dispatch(login(jwtDecode(data.data.token)));
+    console.log(data.statusText);
+    console.log(data.statusText === 'OK');
+    if (data.statusText === 'OK') {
+      // dispatch(login(jwtDecode(data.data.token)));
+      console.log(data.data, "------------регистрация -----------------------");
+      console.log(data.data.data, "------------регистрация2 -----------------------");
       localStorage.setItem("tokens", JSON.stringify(data.data));
+      dispatch(login());
       navigate("/");
     } else {
       notification.error({

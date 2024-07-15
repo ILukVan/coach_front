@@ -63,15 +63,16 @@ const ActivityClientCard = ({
           <List.Item>
               <div className="card">
               <p className="title-name">{item.type_of_training}</p>
+              <p className="title-name">{item.start_time_train.slice(-5)}-{item.end_time_train.slice(-5)}</p>
               <div className="div1">
                 
-                <div className="time-train">
+                {/* <div className="time-train">
                   <p>{item.start_time_train.slice(-5)}
                     <br />
                   -
                   <br />
                   {item.end_time_train.slice(-5)}</p>
-                </div>
+                </div> */}
                 <Divider type="vertical"></Divider>
                 <div>
                   {item.coach_train}
