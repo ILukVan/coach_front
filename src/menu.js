@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Button, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import "./menu.css";
 
-const Menu = (role) => {
+const Menu = ({ role, name, id }) => {
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -12,12 +13,14 @@ const Menu = (role) => {
     setOpen(false);
   };
 
-  console.log(role, "----------------------sdgs---------------------");
+
   function ScheduleEditor() {
-    if (role.role === "coach" || role.role === "super_coach") {
-
-      return <Link to="/coach" onClick={onClose}>Редактор расписания</Link>;
-
+    if (role === "coach" || role === "super_coach") {
+      return (
+        <Link to="/coach" onClick={onClose}>
+          Редактор расписания
+        </Link>
+      );
     }
   }
 
@@ -26,14 +29,33 @@ const Menu = (role) => {
       <Button type="primary" onClick={showDrawer}>
         <MenuOutlined />
       </Button>
-      <Drawer title="Меню" onClose={onClose} open={open} placement="left">
-        <Link to="/" onClick={onClose}>Расписание</Link>
-        <br />
-        {ScheduleEditor()}
-    <br />
+      <Drawer title={name} onClose={onClose} open={open} placement="left">
+        <div className="menu-point">
+          <Link to="/" onClick={onClose}>
+            Расписание
+          </Link>
+        </div>
+        <div className="menu-point">{ScheduleEditor()}</div>
 
-        {role === "coach" && <Link to="/management" onClick={onClose}>Управление</Link>}
-        {role.role === "super_coach" && <Link to="/management" onClick={onClose}>Управление</Link>}
+        <div className="menu-point">
+          {role === "coach" && (
+            <Link to="/management" onClick={onClose}>
+              Управление
+            </Link>
+          )}
+          {role === "super_coach" && (
+            <Link to="/management" onClick={onClose}>
+              Управление
+            </Link>
+          )}
+        </div>
+       
+        <div className="menu-point">
+           {role &&
+          <Link to={`/id/${id}`} onClick={onClose}>
+            Профиль
+          </Link> }
+        </div>
       </Drawer>
     </>
   );

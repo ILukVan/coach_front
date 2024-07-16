@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import { List, Progress, DatePicker, Card, Divider } from "antd";
+import React from "react";
+import { List, Progress, Divider } from "antd";
 import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import "./activityClientList.css";
 
 
 const ActivityClientCard = ({
   activity,
+  signUpTrain,
+  unSignUpTrain
 }) => {
 
   const name = useSelector((state) => state.rootReducer.sign.user.name);
@@ -27,7 +28,7 @@ const ActivityClientCard = ({
       record.recorded_client.length === record.occupancy_train &&
       record.recorded_client.includes(name)
     ) {
-      return <UnSignUpTrain record={record} />;
+      return <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>;
     }
 
     if (record.recorded_client.length === record.occupancy_train) {
@@ -38,9 +39,9 @@ const ActivityClientCard = ({
       return (
         <>
           {record.recorded_client.includes(name) ? (
-            <UnSignUpTrain record={record} />
+            <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>
           ) : (
-            <SignUpTrain record={record} />
+            <SignUpTrain record={record}  signUpTrain={signUpTrain}/>
           )}
         </>
       );

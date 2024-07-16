@@ -1,73 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Table, Layout, theme } from "antd";
+import {  Layout, theme } from "antd";
 import { instance } from "../../request";
-import DeletePerson from "./DeletePerson";
+import CoachListTable from "./CoachListTable";
+import CoachListCard from "./CoachListCard";
+import { useSelector } from "react-redux";
 const { Content } = Layout;
 
 const CoachList = () => {
+  const screen = useSelector((state) => state.rootReducer.screen.width);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const [coachList, setCoachList] = useState([]);
-
+// ------------------------------------------запрос всех тренеров ------------------------------
   const fetchCoach = async () => {
     const data = await instance.get("/coach_list");
 
 
     setCoachList(data.data);
   };
-
+// ------------------------------------------запрос всех тренеров ------------------------------
+// ------------------------------------------запрос удалить тренера ------------------------------
   const deleteCoach = async (id) => {
+    console.log(id, "--------------------------id to delete--------------");
   const deleteCoach = await instance.delete("/delete_coach", {
     data: { id: id },
 
   });
   setCoachList(deleteCoach.data);
 }
-
-  const onChange = (pagination, filters, sorter, extra) => {
-
-  };
-
-
+// ------------------------------------------запрос удалить тренера ------------------------------
 
   useEffect(() => {
     fetchCoach(); // функция которая делает запрос в сторе
   }, []);
 
-  const columns = [
-    {
-      title: "Имя клиента",
-      dataIndex: "client_name",
-
-      render: (_, record) => (
-        <span>{`${record.client_name !== null ? record.client_name : ""} ${
-          record.client_patronymic !== null ? record.client_patronymic : ""
-        }  ${
-          record.client_surname !== null ? record.client_surname : ""
-        }`}</span>
-      ),
-    },
-
-    {
-      title: "Номер телефона",
-      dataIndex: "client_phone_number",
-    },
-
-    {
-      title: "Дата рождения",
-      dataIndex: "client_birthday",
-    },
-    {
-      title: "Управление",
-      dataIndex: "edit",
-      render: (_, record) => (
-        <>
-        <DeletePerson record={record} deletePerson={deleteCoach} />
-        </>
-      ),
-    },
-  ];
 
   return (
     <Layout>
@@ -83,25 +50,9 @@ const CoachList = () => {
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
-        >
-          <Table
-            columns={columns}
-            expandable={{
-              expandedRowRender: (record) => (
-                <p
-                  style={{
-                    margin: 0,
-                  }}
-                >
-                  {`Профессия:${record.client_job}  Жалобы:${record.client_illness}
-           `}
-                </p>
-              ),
-            }}
-            dataSource={coachList}
-            rowKey={(clientList) => clientList.client_id}
-            onChange={onChange}
-          />
+        > {screen >=900 ?
+          <CoachListTable coachList={coachList} deleteCoach={deleteCoach}/> :
+          <CoachListCard coachList={coachList} deleteCoach={deleteCoach}/> }
         </div>
       </Content>
     </Layout>

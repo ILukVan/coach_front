@@ -1,25 +1,17 @@
-import React, { useEffect } from "react";
-import { Table, DatePicker, Progress } from "antd";
+import React from "react";
+import { Table, Progress } from "antd";
 import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 
 const onChange = (pagination, filters, sorter, extra) => {
 
 };
-const ActivityClient = ({ activity, fetchActivities, selectDateActivity, getTypeWorkout, workoutList,getCoachList,  coachList  }) => {
+const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignUpTrain}) => {
 
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
-  // хук который забирает данные из стора
-  // const onChangeDate = (date, dateString) => {
-  //   let selectDate = {
-  //     date: dateString,
-  //   };
 
-  //   selectDateActivity(selectDate);
-  // };
 
   console.log(coachList);
   const columns = [
@@ -100,7 +92,7 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity, getType
           record.recorded_client.length === record.occupancy_train &&
           record.recorded_client.includes(name)
         ) {
-          return <UnSignUpTrain record={record} />;
+          return <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>;
         }
 
         if (record.recorded_client.length === record.occupancy_train) {
@@ -111,9 +103,9 @@ const ActivityClient = ({ activity, fetchActivities, selectDateActivity, getType
           return (
             <>
               {record.recorded_client.includes(name) ? (
-                <UnSignUpTrain record={record} />
+                <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>
               ) : (
-                <SignUpTrain record={record} />
+                <SignUpTrain record={record} signUpTrain={signUpTrain}/>
               )}
             </>
           );

@@ -5,13 +5,10 @@ const PrivateRouteCoach = () => {
     
 
     const role =  useSelector((state) => state.rootReducer.sign.user.role);
-    const user =  useSelector((state) => state.rootReducer.sign.user);
 
-    console.log(user, 'asdasdfgadg');
 
     if(!role) {
-        console.log(role);
-            console.log("tut redirect&");
+
         return <Navigate to={"/sign"} />
 
 

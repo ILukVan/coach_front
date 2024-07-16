@@ -1,16 +1,11 @@
 
 
-.header-Profile{
-
-
- }
-
-.demo-logo{
-
-}
-
 .all-header{
   display: flex;
   width: 105%;
   justify-content: space-between;
 } 
+
+.date-picker {
+  margin: 0 0 15px 5%;
+}

@@ -131,7 +131,7 @@ const onFinish = (values) => {
       rules={[
         {
           required: true,
-          message: 'Введите Ваш номер телефона!',
+          message: 'Введите Ваше имя!',
         },
       ]}
     >

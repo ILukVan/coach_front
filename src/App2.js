@@ -1,6 +1,6 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Layout, Space } from "antd";
+import { Layout } from "antd";
 import SignInPage from "./components/SignInPage";
 import Client from "./components/forClients/Client";
 import { instance } from "./request";
@@ -12,6 +12,7 @@ import WorkOutList from "./components/forSuperCoach/WorkOutList";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRouteCoach from "./components/utils/router/PrivateRouteCoach";
 import { login, logout as logoutAction } from "./components/store/slice/signIn";
+import { screenWidth } from "./components/store/slice/signIn/widthScreen";
 import PrivateRouteAdmin from "./components/utils/router/PrivateRouteAdmin";
 import Profile from "./components/profile";
 import Registration from "./components/Registration";
@@ -32,8 +33,19 @@ function App2 () {
       );
   }, []);
 
+  const screen = useSelector((state) => state.rootReducer.screen.width);
+
+  useEffect(() => {
+    window.onresize = () => {
+      dispatch(screenWidth(window.screen.width));
+    };
+    // Ваш код
+    return () => {
+      window.onresize = false;
+    };
+  }, [screen]);
+
   const navigate = useNavigate();
-  // console.log(jwtDecode(JSON.parse(localStorage.getItem("tokens")).token));
 
   const handleLogOut = async () => {
     console.log("logOut");
@@ -50,7 +62,9 @@ function App2 () {
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   const id = useSelector((state) => state.rootReducer.sign.user.id);
-  console.log(role, "dfsadfsd");
+
+
+
   return (
     <>
       <Layout>
@@ -64,10 +78,12 @@ function App2 () {
             alignItems: "center",
           }}
         >
-          <Menu role={role}/>
+         
           <div className="all-header">
+            
             <div >
-
+            {role &&
+ <Menu role={role} name={name} id={id}/> }
             </div>
 <div className="header-Profile">
             {name ? (
@@ -75,9 +91,8 @@ function App2 () {
                 Выйти
               </Link>
             ) : (
-              <Link to="/sign">Профиль</Link>
+              <Link to="/sign">Вход</Link>
             )}
-            <Link to={`/id/${id}`}>{name}</Link>
             </div>
             </div>
 

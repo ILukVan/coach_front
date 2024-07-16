@@ -1,46 +1,28 @@
-import React, { useEffect } from "react";
-import { Table, DatePicker } from "antd";
+import React from "react";
+import { Table } from "antd";
 import ModalEdit from "./modalEdit ";
 import DeleteActivity from "./DeleteActivity";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-import AddActivity from "./addActivity";
 import RecordedList2 from "./RecordedList2";
 
 const onChange = (pagination, filters, sorter, extra) => {};
 const ActivityCoach = ({
   activity,
-  fetchActivities,
   deleteActivity,
   updateActivity,
-  selectDateActivity,
   date,
-  createActivity,
   workoutList,
-  getTypeWorkout,
   getClientList,
   clientList,
   recordedList,
   deleteClient,
   addClient,
 }) => {
-  useEffect(() => {
-    fetchActivities(); // функция которая делает запрос в сторе
-    getTypeWorkout();
-    console.log("рендер страницы редактирования тренировок");
-  }, []);
+
 
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
-  const onChangeDate = (date, dateString) => {
-    let selectDate = {
-      date: dateString,
-    };
-
-    selectDateActivity(selectDate);
-  };
-
   
 
   const columns = [
@@ -126,11 +108,6 @@ const ActivityCoach = ({
 
   return (
     <div>
-      <DatePicker
-        onChange={onChangeDate}
-        defaultValue={dayjs()}
-        allowClear={false}
-      />
       <Table
         columns={columns}
       virtual
@@ -148,11 +125,6 @@ const ActivityCoach = ({
         dataSource={activity}
         rowKey={(activity) => activity.training_id}
         onChange={onChange}
-      />
-      <AddActivity
-        createActivity={createActivity}
-        date={date}
-        workoutList={workoutList}
       />
     </div>
   );

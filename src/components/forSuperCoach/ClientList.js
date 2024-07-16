@@ -1,73 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Layout, theme } from 'antd';
+import { Layout, theme } from 'antd';
 import { instance } from '../../request';
-import MakeCoach from './makeCoach';
-import { Link } from 'react-router-dom';
+import ClientListTable from './ClientListTable';
+import ClientListCard from './ClientListCard';
+import { useSelector } from 'react-redux';
 
 const { Content } = Layout;
 
 const ClientList = () => {
+  const screen = useSelector((state) => state.rootReducer.screen.width);
 
     const {
         token: { colorBgContainer, borderRadiusLG },
       } = theme.useToken();
     const [clientList, setClientList] = useState([]);
 
-    const fetchClients = async () => {
-        const data = await instance.get("/client_list");
+// ------------------------------------- запрос всех клиентов--------------------
+const fetchClients = async () => {
+  const data = await instance.get("/client_list");
 
-        setClientList(data.data);
-      };
-
-      const onChange = (pagination, filters, sorter, extra) => {
-
-      };
-
-
-    const createCoach = async (values) => {
-        const coach = await instance.post("/create_coach", values)
-        setClientList(coach.data);
-    }  
-
+  setClientList(data.data);
+};
+// ------------------------------------- запрос всех клиентов--------------------
+// ------------------------------------- сделать клиента тренером --------------------
+const createCoach = async (values) => {
+  const coach = await instance.post("/create_coach", values)
+  setClientList(coach.data);
+}  
+// ------------------------------------- сделать клиента тренером --------------------
 
 
     useEffect(() => {
         fetchClients(); // функция которая делает запрос в сторе
       }, []);
-
- 
-    const columns = [
-        {
-          title: "Имя клиента",
-          dataIndex: "client_name",
-
-          render: (_, record) => (
-            <Link to={`/id/${record.client_id}`}>{record.client_fio}</Link>
-          ),
-       
-        },
-
-        {
-          title: "Номер телефона",
-          dataIndex: "client_phone_number",
-
-        },
-    
-        {
-          title: "Дата рождения",
-          dataIndex: "client_birthday",
-
-        }, 
-        {
-        title: "Управление",
-        dataIndex: "edit",
-        render: (_, record) => (
-           <MakeCoach record={record} createCoach={createCoach}/>
-          ),
-        },
-    ]
-
-
 
     return (
         <Layout>
@@ -84,25 +49,9 @@ const ClientList = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-        <Table
-        columns={columns}
-        expandable={{
-          expandedRowRender: (record) => (
-            <p
-              style={{
-                margin: 0,
-              }}
-            >
-              {`Профессия:${record.client_job}  Жалобы:${record.client_illness}
-           `}
-            </p>
-          ),
-        }}
-        dataSource={clientList}
-        rowKey={(clientList) => clientList.client_id}
-        onChange={onChange}
-      />
-
+            {screen >= 900 ?
+      <ClientListTable clientList={clientList} createCoach={createCoach}/> :
+      <ClientListCard clientList={clientList} createCoach={createCoach}/> }
 </div>
       </Content>
     </Layout>

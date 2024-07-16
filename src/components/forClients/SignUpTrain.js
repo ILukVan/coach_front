@@ -1,20 +1,19 @@
 import React from "react";
 import { Button } from "antd";
-import { instance } from "../../request";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 
 
-const SignUpTrain = ({record}) => {
+const SignUpTrain = ({record, signUpTrain}) => {
 
   const role = useSelector((state) => state.rootReducer.sign.user.role);
 
-const signUpTrain = async (values) => {
+// const signUpTrain = async (values) => {
 
-    const data = await instance.post("/sign_up_train", values);
-    console.log(data.status, "--------------");
-  };
+//     const data = await instance.post("/sign_up_train", values);
+//     console.log(data.status, "--------------");
+//   };
 
   
 
