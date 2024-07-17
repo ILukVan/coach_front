@@ -11,6 +11,7 @@ const { Content } = Layout;
 
 const Client = () => {
   const screen = useSelector((state) => state.rootReducer.screen.width);
+  const id = useSelector((state) => state.rootReducer.sign.user.id);
 
   useEffect(() => {
     selectDateActivity({ date: dayjs().format("YYYY-MM-DD") });
@@ -45,6 +46,7 @@ const Client = () => {
     const data = await instance.post("/date_activity", values);
 
     data.data !== null && setTableData(data.data);
+    
   };
   // ---------------------------------------запрос тренировок по дате ----------------------------
   // ---------------------------------------запрос типа тренировок ----------------------------
@@ -79,14 +81,18 @@ const Client = () => {
   //------------------------- клиент записывается на тренировку -----------------------------------
   //------------------------- клиент отписывается от тренировки -----------------------------------
   const unSignUpTrain = async (values) => {
-
-   await instance.post("/unsign_up_train", values);
+     const unsign = {
+      client_id: id, 
+      training_id: values.training_id
+     }
+    console.log(unsign, "=================unsign=======");
+   await instance.post("/unsign_up_train", unsign);
 
    selectDateActivity(date)
   };
 
   //-------------------------  клиент отписывается от тренировки -----------------------------------
-
+  console.log(tableData, "----------------------тренировки ------------");
   return (
     <Layout>
       <Content

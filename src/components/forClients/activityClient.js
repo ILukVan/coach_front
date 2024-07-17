@@ -13,7 +13,7 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
   const role = useSelector((state) => state.rootReducer.sign.user.role);
 
 
-  console.log(coachList);
+
   const columns = [
     {
       title: "Время занятия",

@@ -19,7 +19,7 @@ import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
 import "./App.css";
 import Menu from "./menu";
-
+import ProfileTrain from "./components/profileTrain";
 
 const { Header, Footer } = Layout;
 
@@ -86,6 +86,7 @@ function App2 () {
  <Menu role={role} name={name} id={id}/> }
             </div>
 <div className="header-Profile">
+  <Link to="/visited" > Visits</Link>
             {name ? (
               <Link to="/logout" onClick={handleLogOut}>
                 Выйти
@@ -99,6 +100,7 @@ function App2 () {
           
         </Header>
         <Routes>
+        <Route path="/visited" element={<ProfileTrain />}></Route>
           <Route path="/sign" element={<SignInPage />}></Route>
           <Route path="/sign_in" element={<SingIn />}></Route>
           <Route path="/sign_up" element={<Registration />}></Route>

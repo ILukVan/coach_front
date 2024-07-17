@@ -4,6 +4,7 @@ import ModalEdit from "./modalEdit ";
 import DeleteActivity from "./DeleteActivity";
 import { useSelector } from "react-redux";
 import RecordedList2 from "./RecordedList2";
+import dayjs from "dayjs";
 
 const onChange = (pagination, filters, sorter, extra) => {};
 const ActivityCoach = ({
@@ -96,6 +97,7 @@ const ActivityCoach = ({
                 deleteActivity={deleteActivity}
                 date={date}
               />
+               {record.updatedAt !== record.createdAt && <span> изменена {dayjs(record.updatedAt).format("DD.MM.YYYY HH:mm") } </span>} 
             </>
           );
         } else {

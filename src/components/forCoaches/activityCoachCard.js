@@ -1,7 +1,5 @@
 import React from "react";
 import { List, Progress, Divider } from "antd";
-
-import { useSelector } from "react-redux";
 import "./activityCardCoach.css";
 import RecordedList2 from "./RecordedList2";
 import DeleteActivity from "./DeleteActivity";
@@ -21,9 +19,7 @@ const ActivityCoachCard = ({
   addClient,
 }) => {
 
-  const role = useSelector((state) => state.rootReducer.sign.user.role);
-  const id = useSelector((state) => state.rootReducer.sign.user.id);
-  // хук который забирает данные из стора
+
 
 
 
@@ -63,7 +59,18 @@ const ActivityCoachCard = ({
         </div> 
 
       );
-    } 
+    } else {
+      return           <div className="coach-options">
+      <RecordedList2 
+        record={record}
+        clientList={clientList}
+        recordedList={recordedList}
+        getClientList={getClientList}
+        deleteClient={deleteClient}
+        addClient={addClient}
+      />
+      </div>
+    }
     } 
   
   // -------------------------------- функция рендера редактора ----------------------------

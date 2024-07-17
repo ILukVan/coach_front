@@ -77,9 +77,10 @@ const Coach = () => {
   // ---------------------------------------удалить клиента с тренировки ----------------------------
   const deleteClient = async (value, id) => {
     const dataUnSign = {
-      client: value,
+      client_id: value,
       training_id: id,
     };
+    console.log(dataUnSign, "------------------удалть клиента с записи");
     const data = await instance.post("/unsign_up_train_coach", dataUnSign);
     setClientList(data.data.difference);
     setRecordedList(data.data.recorded);
@@ -87,9 +88,9 @@ const Coach = () => {
 
   // ---------------------------------------удалить клиента с тренировки ----------------------------
   // ---------------------------------------добавить клиента на тренировку ----------------------------
-  const addClient = async (value, id) => {
+  const addClient = async (value, key, id) => {
     const dataSign = {
-      client: value,
+      client_id: key.key,
       training_id: id,
     };
     const data = await instance.post("/sign_up_train_coach", dataSign);
