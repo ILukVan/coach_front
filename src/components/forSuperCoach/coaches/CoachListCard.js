@@ -1,7 +1,7 @@
 import React from "react";
 import { List, Divider } from "antd";
 import { Link } from "react-router-dom";
-import DeletePerson from "./DeletePerson";
+import DeletePerson from "../DeletePerson";
 import dayjs from "dayjs";
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime)

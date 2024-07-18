@@ -9,7 +9,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 };
 const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignUpTrain}) => {
 
-  const name = useSelector((state) => state.rootReducer.sign.user.name);
+  const id = useSelector((state) => state.rootReducer.sign.user.id);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
 
 
@@ -90,7 +90,7 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
 
         if (
           record.recorded_client.length === record.occupancy_train &&
-          record.recorded_client.includes(name)
+          record.recorded_client.includes(id)
         ) {
           return <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>;
         }
@@ -102,7 +102,7 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
         if (record.status_train !== "тренировка завершена") {
           return (
             <>
-              {record.recorded_client.includes(name) ? (
+              {record.recorded_client.includes(id) ? (
                 <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>
               ) : (
                 <SignUpTrain record={record} signUpTrain={signUpTrain}/>

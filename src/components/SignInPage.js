@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { login } from "./store/slice/signIn";
-import { jwtDecode } from "jwt-decode";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -50,8 +49,7 @@ const SignInPage = () => {
     console.log(data.statusText === 'OK');
     if (data.statusText === 'OK') {
       // dispatch(login(jwtDecode(data.data.token)));
-      console.log(data.data, "------------регистрация -----------------------");
-      console.log(data.data.data, "------------регистрация2 -----------------------");
+
       localStorage.setItem("tokens", JSON.stringify(data.data));
       dispatch(login());
       navigate("/");

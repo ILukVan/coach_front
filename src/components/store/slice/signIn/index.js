@@ -19,9 +19,13 @@ export const signInSlice = createSlice({
             state.user = {}
             state.isLogged = false
         },
+        profile: (state, action) => {
+            state.user = action.payload
+            state.isLogged = true
+        },
     }
 })
 
-export const { login, logout } = signInSlice.actions
+export const { login, logout, profile } = signInSlice.actions
 
 export default signInSlice.reducer;

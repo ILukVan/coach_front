@@ -5,6 +5,7 @@ import RecordedList2 from "./RecordedList2";
 import DeleteActivity from "./DeleteActivity";
 import ModalEdit from "./modalEdit ";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const ActivityCoachCard = ({
   activity,
@@ -19,13 +20,13 @@ const ActivityCoachCard = ({
   addClient,
 }) => {
 
-
-
-
-
-
+  const id = useSelector((state) => state.rootReducer.sign.user.id);
+  const role = useSelector((state) => state.rootReducer.sign.user.role);
   // -------------------------------- функция рендера редактора---------------------------
   function renderRecordedList(record) {
+
+    if (record.client_id === id || role === "super_coach") {
+
        if ((dayjs().format("YYYY-MM-DD") <= dayjs(record.end_time_train).format("YYYY-MM-DD"))) {
 
       return (
@@ -71,6 +72,7 @@ const ActivityCoachCard = ({
       />
       </div>
     }
+  }
     } 
   
   // -------------------------------- функция рендера редактора ----------------------------
@@ -105,6 +107,7 @@ const ActivityCoachCard = ({
                     type="circle"
                     size="small"
                     percent={
+             
                       (item.recorded_client.length * 100) / item.occupancy_train
                     }
                     format={(percent) =>

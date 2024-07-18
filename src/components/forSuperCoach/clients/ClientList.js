@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, theme } from 'antd';
-import { instance } from '../../request';
+import { instance } from '../../../request';
 import ClientListTable from './ClientListTable';
 import ClientListCard from './ClientListCard';
 import { useSelector } from 'react-redux';
-
+import SearchClient from './SearchClient';
 const { Content } = Layout;
 
 const ClientList = () => {
@@ -48,8 +48,11 @@ const createCoach = async (values) => {
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
+
           >
+            <SearchClient clientList={clientList} />
             {screen >= 900 ?
+            
       <ClientListTable clientList={clientList} createCoach={createCoach}/> :
       <ClientListCard clientList={clientList} createCoach={createCoach}/> }
 </div>

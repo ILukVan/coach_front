@@ -7,22 +7,18 @@ import {
   InputNumber,
   TimePicker,
   notification,
-  Input
+  Input,
 } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-
 const { Option } = Select;
 
 const ModalEdit = ({ record, updateActivity, workoutList }) => {
-
-
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -51,39 +47,54 @@ const ModalEdit = ({ record, updateActivity, workoutList }) => {
       });
     }
   };
-  // const onFinishFailed = (errorInfo) => {
-  //   console.log("Failed:", errorInfo);
-  // };
 
+// --------------------------------------- функция синхронизации типа тренировки с описанием-------------------- 
   const findIndexWorkout = (value) => {
+    workoutList.forEach(function (train, index) {
 
-    workoutList.forEach( function (train, index) {
-      // console.log(train.type_of_workout, index);
       if (train.type_of_workout === value) {
-        form.setFieldValue('description', workoutList[index].description_of_workout)
+        form.setFieldValue(
+          "description",
+          workoutList[index].description_of_workout
+        );
       }
+    });
+  };
+  // --------------------------------------- функция синхронизации типа тренировки с описанием-------------------- 
+  const [valueHour, setValueHour] = useState(null);
+// ---------------------------------------------- функция добавления часа к значению конца тренировки------------------
+  function  changeEndTime(start_time) {
+    setValueHour(start_time)
+    const start = dayjs(start_time)
+    const end = start.add(1, "hour")
+    form.setFieldValue("end_time_train", dayjs(end))  
+  }
+// ---------------------------------------------- функция добавления часа к значению конца тренировки------------------
+//  ----------------------------- функция оключения предыдущих значений часов--------------------
+const disabledHours = () => {
+  const hours = [];
+  const currentHour = dayjs(valueHour).hour();
 
-      
-
-    })
-
-    // index
-
-    
+  for (let i = 0; i < currentHour; i++) {
+    hours.push(i);
   }
 
+  return hours;
+};
+//  ----------------------------- функция оключения предыдущих значений часов--------------------
   return (
     <>
       <Button type="primary" onClick={showModal}>
         Редактировать тренировку
       </Button>
       <Modal
-        title="Basic Modal"
+        title="Редактор тренировки"
         open={isModalOpen}
         onOk={handleOk}
         okText="Сохранить"
         cancelText="Отменить"
         onCancel={handleCancel}
+        destroyOnClose
       >
         <Form
           form={form}
@@ -91,6 +102,7 @@ const ModalEdit = ({ record, updateActivity, workoutList }) => {
           labelCol={{
             span: 8,
           }}
+          clearOnDestroy
           wrapperCol={{
             span: 16,
           }}
@@ -106,8 +118,7 @@ const ModalEdit = ({ record, updateActivity, workoutList }) => {
               //   dayjs(record.start_time_train),
               //   dayjs(record.end_time_train),
               // ],
-              description: record.description_of_train
-
+              description: record.description_of_train,
             }
             // remember: true,
           }
@@ -116,39 +127,39 @@ const ModalEdit = ({ record, updateActivity, workoutList }) => {
           // onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          {/* <Form.Item label="Время тренировки" name="range_time_train">
-            <TimePicker.RangePicker format="HH:mm" needConfirm={false} />
-          </Form.Item> */}
-
           <Form.Item label="Начало тренировки" name="start_time_train">
-            <TimePicker changeOnScroll needConfirm={false} format="HH:mm" />
+            <TimePicker changeOnScroll needConfirm={false} format="HH:mm" onChange={changeEndTime}/>
           </Form.Item>
 
           <Form.Item label="Конец тренировки" name="end_time_train">
-            <TimePicker changeOnScroll needConfirm={false} format="HH:mm" />
+            <TimePicker changeOnScroll needConfirm={false} format="HH:mm"  disabledTime={(value) => ({
+              disabledHours,
+            })}/>
           </Form.Item>
 
           <Form.Item label="Вместимость" name="occupancy_train">
-            <InputNumber min={1} max={17}/>
+            <InputNumber min={1} max={17} />
           </Form.Item>
 
           <Form.Item label="Тип тренировки" name="type_of_training">
-  <Select placeholder="Выберите тип занятия" style={{ width: '100%' }} onChange={findIndexWorkout}>
-        {workoutList.map((item) => (
-          <Option
-            key={item.workout_id}
-            value={item.type_of_workout}
-            label={item.type_of_workout}
-          >
-          </Option>
-        ))}
-      </Select>
-        </Form.Item>
-
-        <Form.Item label="Описание тренировки" name="description">
-            <Input />
+            <Select
+              placeholder="Выберите тип занятия"
+              style={{ width: "100%" }}
+              onChange={findIndexWorkout}
+            >
+              {workoutList.map((item) => (
+                <Option
+                  key={item.workout_id}
+                  value={item.type_of_workout}
+                  label={item.type_of_workout}
+                ></Option>
+              ))}
+            </Select>
           </Form.Item>
 
+          <Form.Item label="Описание тренировки" name="description">
+            <Input />
+          </Form.Item>
         </Form>
       </Modal>
     </>

@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useSelector } from "react-redux"
 
-const PrivateRouteClient = () => {
+const PrivateRouteProfile = () => {
 
     const role = useSelector((state) => state.rootReducer.sign.user.role);
+
 
     if(!role) {
         return <Navigate to={"/sign"} />
@@ -11,7 +12,14 @@ const PrivateRouteClient = () => {
 
     if (role === "client") {
         return <Outlet />
-    } 
+    }
+
+    if (role === "coach" || role === "super_coach") {
+        return <Outlet />
+    } else {
+        return <Navigate to={"/sign"} />
+    }
 }
 
-export default PrivateRouteClient
+export default PrivateRouteProfile
+

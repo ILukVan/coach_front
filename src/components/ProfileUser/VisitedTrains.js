@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { List, Modal, Button } from 'antd';
 import VirtualList from 'rc-virtual-list';
-import { instance } from '../request';
-import { useSelector } from 'react-redux';
 
 
 const ContainerHeight = 150;
-const ProfileTrain = () => {
-    const id = useSelector((state) => state.rootReducer.sign.user.id);
-    const [data, setData] = useState([]);
+const VisitedTrains = ({visited_workouts, visitedtTrains}) => {
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     const showModal = () => {
       setIsModalOpen(true);
+      visited_workouts()
     };
     const handleOk = () => {
     };
@@ -21,16 +19,6 @@ const ProfileTrain = () => {
     const handleCancel = () => {
       setIsModalOpen(false);
     };
-    const appendData = async () => {
-    const data = await instance.post("/visited_trains", id);
-    setData(data.data);
-
-  // ---------------------------------------создать тренировку ----------------------------
-};
-useEffect(() => {
-    
-  appendData();
-}, []);
 
 
 return (
@@ -49,7 +37,7 @@ return (
   >
   <List>
     <VirtualList
-      data={data}
+      data={visitedtTrains}
       height={ContainerHeight}
       itemHeight={47}
       itemKey="training_id"
@@ -68,4 +56,4 @@ return (
   </>
 );
 };
-export default ProfileTrain;
+export default VisitedTrains;

@@ -114,7 +114,7 @@ const onFinish = (values) => {
         },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              console.log(value);
+
               if (!value || getFieldValue('client_password') === value) {
                 return Promise.resolve();
               }

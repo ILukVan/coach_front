@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { instance } from "../../request";
+import { instance } from "../../../request.js";
 import AddWorkOut from "./AddWorkOut";
 import WorkOutListTable from "./WorkOutListTable.js";
 import WorkOutListCard from "./WorkOutListCard.js";

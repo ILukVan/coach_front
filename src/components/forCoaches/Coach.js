@@ -17,6 +17,7 @@ const Coach = () => {
   useEffect(() => {
     selectDateActivity({ date: dayjs().format("YYYY-MM-DD") });
     getTypeWorkout();
+    getCoachList();
   }, []);
 
   const screen = useSelector((state) => state.rootReducer.screen.width);
@@ -26,17 +27,18 @@ const Coach = () => {
   const [workoutList, setWorkOutList] = useState([]);
   const [clientList, setClientList] = useState([]);
   const [recordedList, setRecordedList] = useState();
+  const [coachList, setCoachList] = useState([]);
 
 
   // ---------------------------------------создать тренировку ----------------------------
   const createActivity = async (values) => {
     const data = await instance.post("/add_activity", values);
-
-    setTableData((prevData) => [...prevData, data.data]);
+    setTableData(data.data)
   };
   // ---------------------------------------создать тренировку ----------------------------
   // ---------------------------------------удалить тренировку ----------------------------
   const deleteActivity = async (values) => {
+
     const data = await instance.delete("/delete_activity", {
       data: { training_id: values, date: date.date },
     });
@@ -80,7 +82,6 @@ const Coach = () => {
       client_id: value,
       training_id: id,
     };
-    console.log(dataUnSign, "------------------удалть клиента с записи");
     const data = await instance.post("/unsign_up_train_coach", dataUnSign);
     setClientList(data.data.difference);
     setRecordedList(data.data.recorded);
@@ -108,6 +109,13 @@ const Coach = () => {
     selectDateActivity(selectDate);
   };
   // --------------------------------------- выбор даты для последующего запроса тренировкок ---------------------
+    // ---------------------------------------запрос трениров ----------------------------
+    const getCoachList = async () => {
+      const coach = await instance.get("/coaches_list");
+  
+      setCoachList(coach.data);
+    };
+    // ---------------------------------------запрос трениров ----------------------------
   
 
   return (
@@ -146,6 +154,7 @@ const Coach = () => {
             recordedList={recordedList}
             deleteClient={deleteClient}
             addClient={addClient}
+            coachList={coachList}
           /> :
 
           <ActivityCoachCard

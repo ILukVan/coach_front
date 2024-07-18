@@ -16,8 +16,8 @@ dayjs.extend(customParseFormat);
 
 
 
-const ModalEditProfile = ({ record, updateProfile}) => {
-  const name = useSelector((state) => state.rootReducer.sign.user.name);
+const ModalEditProfile = ({ record, updateProfile, idClient}) => {
+  const id = useSelector((state) => state.rootReducer.sign.user.id);
 
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,11 +50,6 @@ const ModalEditProfile = ({ record, updateProfile}) => {
     }
   };
 
-  // function verifyId() {
-  //   if (record.client_id !== id){
-  //     return "disable"
-  //   }
-  // } 
 
   return (
     <>
@@ -68,7 +63,7 @@ const ModalEditProfile = ({ record, updateProfile}) => {
         okText="Сохранить"
         cancelText="Отменить"
         onCancel={handleCancel}
-
+        destroyOnClose
       >
         <Form
           form={form}
@@ -79,7 +74,7 @@ const ModalEditProfile = ({ record, updateProfile}) => {
           wrapperCol={{
             span: 16,
           }}
-
+          clearOnDestroy
           initialValues={
             {
               ...record,
@@ -91,7 +86,7 @@ const ModalEditProfile = ({ record, updateProfile}) => {
           autoComplete="off"
         >
           <Form.Item name="client_phone_number" label="Номер телефона">
-            <MaskedInput mask="+{7}(000)-000-00-00" disabled={record.client_fio !== name}/>
+            <MaskedInput mask="+{7}(000)-000-00-00" disabled={idClient !== id}/>
           </Form.Item>
 
           <Form.Item

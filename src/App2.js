@@ -6,20 +6,20 @@ import Client from "./components/forClients/Client";
 import { instance } from "./request";
 import Coach from "./components/forCoaches/Coach";
 import SuperCoach from "./components/forSuperCoach/SuperCoach";
-import ClientList from "./components/forSuperCoach/ClientList";
-import CoachList from "./components/forSuperCoach/CoachList";
-import WorkOutList from "./components/forSuperCoach/WorkOutList";
+import ClientList from "./components/forSuperCoach/clients/ClientList";
+import CoachList from "./components/forSuperCoach/coaches/CoachList";
+import WorkOutList from "./components/forSuperCoach/workOut/WorkOutList";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRouteCoach from "./components/utils/router/PrivateRouteCoach";
 import { login, logout as logoutAction } from "./components/store/slice/signIn";
 import { screenWidth } from "./components/store/slice/signIn/widthScreen";
 import PrivateRouteAdmin from "./components/utils/router/PrivateRouteAdmin";
-import Profile from "./components/profile";
+import PrivateRouteProfile from "./components/utils/router/PrivateRouteProfile";
+import Profile from "./components/ProfileUser/profile";
 import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
 import "./App.css";
 import Menu from "./menu";
-import ProfileTrain from "./components/profileTrain";
 
 const { Header, Footer } = Layout;
 
@@ -64,7 +64,8 @@ function App2 () {
   const id = useSelector((state) => state.rootReducer.sign.user.id);
 
 
-
+console.log(name, "------имя клиента в редаксе");
+//console.log(jwtDecode(JSON.parse(localStorage.getItem("tokens") || {}).token), "-------имя клиента в localstorage");
   return (
     <>
       <Layout>
@@ -86,7 +87,7 @@ function App2 () {
  <Menu role={role} name={name} id={id}/> }
             </div>
 <div className="header-Profile">
-  <Link to="/visited" > Visits</Link>
+
             {name ? (
               <Link to="/logout" onClick={handleLogOut}>
                 Выйти
@@ -100,18 +101,24 @@ function App2 () {
           
         </Header>
         <Routes>
-        <Route path="/visited" element={<ProfileTrain />}></Route>
+
           <Route path="/sign" element={<SignInPage />}></Route>
           <Route path="/sign_in" element={<SingIn />}></Route>
           <Route path="/sign_up" element={<Registration />}></Route>
           <Route path="/" element={<Client />}></Route>
-            <Route path="/id/:id" element={<Profile />}></Route>
+
+
+          <Route element={<PrivateRouteProfile />}>
+          <Route path="/id/:id" element={<Profile />}></Route>
+          </Route>
           <Route element={<PrivateRouteCoach />}>
+ 
             <Route path="/coach" element={<Coach />}></Route>
             <Route path="/management" element={<SuperCoach />}></Route>
             <Route path="/management/client" element={<ClientList />}></Route>
             <Route element={<PrivateRouteAdmin />}>
               <Route path="/management/coach" element={<CoachList />}></Route>
+
               <Route
                 path="/management/workout"
                 element={<WorkOutList />}

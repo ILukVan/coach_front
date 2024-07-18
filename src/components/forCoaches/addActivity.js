@@ -35,10 +35,12 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
 
   const [valueHour, setValueHour] = useState(null);
   const onChange = (time) => {
-    setValueHour(time);
-
+    setValueHour(time)
+    const start = dayjs(time)
+    const end = start.add(1, "hour")
+    form.setFieldValue("end_time_train", dayjs(end))  
   };
-
+//  ----------------------------- функция оключения предыдущих значений часов--------------------
   const disabledHours = () => {
     const hours = [];
     const currentHour = dayjs(valueHour).hour();
@@ -49,7 +51,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
 
     return hours;
   };
-
+//  ----------------------------- функция оключения предыдущих значений часов--------------------
   return (
     <>
       <Button type="primary" onClick={() => { setOpen(true);}}>
@@ -78,7 +80,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
               weekday_train: dayjs(date.date),
               start_time_train: dayjs("09:00", "HH:mm"),
               end_time_train: dayjs("10:00", "HH:mm"),
-              occupancy_train: 10,
+              occupancy_train: 1,
 
             }}
             clearOnDestroy
@@ -128,7 +130,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
           name="type_of_training"
           className="collection-create-form_last-form-item"
         >
-  <Select placeholder="Выберите тип занятия" style={{ width: '100%' }}>
+  <Select placeholder="Выберите тип занятия" style={{ width: '100%' }} >
         {(workoutList).map((item) => (
           <Option
             key={item.workout_id}

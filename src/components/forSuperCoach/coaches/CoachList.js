@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {  Layout, theme } from "antd";
-import { instance } from "../../request";
+import { instance } from "../../../request";
 import CoachListTable from "./CoachListTable";
 import CoachListCard from "./CoachListCard";
 import { useSelector } from "react-redux";
+import SearchClient from "../clients/SearchClient";
 const { Content } = Layout;
 
 const CoachList = () => {
@@ -50,7 +51,9 @@ const CoachList = () => {
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
-        > {screen >=900 ?
+        >
+          <SearchClient clientList={coachList} />
+           {screen >=900 ?
           <CoachListTable coachList={coachList} deleteCoach={deleteCoach}/> :
           <CoachListCard coachList={coachList} deleteCoach={deleteCoach}/> }
         </div>

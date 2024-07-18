@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "antd";
 import { Link } from 'react-router-dom';
-import DeletePerson from "./DeletePerson";
+import DeletePerson from "../DeletePerson";
 import dayjs from "dayjs";
 
 const CoachListTable = ({coachList, deleteCoach}) => {

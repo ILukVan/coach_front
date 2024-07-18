@@ -18,13 +18,45 @@ const ActivityCoach = ({
   recordedList,
   deleteClient,
   addClient,
+  coachList,
 }) => {
-
-
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
-  
+
+  function renderDeleteAndEdit(record) {
+    // console.log(record.client_id === id );
+    if (record.client_id === id || role === "super_coach") {
+      if (
+        dayjs().format("YYYY-MM-DD") <=
+        dayjs(record.end_time_train).format("YYYY-MM-DD")
+      ) {
+        return (
+          <div>
+            <div className="coach-options">
+              <ModalEdit
+                record={record}
+                updateActivity={updateActivity}
+                date={date}
+                workoutList={workoutList}
+              />
+            </div>
+            <div className="coach-options">
+              <DeleteActivity
+                record={record}
+                deleteActivity={deleteActivity}
+                date={date}
+              />
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="coach-options">Внесение изменений завершено </div>
+        );
+      }
+    }
+  }
 
   const columns = [
     {
@@ -39,21 +71,28 @@ const ActivityCoach = ({
           -5
         )} - ${record.end_time_train.slice(-5)} `}</span>
       ),
-
     },
     Table.EXPAND_COLUMN,
     {
       title: "Тип занятия",
       dataIndex: "type_of_training",
-      filters: workoutList.map(item => ({
+      filters: workoutList.map((item) => ({
         text: item.type_of_workout,
         value: item.type_of_workout,
-      })), 
+      })),
 
-      filterMode: "tree",
-      filterSearch: true,
+
       onFilter: (value, record) => record.type_of_training.startsWith(value),
-      width: "30%",
+
+    },
+    {
+      title: "Тренер",
+      dataIndex: "coach_train",
+      filters: coachList.map(item => ({
+        text: item.client_fio,
+        value: item.client_fio,
+      })), 
+      onFilter: (value, record) => record.coach_train.startsWith(value),
     },
     {
       title: "Количество мест",
@@ -83,28 +122,8 @@ const ActivityCoach = ({
       title: "Edit Delet",
       dataIndex: "edit",
       render: (_, record) => {
-        if (record.client_id === id || role === "super_coach") {
-          return (
-            <>
-              <ModalEdit
-                record={record}
-                updateActivity={updateActivity}
-                date={date}
-                workoutList={workoutList}
-              />
-              <DeleteActivity
-                record={record}
-                deleteActivity={deleteActivity}
-                date={date}
-              />
-               {record.updatedAt !== record.createdAt && <span> изменена {dayjs(record.updatedAt).format("DD.MM.YYYY HH:mm") } </span>} 
-            </>
-          );
-        } else {
-          return <p>нет доступа</p>;
-        }
+        return renderDeleteAndEdit(record);
       },
-
     },
   ];
 
@@ -112,7 +131,7 @@ const ActivityCoach = ({
     <div>
       <Table
         columns={columns}
-      virtual
+        virtual
         expandable={{
           expandedRowRender: (record) => (
             <p
