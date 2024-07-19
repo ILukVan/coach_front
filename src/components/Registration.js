@@ -6,11 +6,11 @@ import { MaskedInput } from "antd-mask-input";
 const Registration = ( {phone_number ,registration} ) => {
   const [form] = Form.useForm();
 const onFinish = (values) => {
-    console.log('Success:', values);
+
     registration(values)
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+
   };
 
   const CheckboxGroup = Checkbox.Group;
@@ -87,7 +87,26 @@ const onFinish = (values) => {
     form={form}
 
   >
-      <Form.Item name="phone_number" label="Номер телефона">
+      <Form.Item name="phone_number" label="Номер телефона" 
+      rules={[
+        {
+          required: true,
+        },
+        ({ getFieldValue }) => ({
+          validator(_, value) {
+
+            const phoneNumber = value.length-value.replace(/\d/gm,'').length;
+
+            if (phoneNumber < 11) {
+
+              return Promise.reject(new Error('Некорректный номер телефона!'));
+            } else {
+              return Promise.resolve();
+            }
+            
+          },
+        }),
+      ]}>
         <MaskedInput mask="+{7}(000)-000-00-00" />
       </Form.Item>
 

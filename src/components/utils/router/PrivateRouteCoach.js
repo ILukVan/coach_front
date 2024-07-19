@@ -18,12 +18,7 @@ const PrivateRouteCoach = () => {
         return <Outlet />
     } 
   
-    // switch (role.role) {
-    //     case 'coach':
-    //     return <Outlet />
-    //     default:
-    //     console.log(`Sorry, we are out of .`);
-    // }
+
 }
 
 

@@ -7,9 +7,10 @@ const SearchClient = ({clientList}) => {
     const navigate = useNavigate();
     const handleChange = async (value, key) => {
         navigate(`/id/${key.key}`);
-console.log(key);
+
       };
     return (
+      <div className="select-picker">
 <Select
       showSearch
       style={{ width: 200 }}
@@ -24,6 +25,7 @@ console.log(key);
         ></Option>
       ))}
     </Select>
+    </div>
     )
 }
 export default SearchClient;

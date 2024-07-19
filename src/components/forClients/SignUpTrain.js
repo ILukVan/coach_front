@@ -9,27 +9,17 @@ const SignUpTrain = ({record, signUpTrain}) => {
 
   const role = useSelector((state) => state.rootReducer.sign.user.role);
 
-// const signUpTrain = async (values) => {
 
-//     const data = await instance.post("/sign_up_train", values);
-//     console.log(data.status, "--------------");
-//   };
-
-  
-
-  
   const navigate = useNavigate();
 
   const signUp = () => {
-    console.log("Нажал записаться");
+
 
     if (!role) {
-        console.log("не зареган");
-        console.log(record.training_id);
+
       navigate("/sign");
     } 
     if (role === "client" ) {
-      console.log("ты записался как зарегистрированный");
       signUpTrain(record)
 
     }

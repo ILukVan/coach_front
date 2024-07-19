@@ -10,7 +10,7 @@ const SingIn = ( {phone_number ,signIn} ) => {
     signIn(values);
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+
   };
 
   useEffect(() => {

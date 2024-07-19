@@ -16,12 +16,13 @@ dayjs.extend(customParseFormat);
 
 const { Option } = Select;
 
-const ModalEdit = ({ record, updateActivity, workoutList }) => {
+const ModalEdit = ({ record, updateActivity, workoutList, recordedList, getClientList }) => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
+    getClientList(record);
   };
   const handleOk = () => {
     form.submit();
@@ -82,7 +83,9 @@ const disabledHours = () => {
   return hours;
 };
 //  ----------------------------- функция оключения предыдущих значений часов--------------------
-  return (
+ 
+
+return (
     <>
       <Button type="primary" onClick={showModal}>
         Редактировать тренировку
@@ -137,8 +140,24 @@ const disabledHours = () => {
             })}/>
           </Form.Item>
 
-          <Form.Item label="Вместимость" name="occupancy_train">
-            <InputNumber min={1} max={17} />
+          <Form.Item label="Вместимость" name="occupancy_train"
+          rules={[
+
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+
+                if (value < recordedList.length ) {
+    
+                  return Promise.reject(new Error('Вместимость тренировки меньше уже записанных пользователей!'));
+                } else {
+                  return Promise.resolve();
+                }
+                
+              },
+            }),
+          ]}
+          >
+            <InputNumber min={(recordedList||[]).length ? (recordedList).length : 1} max={17} />
           </Form.Item>
 
           <Form.Item label="Тип тренировки" name="type_of_training">

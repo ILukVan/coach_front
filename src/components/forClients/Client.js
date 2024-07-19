@@ -15,7 +15,7 @@ const Client = () => {
 
   useEffect(() => {
     selectDateActivity({ date: dayjs().format("YYYY-MM-DD") });
-    // fetchActivities()
+
     getTypeWorkout();
     getCoachList();
   }, []);
@@ -31,13 +31,6 @@ const Client = () => {
   const [coachList, setCoachList] = useState([]);
 
 
-  //   // ---------------------------------------запрос тренировок----------------------------
-  //   const fetchActivities = async () => {
-  //     const data = await instance.get("/activities");
-  //     console.log(date, " -----------------вызываю дату в эффекте");
-  //     setTableData(data.data);
-  //   };
-  // // ---------------------------------------запрос тренировок ----------------------------
 
   // ---------------------------------------запрос тренировок по дате ----------------------------
   const selectDateActivity = async (values) => {
@@ -85,7 +78,7 @@ const Client = () => {
       client_id: id, 
       training_id: values.training_id
      }
-    console.log(unsign, "=================unsign=======");
+
    await instance.post("/unsign_up_train", unsign);
 
    selectDateActivity(date)

@@ -7,8 +7,9 @@ import SingIn from "./SignIn";
 import Registration from "./Registration";
 import { useDispatch } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
-import { login } from "./store/slice/signIn";
+import { useNavigate, Link } from "react-router-dom";
+import { login } from "./store/slice/signIn"; 
+
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -30,25 +31,19 @@ const SignInPage = () => {
       if (data.statusText === "OK") {
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
-        
         navigate("/");
       }
     } catch (err) {
-      console.log(err);
-      // notification.error({
-      //   message: "Ошибка!",
-      //   description: err.response.data,
-      // });
+      notification.error({
+        message: "Неверный пароль!",
+      });
     }
   };
 
   const registration = async (values) => {
     const data = await axios.post("http://localhost:3500/registration", values);
-    console.log(data, "<-------------- после регистрации");
-    console.log(data.statusText);
-    console.log(data.statusText === 'OK');
+
     if (data.statusText === 'OK') {
-      // dispatch(login(jwtDecode(data.data.token)));
 
       localStorage.setItem("tokens", JSON.stringify(data.data));
       dispatch(login());
@@ -56,7 +51,7 @@ const SignInPage = () => {
     } else {
       notification.error({
         message: "Ошибка!",
-        description: "Не удалось зарегистрировать",
+        description: "Не удалось зарегистрировать. Проверьте корректность данных",
       });
     }
   };
@@ -66,7 +61,7 @@ const SignInPage = () => {
     setPhoneNumber(values.phone_number);
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+
   };
   const { Content } = Layout;
 
@@ -135,6 +130,7 @@ const SignInPage = () => {
               </Form.Item>
             </Form>
           )}
+          <Link to={"/restore"}>Восстановить пароль</Link>
         </div>
       </Content>
     </Layout>

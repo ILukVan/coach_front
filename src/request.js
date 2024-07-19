@@ -29,7 +29,7 @@ instance.interceptors.response.use(
     // originalConfigRequest._isRetry = true;
 
     if (error.response.status === 401) {
-    console.log("получил новый токен");
+
 
       localStorage.setItem(
         "tokens",

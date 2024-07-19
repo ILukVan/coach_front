@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Layout, theme } from "antd";
+import { Button, Layout, theme } from "antd";
 import { useParams } from "react-router-dom";
 import { instance } from "../../request";
 import ModalEditProfile from "./modalEditProfile ";
 import UserCard from "./userCard";
 import VisitedTrains from "./VisitedTrains";
+import ModalEditProfilePassword from "./modalEditProfilePassword";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout, profile } from "../store/slice/signIn";
+import "./profile.css";
 const { Content } = Layout;
 
 const Profile = () => {
@@ -60,6 +62,14 @@ const Profile = () => {
     setClientData(data.data);
   };
   // ---------------------------------------изменить профиль ----------------------------
+    // ---------------------------------------изменить пароль ----------------------------
+    const updatePassword = async (values) => {
+      values.client_id = id;
+      if (id === idCurrent) {
+        await instance.put("/update_password", values);
+    };
+  }
+    // ---------------------------------------изменить пароль ----------------------------
   // --------------------------------------- запрос посещенных тренировок ----------------------------
   const visited_workouts = async () => {
     const client_id = {client_id: await id}
@@ -67,6 +77,12 @@ const Profile = () => {
     setVisitedtTrains(data.data);
   };
   // --------------------------------------- запрос посещенных тренировок ----------------------------
+  // ------------------------------------ отпраить письмо Email ---------------------
+  async function sendMail() {
+    await instance.get(`/send_email`)    
+    console.log("попытался отправить письмо");
+  }
+    // ------------------------------------ отпраить письмо Email ---------------------
   return (
     <Layout>
       <Content
@@ -82,20 +98,35 @@ const Profile = () => {
             borderRadius: borderRadiusLG,
           }}
         >
+          <div className="profile-card">
           <UserCard clientData={clientData} />
-          <div>
+          <div className="profile-options">
             <ModalEditProfile
               record={clientData}
               updateProfile={updateProfile}
               idClient={id}
             />
           </div>
-          <div>
+          {idCurrent === id && 
+          <div className="profile-options"> 
+          
+          <ModalEditProfilePassword 
+                        record={clientData}
+                        updatePassword={updatePassword}
+                        idClient={id}
+                      />
+          </div>}
+          <div className="profile-options">
+            
             <VisitedTrains
               visited_workouts={visited_workouts}
               visitedtTrains={visitedtTrains}
             />
           </div>
+          <div className="profile-options">
+            <Button  onClick={sendMail}> Restore </Button>
+          </div>
+        </div>
         </div>
       </Content>
     </Layout>

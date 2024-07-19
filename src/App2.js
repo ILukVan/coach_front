@@ -20,6 +20,7 @@ import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
 import "./App.css";
 import Menu from "./menu";
+import RestoreProfile from "./components/RestoreProfile";
 
 const { Header, Footer } = Layout;
 
@@ -48,7 +49,7 @@ function App2 () {
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
-    console.log("logOut");
+
     const logout = await instance.get("/logout");
 
     if (logout.statusText === "OK") {
@@ -64,8 +65,6 @@ function App2 () {
   const id = useSelector((state) => state.rootReducer.sign.user.id);
 
 
-console.log(name, "------имя клиента в редаксе");
-//console.log(jwtDecode(JSON.parse(localStorage.getItem("tokens") || {}).token), "-------имя клиента в localstorage");
   return (
     <>
       <Layout>
@@ -103,6 +102,7 @@ console.log(name, "------имя клиента в редаксе");
         <Routes>
 
           <Route path="/sign" element={<SignInPage />}></Route>
+          <Route path="/restore" element={<RestoreProfile />}></Route>
           <Route path="/sign_in" element={<SingIn />}></Route>
           <Route path="/sign_up" element={<Registration />}></Route>
           <Route path="/" element={<Client />}></Route>

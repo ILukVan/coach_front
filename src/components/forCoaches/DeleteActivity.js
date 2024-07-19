@@ -6,10 +6,6 @@ const { confirm } = Modal;
 
 const DeleteActivity = ({ record, deleteActivity }) => {
 
-// const onClick = () => {
-    
-//     console.log(record.training_id)
-// }
 
 const showDeleteConfirm = () => {
   confirm({
@@ -23,7 +19,7 @@ const showDeleteConfirm = () => {
       deleteActivity(record.training_id)
     },
     onCancel() {
-      console.log('Cancel');
+
     },
   });
 };

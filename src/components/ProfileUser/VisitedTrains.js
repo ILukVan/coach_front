@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { List, Modal, Button } from 'antd';
 import VirtualList from 'rc-virtual-list';
-
+import dayjs from 'dayjs';
 
 const ContainerHeight = 150;
 const VisitedTrains = ({visited_workouts, visitedtTrains}) => {
@@ -27,7 +27,7 @@ return (
     Посещенные тренировки
   </Button>
   <Modal
-    title="Редактирование данных"
+    title="Список посещенных тренировок"
     open={isModalOpen}
     onOk={handleOk}
     okText="Сохранить"
@@ -46,7 +46,7 @@ return (
       {(item) => (
         <List.Item key={item.training_id}>
 <p>
-{item.type_of_training} {item.start_time_train}
+{dayjs(item.start_time_train).format("DD.MM.YYYY HH:mm")} {item.type_of_training} 
 </p>      
         </List.Item>
       )}

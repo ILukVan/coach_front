@@ -20,7 +20,7 @@ const RecordedList2 = ({ record, getClientList, clientList, recordedList, delete
 
 
   const showDeleteConfirm = (client_id) => {
-    // console.log(values);
+
     confirm({
       title: 'Вы уверены, что хотите удалить человека с тренировки?',
   
@@ -36,10 +36,7 @@ const RecordedList2 = ({ record, getClientList, clientList, recordedList, delete
     });
   };
 
-function limitRecord() {
-  console.log(record, "какая тренировка");
-  
-}
+
 
   function addClientToList() {
     if ((dayjs().format("YYYY-MM-DD") <= dayjs(record.end_time_train).format("YYYY-MM-DD"))) {
@@ -70,7 +67,7 @@ function limitRecord() {
 
   return (
     <>
-      <Button type="primary" onClick={() => {setIsModalOpen(true); getClientList(record); limitRecord()} }>
+      <Button type="primary" onClick={() => {setIsModalOpen(true); getClientList(record);} }>
         Список записавшихся
       </Button>
       <Modal

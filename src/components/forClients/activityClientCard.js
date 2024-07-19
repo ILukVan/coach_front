@@ -64,6 +64,7 @@ const ActivityClientCard = ({
           <List.Item>
               <div className="card">
               <p className="title-name">{item.type_of_training}</p>
+              <div className="card">
               <p className="title-name">{item.start_time_train.slice(-5)}-{item.end_time_train.slice(-5)}</p>
               <div className="div1">
                 
@@ -95,6 +96,7 @@ const ActivityClientCard = ({
               </div>
               <p>{item.status_train}</p>
               <Divider>{verifyRole(item)}</Divider>
+              </div>
               </div>
           </List.Item>
         )}

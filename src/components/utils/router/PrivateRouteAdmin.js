@@ -7,7 +7,6 @@ const PrivateRouteAdmin = () => {
     const role = useSelector((state) => state.rootReducer.sign.user.role);
 
     if(!role) {
-        console.log("tut redirect%%%");
         return <Navigate to={"/sign"} />
     } 
 
@@ -15,12 +14,6 @@ const PrivateRouteAdmin = () => {
         return <Outlet />
     } 
   
-    // switch (role.role) {
-    //     case 'coach':
-    //     return <Outlet />
-    //     default:
-    //     console.log(`Sorry, we are out of .`);
-    // }
 }
 
 

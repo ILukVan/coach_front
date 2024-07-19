@@ -19,7 +19,6 @@ const showDeleteConfirm = () => {
       deleteWorkOut(record.workout_id)
     },
     onCancel() {
-      console.log('Cancel');
     },
   });
 };

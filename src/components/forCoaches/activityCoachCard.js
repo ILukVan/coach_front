@@ -46,7 +46,9 @@ const ActivityCoachCard = ({
             record={record}
             updateActivity={updateActivity}
             date={date}
+            getClientList={getClientList}
             workoutList={workoutList}
+            recordedList={recordedList}
           />
 </div>
 <div className="coach-options">
@@ -94,6 +96,7 @@ const ActivityCoachCard = ({
           <List.Item>
             <div className="card">
               <p className="title-name">{item.type_of_training}</p>
+              <div className="card">
               <p className="title-name">
                 {item.start_time_train.slice(-5)}-
                 {item.end_time_train.slice(-5)}
@@ -119,6 +122,7 @@ const ActivityCoachCard = ({
               <p>{item.status_train}</p>
               <div>{renderRecordedList(item)}</div>
               {item.updatedAt !== item.createdAt && <span> изменена {dayjs(item.updatedAt).format("DD.MM.YYYY HH:mm") } </span>} 
+            </div>
             </div>
              
           </List.Item>

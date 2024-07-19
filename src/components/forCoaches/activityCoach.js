@@ -25,7 +25,7 @@ const ActivityCoach = ({
   // хук который забирает данные из стора
 
   function renderDeleteAndEdit(record) {
-    // console.log(record.client_id === id );
+
     if (record.client_id === id || role === "super_coach") {
       if (
         dayjs().format("YYYY-MM-DD") <=
@@ -39,6 +39,8 @@ const ActivityCoach = ({
                 updateActivity={updateActivity}
                 date={date}
                 workoutList={workoutList}
+                recordedList={recordedList}
+                getClientList={getClientList}
               />
             </div>
             <div className="coach-options">
