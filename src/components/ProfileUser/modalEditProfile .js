@@ -18,6 +18,7 @@ dayjs.extend(customParseFormat);
 
 const ModalEditProfile = ({ record, updateProfile, idClient}) => {
   const id = useSelector((state) => state.rootReducer.sign.user.id);
+  const role = useSelector((state) => state.rootReducer.sign.user.role);
 
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +51,8 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
     }
   };
 
+
+  
 
   return (
     <>
@@ -136,8 +139,9 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
                 type: "email",
               },
             ]}
+            
           >
-            <Input />
+            <Input disabled={idClient !== id}/>
           </Form.Item>
           <Form.Item name="client_job" label="Ваша профессия">
             <Input />

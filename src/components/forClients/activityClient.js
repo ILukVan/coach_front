@@ -78,7 +78,7 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
       },
     },
     {
-      title: "Edit Delet",
+      title: "Запись",
       dataIndex: "edit",
       render: (_, record) => {
         if ((role || "").includes("coach") ) {

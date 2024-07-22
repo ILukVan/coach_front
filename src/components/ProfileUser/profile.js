@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Layout, theme } from "antd";
+import { Layout, theme } from "antd";
 import { useParams } from "react-router-dom";
 import { instance } from "../../request";
 import ModalEditProfile from "./modalEditProfile ";
@@ -77,12 +77,7 @@ const Profile = () => {
     setVisitedtTrains(data.data);
   };
   // --------------------------------------- запрос посещенных тренировок ----------------------------
-  // ------------------------------------ отпраить письмо Email ---------------------
-  async function sendMail() {
-    await instance.get(`/send_email`)    
-    console.log("попытался отправить письмо");
-  }
-    // ------------------------------------ отпраить письмо Email ---------------------
+
   return (
     <Layout>
       <Content
@@ -123,9 +118,7 @@ const Profile = () => {
               visitedtTrains={visitedtTrains}
             />
           </div>
-          <div className="profile-options">
-            <Button  onClick={sendMail}> Restore </Button>
-          </div>
+
         </div>
         </div>
       </Content>

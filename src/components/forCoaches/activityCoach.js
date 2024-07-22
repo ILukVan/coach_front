@@ -121,7 +121,7 @@ const ActivityCoach = ({
     },
 
     {
-      title: "Edit Delet",
+      title: "Управление тренировками",
       dataIndex: "edit",
       render: (_, record) => {
         return renderDeleteAndEdit(record);

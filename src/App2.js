@@ -20,7 +20,9 @@ import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
 import "./App.css";
 import Menu from "./menu";
-import RestoreProfile from "./components/RestoreProfile";
+import RestoreProfile from "./components/Restore/RestoreProfile";
+import PrivateRouteRestore from "./components/utils/router/PrivateRouteRestore";
+import NewPassword from "./components/Restore/NewPassword";
 
 const { Header, Footer } = Layout;
 
@@ -110,6 +112,9 @@ function App2 () {
 
           <Route element={<PrivateRouteProfile />}>
           <Route path="/id/:id" element={<Profile />}></Route>
+          </Route>
+          <Route element={<PrivateRouteRestore />}>
+          <Route path="/restore/new_password" element={<NewPassword />}></Route>
           </Route>
           <Route element={<PrivateRouteCoach />}>
  

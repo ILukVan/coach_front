@@ -171,12 +171,15 @@ const Coach = () => {
             deleteClient={deleteClient}
             addClient={addClient}
           /> }
-
+{(
+        dayjs().format("YYYY-MM-DD") <=
+        dayjs(date.date).format("YYYY-MM-DD")
+      ) && 
 <AddActivity
         createActivity={createActivity}
         date={date}
         workoutList={workoutList}
-      />
+      /> }
         </div>
       </Content>
     </Layout>

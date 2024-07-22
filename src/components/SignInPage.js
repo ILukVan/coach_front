@@ -128,9 +128,11 @@ const SignInPage = () => {
                   Submit
                 </Button>
               </Form.Item>
+                
             </Form>
           )}
-          <Link to={"/restore"}>Восстановить пароль</Link>
+          <div className="link-restore"><Link to={"/restore"}>Восстановить пароль</Link></div>
+          
         </div>
       </Content>
     </Layout>

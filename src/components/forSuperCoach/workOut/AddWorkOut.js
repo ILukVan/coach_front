@@ -53,7 +53,7 @@ const AddWorkOut = ({createWorkOut}) => {
       >
         <Form.Item
           name="type_of_workout"
-          label="Виид тренировки"
+          label="Тип тренировки"
           rules={[
             {
               required: true,
