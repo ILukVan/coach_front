@@ -3,10 +3,11 @@ import { Table } from "antd";
 import MakeCoach from "./makeCoach";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import DeletePerson from "../DeletePerson";
 var relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
-const ClientListTable = ({ clientList, createCoach }) => {
+const ClientListTable = ({ clientList, createCoach, deleteClient }) => {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   const columns = [
@@ -38,7 +39,10 @@ const ClientListTable = ({ clientList, createCoach }) => {
       title: "Управление",
       dataIndex: "edit",
       render: (_, record) => (
+        <>
         <MakeCoach record={record} createCoach={createCoach} />
+        <DeletePerson deletePerson={deleteClient} record={record}/>
+        </>
       ),
     },
   ];

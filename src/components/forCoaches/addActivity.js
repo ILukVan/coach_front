@@ -119,7 +119,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
           rules={[
             {
               required: true,
-              message: "Please input the title of collection!",
+              message: "Введите максимальное количество человек на занятии!",
             },
           ]}
         >
@@ -129,6 +129,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
         <Form.Item
           name="type_of_training"
           className="collection-create-form_last-form-item"
+          rules={[{ required: true, message: 'Введите тип тренировки!' }]}
         >
   <Select placeholder="Выберите тип занятия" style={{ width: '100%' }} >
         {(workoutList).map((item) => (

@@ -106,8 +106,9 @@ const onFinish = (values) => {
             
           },
         }),
-      ]}>
-        <MaskedInput mask="+{7}(000)-000-00-00" />
+      ]}
+      disabled>
+        <MaskedInput mask="+{7}(000)-000-00-00" disabled/>
       </Form.Item>
 
     <Form.Item

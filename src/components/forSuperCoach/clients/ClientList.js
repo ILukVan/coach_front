@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, theme } from 'antd';
+import { Button, Layout, notification, theme } from 'antd';
 import { instance } from '../../../request';
 import ClientListTable from './ClientListTable';
 import ClientListCard from './ClientListCard';
@@ -29,6 +29,33 @@ const createCoach = async (values) => {
 }  
 // ------------------------------------- сделать клиента тренером --------------------
 
+// ------------------------------------- создать два пробника --------------------
+const createProbnik = async () => {
+  try {
+  await instance.get("/registration_probnik");
+  notification.success({
+    message: "Успех!",
+    description: "Пробники успешно добавлены",
+  });
+  await fetchClients();
+  } catch {
+    notification.error({
+      message: "Ошибка!",
+      description: "Достигнуто предельное количество пробных профилей",
+    });
+  }
+}
+// ------------------------------------- создать два пробника --------------------
+// ------------------------------------------запрос удалить клиента ------------------------------
+const deleteClient = async (id) => {
+
+  const deleteCoach = await instance.delete("/delete_client", {
+    data: { id: id },
+
+  });
+  setClientList(deleteCoach.data);
+}
+// ------------------------------------------запрос удалить клиента ------------------------------
 
     useEffect(() => {
         fetchClients(); // функция которая делает запрос в сторе
@@ -50,11 +77,14 @@ const createCoach = async (values) => {
             }}
 
           >
+        
             <SearchClient clientList={clientList} />
+            <Button onClick={createProbnik} className="select-picker">Создать 2 пробника</Button>
+            
             {screen >= 900 ?
             
-      <ClientListTable clientList={clientList} createCoach={createCoach}/> :
-      <ClientListCard clientList={clientList} createCoach={createCoach}/> }
+      <ClientListTable clientList={clientList} createCoach={createCoach} deleteClient={deleteClient}/> :
+      <ClientListCard clientList={clientList} createCoach={createCoach} deleteClient={deleteClient}/> }
 </div>
       </Content>
     </Layout>

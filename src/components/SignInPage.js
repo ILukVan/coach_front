@@ -17,17 +17,25 @@ const SignInPage = () => {
   const [user, setUser] = useState([""]);
 
   const SignInOrRegistration = async (values) => {
-    const data = await axios.post(
-      "http://localhost:3500/SignInOrRegistration",
-      values
-    );
-    setUser(data.data);
+    try{
+      const data = await axios.post(
+        "http://192.168.88.119:3500/SignInOrRegistration",
+        values
+      );
+      setUser(data.data);
+    } catch {
+        notification.error({
+          message: "Введите номер телефона!",
+        });
+      
+    }
+
   };
   const dispatch = useDispatch();
 
   const signIn = async (values) => {
     try {
-      const data = await axios.post("http://localhost:3500/signIn", values);
+      const data = await axios.post("http://192.168.88.119:3500/signIn", values);
       if (data.statusText === "OK") {
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
@@ -41,7 +49,7 @@ const SignInPage = () => {
   };
 
   const registration = async (values) => {
-    const data = await axios.post("http://localhost:3500/registration", values);
+    const data = await axios.post("http://192.168.88.119:3500/registration", values);
 
     if (data.statusText === 'OK') {
 
@@ -114,7 +122,13 @@ const SignInPage = () => {
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-              <Form.Item name="phone_number" label="Номер телефона">
+              <Form.Item name="phone_number" label="Номер телефона" 
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Введите Ваш номер телефона!',
+                      },
+                    ]}>
                 <MaskedInput mask="+{7}(000)-000-00-00" />
               </Form.Item>
 

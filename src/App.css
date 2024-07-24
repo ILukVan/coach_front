@@ -16,3 +16,7 @@
 .link-restore{
   margin-left: 5%;
 }
+.search-and-probnik{
+  display: flex;
+  justify-content: space-between;
+}
