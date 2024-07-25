@@ -33,7 +33,11 @@ return (
     okText="Сохранить"
     cancelText="Отменить"
     onCancel={handleCancel}
-
+    footer={[
+      <Button key="back" onClick={handleCancel}>
+        Закрыть
+      </Button>,
+    ]}
   >
   <List>
     <VirtualList

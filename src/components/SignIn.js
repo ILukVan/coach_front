@@ -19,6 +19,8 @@ const SingIn = ( {phone_number ,signIn} ) => {
     });
   }, [form]);
 
+
+
   return (
     <Form
       form={form}
@@ -39,8 +41,16 @@ const SingIn = ( {phone_number ,signIn} ) => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <Form.Item name="phone_number" label="Номер телефона">
-        <MaskedInput mask="+{7}(000)-000-00-00" />
+      <Form.Item name="phone_number" label="Номер телефона"
+              rules={[
+                {
+                  required: true,
+                  whitespace: true,
+                  message: "Введите пароль!",
+                },
+              ]}
+      >
+        <MaskedInput mask="+{7}(000)-000-00-00" disabled/>
       </Form.Item>
 
       <Form.Item
@@ -49,9 +59,11 @@ const SingIn = ( {phone_number ,signIn} ) => {
         rules={[
           {
             required: true,
+            whitespace: true,
             message: "Введите пароль!",
           },
         ]}
+        normalize={(value) => value.trim()}
       >
         <Input.Password />
       </Form.Item>

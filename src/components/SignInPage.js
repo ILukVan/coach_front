@@ -49,18 +49,26 @@ const SignInPage = () => {
   };
 
   const registration = async (values) => {
-    const data = await axios.post("http://192.168.88.119:3500/registration", values);
-
-    if (data.statusText === 'OK') {
-
+    try{
+      const data = await axios.post("http://192.168.88.119:3500/registration", values);
       localStorage.setItem("tokens", JSON.stringify(data.data));
       dispatch(login());
       navigate("/");
-    } else {
+    } catch (err){
+
       notification.error({
+
         message: "Ошибка!",
-        description: "Не удалось зарегистрировать. Проверьте корректность данных",
+        description:  err.response.data,
       });
+      // if (err.response.data === "Email занят") {
+      //   form.setFields([
+      //     {
+      //       name: 'email',
+      //       errors: ["Email занят"],
+      //     },
+      //   ]);
+      // }
     }
   };
 

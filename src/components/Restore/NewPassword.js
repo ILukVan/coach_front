@@ -1,13 +1,31 @@
 import React from "react";
-import { Button, Form, Input, Layout, theme } from "antd";
+import { Button, Form, Input, Layout, notification, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../request";
 
 const NewPassword = () => {
 
+  const [form] = Form.useForm();
+
   const emailCurrent = localStorage.getItem("email");
   const onFinish = async (values) => {
-    updatePassword(values)
+    try {
+      updatePassword(values)
+      notification.success({
+        message: "Пароль обновлен!",
+      });
+    } catch {
+      notification.error({
+        message: "Неверный пароль!",
+      });
+      form.setFields([
+        {
+          name: 'old_client_password',
+          errors: ["Неверный пароль"],
+        },
+      ]);
+    }
+   
   };
   const { Content } = Layout;
   const navigate = useNavigate();
@@ -54,6 +72,7 @@ const NewPassword = () => {
               maxWidth: 600,
             }}
           >
+
             <Form.Item
               label="Пароль"
               name="client_password"

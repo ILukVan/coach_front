@@ -89,7 +89,7 @@ function App2 () {
             </div>
 <div className="header-Profile">
 
-            {name ? (
+            {id ? (
               <Link to="/logout" onClick={handleLogOut}>
                 Выйти
               </Link>

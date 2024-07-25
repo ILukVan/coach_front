@@ -1,20 +1,11 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Modal,
-  Form,
-  notification,
-  Input,
-} from "antd";
+import { Button, Modal, Form, notification, Input } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useSelector } from "react-redux";
 dayjs.extend(customParseFormat);
 
-
-
-
-const ModalEditProfilePassword = ({ updatePassword, idClient}) => {
+const ModalEditProfilePassword = ({ updatePassword, idClient }) => {
   const id = useSelector((state) => state.rootReducer.sign.user.id);
 
   const [form] = Form.useForm();
@@ -32,15 +23,13 @@ const ModalEditProfilePassword = ({ updatePassword, idClient}) => {
     setIsModalOpen(false);
   };
   const onFinish = async (values) => {
-
     try {
-
       if (idClient === id) {
-        await updatePassword(values)
+        await updatePassword(values);
         notification.success({
           message: "Успех!",
           description: "Данные успешно обновлены",
-            });
+        });
         setIsModalOpen(false);
       }
       // $2b$10$83bTKLWiBNBrAQGihyOHYuIZe7z/kMEfY/1y9ryhxpPm4aPtvWOsS
@@ -51,8 +40,15 @@ const ModalEditProfilePassword = ({ updatePassword, idClient}) => {
         message: "Ошибка!",
         description: "Не удалось обновить данные",
       });
+      form.setFields([
+        {
+          name: 'old_client_password',
+          errors: ["Неверный пароль"],
+        },
+      ]);
     }
   };
+
 
 
   return (
@@ -82,41 +78,51 @@ const ModalEditProfilePassword = ({ updatePassword, idClient}) => {
           onFinish={onFinish}
           autoComplete="off"
         >
-    <Form.Item
-      label="Пароль"
-      name="client_password"
-      rules={[
-        {
-          required: true,
-          message: 'Введите Ваш пароль!',
-        },
-      ]}
-    >
-      <Input.Password />
-    </Form.Item>
-    <Form.Item
-      label="Повторите пароль"
-      name="rePassword"
-      dependencies={['client_password']}
-      rules={[
-        {
-          required: true,
-          message: 'Введите Ваш пароль!',
-        },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-
-              if (!value || getFieldValue('client_password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('Пароли не совпадают!'));
-            },
-          }),
-      ]}
-    >
-      <Input.Password />
-    </Form.Item>
-
+          <Form.Item
+            label="Старый пароль"
+            name="old_client_password"
+            rules={[
+              {
+                required: true,
+                message: "Введите Ваш пароль!",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="Новый пароль"
+            name="client_password"
+            rules={[
+              {
+                required: true,
+                message: "Введите Ваш пароль!",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="Новый повторите пароль"
+            name="rePassword"
+            dependencies={["client_password"]}
+            rules={[
+              {
+                required: true,
+                message: "Введите Ваш пароль!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("client_password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Пароли не совпадают!"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
         </Form>
       </Modal>
     </>

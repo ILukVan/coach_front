@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, Input, DatePicker, Checkbox, Collapse} from 'antd';
 import { useEffect } from "react";
 import { MaskedInput } from "antd-mask-input";
-
+import dayjs from 'dayjs';
 const Registration = ( {phone_number ,registration} ) => {
   const [form] = Form.useForm();
 const onFinish = (values) => {
@@ -22,7 +22,10 @@ const onFinish = (values) => {
     });
   }, [form]);
 
-
+ function verifyEmail(value) {
+  console.log(value);
+  return false
+ }
 
   const items = [
     {
@@ -34,9 +37,16 @@ const onFinish = (values) => {
       label="Отчество"
       rules={[
         {
+          whitespace: true,
           message: 'Введите Ваше отчество!',
+          
         },
+        {
+          max: 15,
+          message: "Предел символов",
+        }, 
       ]}
+      normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
     >
       <Input />
     </Form.Item>
@@ -46,19 +56,22 @@ const onFinish = (values) => {
       rules={[
         {
           type: 'email',
+          whitespace: true,
         },
       ]}
+      normalize={(value) => value.trim()}
+      onFinish={verifyEmail}
     >
       <Input />
     </Form.Item>     
     <Form.Item
       name="client_job"
       label="Ваша профессия"
-
+      
     >
       <Input />
     </Form.Item>
-    <Form.Item name="client_illness" label="Ваши болезни">
+    <Form.Item name="client_illness" label="Ваши жалобы">
       <Input.TextArea />
     </Form.Item>
   </div>
@@ -116,10 +129,28 @@ const onFinish = (values) => {
       name="client_password"
       rules={[
         {
+          min: 3,
+          message: "Минимальная длинна пароля 3 символа",
+        }, 
+        {
           required: true,
+          whitespace: true,
           message: 'Введите Ваш пароль!',
         },
+        ({ getFieldValue }) => ({
+          validator(_, value) {
+            const re = new RegExp('(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{3,}', 'g');
+            
+
+            if (value.match(re)) {
+              return Promise.resolve();
+            }
+            console.log();
+            return Promise.reject(new Error('Пароль должен содержать хотя бы одну цифру, латинскую строчную и заглавную букву, и спецсимвол(!@#$%^&*) !'));
+          },
+        }),
       ]}
+      normalize={(value) => value.trim()}
     >
       <Input.Password />
     </Form.Item>
@@ -128,8 +159,10 @@ const onFinish = (values) => {
       name="rePassword"
       dependencies={['client_password']}
       rules={[
+
         {
           required: true,
+          whitespace: true,
           message: 'Введите Ваш пароль!',
         },
           ({ getFieldValue }) => ({
@@ -142,6 +175,8 @@ const onFinish = (values) => {
             },
           }),
       ]}
+
+      normalize={(value) => value.trim()}
     >
       <Input.Password />
     </Form.Item>
@@ -151,9 +186,15 @@ const onFinish = (values) => {
       rules={[
         {
           required: true,
+          whitespace: true,
           message: 'Введите Ваше имя!',
         },
+        {
+          max: 15,
+          message: "Предел символов",
+        }, 
       ]}
+      normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
     >
       <Input />
     </Form.Item>
@@ -165,9 +206,15 @@ const onFinish = (values) => {
       rules={[
         {
           required: true,
+          whitespace: true,
           message: 'Введите Вашу фамилию!',
         },
+        {
+          max: 15,
+          message: "Предел символов",
+        }, 
       ]}
+      normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
     >
       <Input />
     </Form.Item>
@@ -178,7 +225,9 @@ const onFinish = (values) => {
       label="Дата рождения"
 
     >
-       <DatePicker />
+       <DatePicker 
+           minDate={dayjs(dayjs().subtract(75, 'year'))}
+           maxDate={dayjs(dayjs().subtract(2, 'year'))}/>
     </Form.Item>
 
 

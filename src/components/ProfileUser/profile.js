@@ -59,6 +59,7 @@ const Profile = () => {
   
 
     }
+    console.log(data);
     setClientData(data.data);
   };
   // ---------------------------------------изменить профиль ----------------------------
@@ -66,7 +67,7 @@ const Profile = () => {
     const updatePassword = async (values) => {
       values.client_id = id;
       if (id === idCurrent) {
-        await instance.put("/update_password", values);
+        return await instance.put("/update_password", values);
     };
   }
     // ---------------------------------------изменить пароль ----------------------------

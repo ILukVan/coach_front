@@ -52,7 +52,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
   };
 
 
-  
+  console.log(record);
 
   return (
     <>
@@ -81,7 +81,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
           initialValues={
             {
               ...record,
-              client_birthday: dayjs(record.client_birthday),
+              client_birthday: record.client_birthday && dayjs(record.client_birthday) ,
             }
           }
 
@@ -129,7 +129,9 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
             <Input />
           </Form.Item>
           <Form.Item name="client_birthday" label="Дата рождения">
-            <DatePicker />
+            <DatePicker 
+                       minDate={dayjs(dayjs().subtract(75, 'year'))}
+                       maxDate={dayjs(dayjs().subtract(2, 'year'))}/>
           </Form.Item>
           <Form.Item
             name="client_email"
@@ -146,7 +148,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
           <Form.Item name="client_job" label="Ваша профессия">
             <Input />
           </Form.Item>
-          <Form.Item name="client_illness" label="Ваши болезни">
+          <Form.Item name="client_illness" label="Ваши жалобы">
             <Input.TextArea />
           </Form.Item>
 
