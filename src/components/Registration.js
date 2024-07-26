@@ -57,6 +57,7 @@ const onFinish = (values) => {
         {
           type: 'email',
           whitespace: true,
+          message: "Некорректный Email!",
         },
       ]}
       normalize={(value) => value.trim()}

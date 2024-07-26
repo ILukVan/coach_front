@@ -58,7 +58,7 @@ function App2 () {
       localStorage.removeItem("tokens");
       localStorage.removeItem("data");
       dispatch(logoutAction());
-      navigate("/sign");
+      navigate("/");
     }
   };
 
@@ -84,13 +84,16 @@ function App2 () {
           <div className="all-header">
             
             <div >
-            {role &&
- <Menu role={role} name={name} id={id}/> }
+            {role ?
+ <Menu role={role} name={name} id={id}/> :
+ <Link to="/">
+ Расписание
+</Link>}
             </div>
 <div className="header-Profile">
 
             {id ? (
-              <Link to="/logout" onClick={handleLogOut}>
+              <Link to="#" onClick={handleLogOut}>
                 Выйти
               </Link>
             ) : (

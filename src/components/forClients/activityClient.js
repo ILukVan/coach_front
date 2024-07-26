@@ -12,6 +12,8 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
 
+console.log(activity,"-----тренировки-------");
+// console.log(recorded_client,"-----тренировки-------");
 
 
   const columns = [
@@ -120,6 +122,7 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
       <Table
         columns={columns}
         size="small"
+        virtual
         expandable={{
           expandedRowRender: (record) => (
             <p

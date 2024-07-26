@@ -134,6 +134,7 @@ const ActivityCoach = ({
       <Table
         columns={columns}
         virtual
+
         expandable={{
           expandedRowRender: (record) => (
             <p

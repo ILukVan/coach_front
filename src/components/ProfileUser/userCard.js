@@ -7,7 +7,7 @@ const UserCard = ({clientData}) => {
     return ( 
         <Card title={clientData.client_fio}>
             <p>Дата рождения:
-            {" "}{clientData.client_birthday ? clientData.client_birthday : "Не указан"}{" "}
+            {" "}{clientData.client_birthday ? clientData.client_birthday : "Не указана"}{" "}
             </p>
             <p>Номер телефона: {clientData.client_phone_number}</p>
             <p>

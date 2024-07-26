@@ -56,10 +56,7 @@ const Profile = () => {
         name: data.data.client_fio,
       }
       dispatch(profile(user))
-  
-
     }
-    console.log(data);
     setClientData(data.data);
   };
   // ---------------------------------------изменить профиль ----------------------------

@@ -20,6 +20,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
 
+
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -43,16 +44,25 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
         description: "Данные успешно обновлены",
       });
       setIsModalOpen(false);
-    } catch {
+    } catch (err){
+
       notification.error({
         message: "Ошибка!",
-        description: "Не удалось обновить данные",
+        description: err.response.data,
       });
     }
   };
+  function disabledEmail() {
+    if (role === "super_coach") {
+      return false
+    } else if (idClient === id) {
+      return false
+    } else {
+      return true
+    }
+    
+  }
 
-
-  console.log(record);
 
   return (
     <>
@@ -88,7 +98,26 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
           onFinish={onFinish}
           autoComplete="off"
         >
-          <Form.Item name="client_phone_number" label="Номер телефона">
+          <Form.Item name="client_phone_number" label="Номер телефона"
+    rules={[
+      {
+        required: true,
+      },
+      ({ getFieldValue }) => ({
+        validator(_, value) {
+
+          const phoneNumber = value.length-value.replace(/\d/gm,'').length;
+
+          if (phoneNumber < 11) {
+
+            return Promise.reject(new Error('Некорректный номер телефона!'));
+          } else {
+            return Promise.resolve();
+          }
+          
+        },
+      }),
+    ]}>
             <MaskedInput mask="+{7}(000)-000-00-00" disabled={idClient !== id}/>
           </Form.Item>
 
@@ -98,9 +127,15 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
             rules={[
               {
                 required: true,
-                message: "Введите Ваше имя!",
+                whitespace: true,
+                message: 'Введите Ваше имя!',
               },
+              {
+                max: 15,
+                message: "Предел символов",
+              }, 
             ]}
+            normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
           >
             <Input />
           </Form.Item>
@@ -110,9 +145,15 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
             rules={[
               {
                 required: true,
-                message: "Введите Вашу фамилию!",
+                whitespace: true,
+                message: 'Введите Вашу фамилию!',
               },
+              {
+                max: 15,
+                message: "Предел символов",
+              }, 
             ]}
+            normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
           >
             <Input />
           </Form.Item>
@@ -122,9 +163,16 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
             label="Отчество"
             rules={[
               {
-                message: "Введите Ваше отчество!",
+                whitespace: true,
+                message: 'Введите Ваше отчество!',
+                
               },
+              {
+                max: 15,
+                message: "Предел символов",
+              }, 
             ]}
+            normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
           >
             <Input />
           </Form.Item>
@@ -138,15 +186,17 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
             label="Email"
             rules={[
               {
-                type: "email",
+                type: 'email',
+                whitespace: true,
+                message: "Некорректный Email!",
               },
             ]}
-            
+            normalize={(value) => value.trim()}
           >
-            <Input disabled={idClient !== id}/>
+            <Input disabled={disabledEmail()}/>
           </Form.Item>
           <Form.Item name="client_job" label="Ваша профессия">
-            <Input />
+            <Input disabled={record.client_job==="тренер студии"}/>
           </Form.Item>
           <Form.Item name="client_illness" label="Ваши жалобы">
             <Input.TextArea />
