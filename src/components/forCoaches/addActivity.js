@@ -100,6 +100,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
               needConfirm={false}
               format="HH:mm"
               value={valueHour}
+              minuteStep={5}
         onChange={onChange}
             />
           </Form.Item>
@@ -108,6 +109,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
           <TimePicker
             format="HH:mm"
             needConfirm={false}
+            minuteStep={5}
             disabledTime={(value) => ({
               disabledHours,
             })}

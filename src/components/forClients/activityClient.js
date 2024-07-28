@@ -11,10 +11,18 @@ const ActivityClient = ({ activity, workoutList, coachList, signUpTrain, unSignU
 
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
-
+const clientStartTime = []
+const clientEndTime = []
 console.log(activity,"-----тренировки-------");
 // console.log(recorded_client,"-----тренировки-------");
+activity.forEach(train => {
+  if (train.recorded_client.includes(id)){
 
+    clientStartTime.push(train.start_time_train)
+    clientEndTime.push(train.end_time_train)
+  }
+  
+});
 
   const columns = [
     {
@@ -91,6 +99,12 @@ console.log(activity,"-----тренировки-------");
         }
 
         if (
+          
+          record.recorded_client.includes(id)
+        ) {
+          return <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>;
+        }
+        if (
           record.recorded_client.length === record.occupancy_train &&
           record.recorded_client.includes(id)
         ) {
@@ -99,6 +113,14 @@ console.log(activity,"-----тренировки-------");
 
         if (record.recorded_client.length === record.occupancy_train) {
           return <p>Мест нет</p>;
+        }
+        for (let i=0; i!=clientStartTime.length; i++){
+          console.log(clientStartTime[i], "и-", i);
+          console.log(record.start_time_train, "-----время начала тренировки--");
+          console.log(clientEndTime[i]);
+          if (clientStartTime[i] <= record.start_time_train && record.start_time_train < clientEndTime[i]){
+          return <p>только одна тернировка</p>;
+        }
         }
 
         if (record.status_train !== "тренировка завершена") {
