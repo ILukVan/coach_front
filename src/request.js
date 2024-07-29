@@ -6,8 +6,8 @@ import axios from "axios";
 export const instance = axios.create({
   // к запросу будет приуепляться cookies
   //   withCredentials: true,
-  // baseURL: "http://192.168.88.119:3500/",
-  baseURL: "http://192.168.3.61:3500/",
+  baseURL: "http://192.168.88.119:3500/",
+  // baseURL: "http://192.168.3.61:3500/",
 });
 
 instance.interceptors.request.use((config) => {

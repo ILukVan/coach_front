@@ -16,6 +16,19 @@ const ActivityClientCard = ({
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   // хук который забирает данные из стора
 
+  const clientStartTime = []
+const clientEndTime = []
+
+  activity.forEach(train => {
+    if (train.recorded_client.includes(id)){
+  
+      clientStartTime.push(train.start_time_train)
+      clientEndTime.push(train.end_time_train)
+    }
+    
+  });
+
+
   function verifyRole(record) {
     if ((role || "").includes("coach")) {
       return <p>Ты тренер</p>;
@@ -23,7 +36,12 @@ const ActivityClientCard = ({
     if (record.status_train === "тренировка завершена") {
       return <span style={{padding:"0px"}}>Запись завершена</span>;
     }
-
+    if (
+          
+      record.recorded_client.includes(id)
+    ) {
+      return <UnSignUpTrain record={record} unSignUpTrain={unSignUpTrain}/>;
+    }
     if (
       record.recorded_client.length === record.occupancy_train &&
       record.recorded_client.includes(id)
@@ -33,6 +51,19 @@ const ActivityClientCard = ({
 
     if (record.recorded_client.length === record.occupancy_train) {
       return <span style={{padding:"0px"}}>Мест нет</span>;
+    }
+    for (let i=0; i!==clientStartTime.length; i++){
+
+      if (clientStartTime[i] <= record.start_time_train && record.start_time_train < clientEndTime[i]){
+      return <p>В это время Вы на занятии</p>;
+    }
+      if (clientStartTime[i].slice(0, 13) === record.start_time_train.slice(0,13) && clientStartTime[i]>record.start_time_train){
+        return <p>В это время Вы на занятии</p>;
+      }
+      if (clientStartTime[i]<record.end_time_train && clientStartTime[i]>record.start_time_train){
+        return <p>В это время Вы на занятии</p>;
+      }
+
     }
 
     if (record.status_train !== "тренировка завершена") {

@@ -135,7 +135,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
                 message: "Предел символов",
               }, 
             ]}
-            normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
+            normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
           >
             <Input />
           </Form.Item>
@@ -153,7 +153,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
                 message: "Предел символов",
               }, 
             ]}
-            normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
+            normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
           >
             <Input />
           </Form.Item>
@@ -172,7 +172,7 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
                 message: "Предел символов",
               }, 
             ]}
-            normalize={(value) => value.replace(/[^\p{L}]/gu, "").trim()}
+            normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
           >
             <Input />
           </Form.Item>
