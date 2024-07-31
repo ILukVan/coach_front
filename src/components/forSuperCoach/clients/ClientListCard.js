@@ -32,20 +32,17 @@ const ClientListCard = ({ clientList, createCoach, deleteClient }) => {
               <Link to={`/id/${item.client_id}`}>{item.client_fio}</Link>
               <div className="card">
                 <p>{item.client_phone_number}</p>
-                <p>{dayjs(item.client_birthday).format("DD.MM.YYYY")} ({dayjs(item.client_birthday).fromNow(true)})</p>
+                {item.client_birthday && <p> {dayjs(item.client_birthday).format("DD.MM.YYYY")} ({dayjs(item.client_birthday).fromNow(true)}) </p>}
                 <div className="div1">
+                     {role === "super_coach" && 
                   <Divider>
-                    {role === "super_coach" && 
-                    <>
-                    <MakeCoach record={item} createCoach={createCoach} />
-
-                    </>
-        }
-                  </Divider>
+                     <MakeCoach record={item} createCoach={createCoach} />       
+        
+                  </Divider>}
         </div>
         <div className="div1">          
                   <Divider>
-                    {role === "super_coach" && 
+                    {role.includes("coach") && 
                     <>
 
                     <DeletePerson deletePerson={deleteClient} record={item}/>

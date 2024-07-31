@@ -34,12 +34,25 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
   };
 
   const [valueHour, setValueHour] = useState(null);
+  const [valueStartTime, setValueStartTime] = useState(null);
   const onChange = (time) => {
     setValueHour(time)
     const start = dayjs(time)
     const end = start.add(1, "hour")
     form.setFieldValue("end_time_train", dayjs(end))  
+    setValueStartTime(time)
   };
+
+
+  const onChangeEnd = (time) => {
+    if (dayjs(time)< dayjs(valueStartTime).add(15, "minute")) {
+
+      form.setFieldValue("end_time_train", dayjs(valueStartTime).add(15, "minute")) 
+    }
+
+  };
+
+
 //  ----------------------------- функция оключения предыдущих значений часов--------------------
   const disabledHours = () => {
     const hours = [];
@@ -102,6 +115,7 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
               value={valueHour}
               minuteStep={5}
         onChange={onChange}
+        allowClear={false}
             />
           </Form.Item>
 
@@ -113,6 +127,8 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
             disabledTime={(value) => ({
               disabledHours,
             })}
+            onChange={onChangeEnd}
+            allowClear={false}
           />
         </Form.Item>
         <Form.Item

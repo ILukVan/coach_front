@@ -16,13 +16,24 @@ dayjs.extend(customParseFormat);
 
 const { Option } = Select;
 
-const ModalEdit = ({ record, updateActivity, workoutList, recordedList, getClientList }) => {
+const ModalEdit = ({
+  record,
+  updateActivity,
+  workoutList,
+  recordedList,
+  getClientList,
+}) => {
+
+
+
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
     getClientList(record);
+    setValueStartTime(record.start_time_train)
+    setValueHour(record.start_time_train)
   };
   const handleOk = () => {
     form.submit();
@@ -30,7 +41,9 @@ const ModalEdit = ({ record, updateActivity, workoutList, recordedList, getClien
 
   const handleCancel = () => {
     form.resetFields();
+    setValueHour(record.start_time_train)
     setIsModalOpen(false);
+
   };
   const onFinish = async (values) => {
     values.training_id = record.training_id;
@@ -49,10 +62,9 @@ const ModalEdit = ({ record, updateActivity, workoutList, recordedList, getClien
     }
   };
 
-// --------------------------------------- функция синхронизации типа тренировки с описанием-------------------- 
+  // --------------------------------------- функция синхронизации типа тренировки с описанием--------------------
   const findIndexWorkout = (value) => {
     workoutList.forEach(function (train, index) {
-
       if (train.type_of_workout === value) {
         form.setFieldValue(
           "description",
@@ -61,31 +73,44 @@ const ModalEdit = ({ record, updateActivity, workoutList, recordedList, getClien
       }
     });
   };
-  // --------------------------------------- функция синхронизации типа тренировки с описанием-------------------- 
-  const [valueHour, setValueHour] = useState(null);
-// ---------------------------------------------- функция добавления часа к значению конца тренировки------------------
-  function  changeEndTime(start_time) {
-    setValueHour(start_time)
-    const start = dayjs(start_time)
-    const end = start.add(1, "hour")
-    form.setFieldValue("end_time_train", dayjs(end))  
+  // --------------------------------------- функция синхронизации типа тренировки с описанием--------------------
+  const [valueHour, setValueHour] = useState();
+  const [valueStartTime, setValueStartTime] = useState();
+  // ---------------------------------------------- функция добавления часа к значению конца тренировки------------------
+  function changeEndTime(start_time) {
+    setValueHour(start_time);
+    const start = dayjs(start_time);
+    const end = start.add(1, "hour");
+    form.setFieldValue("end_time_train", dayjs(end));
+    setValueStartTime(start_time)
   }
-// ---------------------------------------------- функция добавления часа к значению конца тренировки------------------
-//  ----------------------------- функция оключения предыдущих значений часов--------------------
-const disabledHours = () => {
-  const hours = [];
-  const currentHour = dayjs(valueHour).hour();
+  // ---------------------------------------------- функция добавления часа к значению конца тренировки------------------
+  //  ----------------------------- функция оключения предыдущих значений часов--------------------
+  const disabledHours = () => {
+    const hours = [];
+    const currentHour = dayjs(valueHour).hour();
 
-  for (let i = 0; i < currentHour; i++) {
-    hours.push(i);
-  }
+    for (let i = 0; i < currentHour; i++) {
+      hours.push(i);
+    }
 
-  return hours;
-};
-//  ----------------------------- функция оключения предыдущих значений часов--------------------
- 
+    return hours;
+  };
+  //  ----------------------------- функция оключения предыдущих значений часов--------------------
+  // ------------------------------- функция минимального времени тренировки ----------------------
+  const onChangeEnd = (time) => {
 
-return (
+    if (dayjs(time)< dayjs(valueStartTime).add(15, "minute")) {
+
+      form.setFieldValue("end_time_train", dayjs(valueStartTime).add(15, "minute")) 
+    }
+
+  };
+
+    // ------------------------------- функция минимального времени тренировки ----------------------
+  
+
+    return (
     <>
       <Button type="primary" onClick={showModal}>
         Редактировать тренировку
@@ -131,33 +156,53 @@ return (
           autoComplete="off"
         >
           <Form.Item label="Начало тренировки" name="start_time_train">
-            <TimePicker changeOnScroll needConfirm={false} format="HH:mm" onChange={changeEndTime}/>
+            <TimePicker
+              changeOnScroll
+              needConfirm={false}
+              format="HH:mm"
+              minuteStep={5}
+              onChange={changeEndTime}
+              allowClear={false}
+            />
           </Form.Item>
 
           <Form.Item label="Конец тренировки" name="end_time_train">
-            <TimePicker changeOnScroll needConfirm={false} format="HH:mm"  disabledTime={(value) => ({
-              disabledHours,
-            })}/>
+            <TimePicker
+              changeOnScroll
+              needConfirm={false}
+              format="HH:mm"
+              allowClear={false}
+              onChange={onChangeEnd}
+              minuteStep={5}
+              disabledTime={(value) => ({
+                disabledHours,
+              })}
+            />
           </Form.Item>
 
-          <Form.Item label="Вместимость" name="occupancy_train"
-          rules={[
-
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-
-                if (value < recordedList.length ) {
-    
-                  return Promise.reject(new Error('Вместимость тренировки меньше уже записанных пользователей!'));
-                } else {
-                  return Promise.resolve();
-                }
-                
-              },
-            }),
-          ]}
+          <Form.Item
+            label="Вместимость"
+            name="occupancy_train"
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value < recordedList.length) {
+                    return Promise.reject(
+                      new Error(
+                        "Вместимость тренировки меньше уже записанных пользователей!"
+                      )
+                    );
+                  } else {
+                    return Promise.resolve();
+                  }
+                },
+              }),
+            ]}
           >
-            <InputNumber min={(recordedList||[]).length ? (recordedList).length : 1} max={17} />
+            <InputNumber
+              min={(recordedList || []).length ? recordedList.length : 1}
+              max={17}
+            />
           </Form.Item>
 
           <Form.Item label="Тип тренировки" name="type_of_training">

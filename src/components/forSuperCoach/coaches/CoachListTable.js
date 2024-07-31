@@ -3,9 +3,9 @@ import { Table } from "antd";
 import { Link } from 'react-router-dom';
 import DeletePerson from "../DeletePerson";
 import dayjs from "dayjs";
-
+import { useSelector } from "react-redux";
 const CoachListTable = ({coachList, deleteCoach}) => {
-
+  const role = useSelector((state) => state.rootReducer.sign.user.role);
   const onChange = (pagination, filters, sorter, extra) => {
 
   };
@@ -29,21 +29,26 @@ const CoachListTable = ({coachList, deleteCoach}) => {
     {
       title: "Дата рождения",
       dataIndex: "client_birthday",
-      render: (_, record) => (
-        <span>
+      render: (_, record) => {
+        if (record.client_birthday){
+          return  <span>
           {dayjs(record.client_birthday).format("DD.MM.YYYY")} (
           {dayjs(record.client_birthday).fromNow(true)})
         </span>
-      ),
+        } else {
+          return <span>Не указана</span>
+        }
+      }
     },
     {
       title: "Управление",
       dataIndex: "edit",
-      render: (_, record) => (
-        <>
-        <DeletePerson record={record} deletePerson={deleteCoach} />
-        </>
-      ),
+      render: (_, record) => {
+        if (role === "super_coach") {
+          return <DeletePerson record={record} deletePerson={deleteCoach} />
+        }
+      }
+    
     },
   ];
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Layout, theme, DatePicker } from "antd";
+import { Layout, theme, DatePicker, notification } from "antd";
 import ActivityCoach from "./activityCoach";
 import ActivityCoachCard from "./activityCoachCard";
 import { useState } from "react";
@@ -32,9 +32,16 @@ const Coach = () => {
 
   // ---------------------------------------создать тренировку ----------------------------
   const createActivity = async (values) => {
-    const data = await instance.post("/add_activity", values);
-    setTableData(data.data)
+    try{
+      const data = await instance.post("/add_activity", values);
+      setTableData(data.data)
+    } catch (err){
+     notification.error({
+        message: "Ошибка!",
+        description:  err.response.data,
+      });
   };
+}
   // ---------------------------------------создать тренировку ----------------------------
   // ---------------------------------------удалить тренировку ----------------------------
   const deleteActivity = async (values) => {
@@ -47,10 +54,16 @@ const Coach = () => {
   // ---------------------------------------удалить тренировку ----------------------------
   // ---------------------------------------изменить тренировку ----------------------------
   const updateActivity = async (values) => {
+    // try{
     values.date = date.date;
-
     const data = await instance.put("/update_activity", values);
     setTableData(data.data);
+  //   } catch (err){
+  //     notification.error({
+  //        message: "Ошибка!",
+  //        description:  err.response.data,
+  //      });
+  //  };
   };
   // ---------------------------------------изменить тренировку ----------------------------
   // ---------------------------------------запрос тренировок по дате ----------------------------
