@@ -221,9 +221,45 @@ const ModalEdit = ({
             </Select>
           </Form.Item>
 
-          <Form.Item label="Описание тренировки" name="description">
-            <Input />
-          </Form.Item>
+
+          <Form.Item
+          name="description"
+          label="Описание тренировки "
+          rules={[
+            {
+              required: true,
+              message: "Введите тип тренировки!",
+            },
+            {
+              max: 200,
+              message: "Описание должно быть меннее 200 символов",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+    
+                let counSpace = 0
+                for (let char of value){
+                  if (char !== " "){
+                    counSpace++
+                  }
+                else if (counSpace < 21 && char === " ") {
+                  counSpace=0
+                }
+                }
+    
+                if (counSpace > 20) {
+    
+                  return Promise.reject(new Error('Длинное слово!'));
+                } else {
+                  return Promise.resolve();
+                }
+                
+              },
+            }),
+          ]}
+        >
+           <Input.TextArea maxLength={200} allowClear/>
+        </Form.Item>
         </Form>
       </Modal>
     </>

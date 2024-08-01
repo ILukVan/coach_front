@@ -33,8 +33,8 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
     setOpen(false);
   };
 
-  const [valueHour, setValueHour] = useState(null);
-  const [valueStartTime, setValueStartTime] = useState(null);
+  const [valueHour, setValueHour] = useState();
+  const [valueStartTime, setValueStartTime] = useState();
   const onChange = (time) => {
     setValueHour(time)
     const start = dayjs(time)
@@ -65,9 +65,16 @@ const AddActivity = ({ createActivity, date, workoutList }) => {
     return hours;
   };
 //  ----------------------------- функция оключения предыдущих значений часов--------------------
+const showModal = () => {
+  setOpen(true);
+  setValueStartTime(dayjs("09:00", "HH:mm"))
+  setValueHour(dayjs("09:00", "HH:mm"))
+};
+
+
   return (
     <>
-      <Button type="primary" onClick={() => { setOpen(true);}}>
+      <Button type="primary" onClick={showModal}>
         Добавить тренировку
       </Button>
 

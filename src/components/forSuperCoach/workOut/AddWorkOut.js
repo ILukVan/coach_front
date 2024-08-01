@@ -59,9 +59,13 @@ const AddWorkOut = ({createWorkOut}) => {
               required: true,
               message: "Введите тип тренировки",
             },
+            {
+              max: 50,
+              message: "Тип тренировки должен быть меннее 50 символов",
+            },
           ]}
         >
-          <Input />
+          <Input allowClear/>
         </Form.Item>
         <Form.Item
           name="description_of_workout"
@@ -71,9 +75,35 @@ const AddWorkOut = ({createWorkOut}) => {
               required: true,
               message: "Введите тип тренировки!",
             },
+            {
+              max: 200,
+              message: "Описание должно быть меннее 200 символов",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+    
+                let counSpace = 0
+                for (let char of value){
+                  if (char !== " "){
+                    counSpace++
+                  }
+                  else if (counSpace < 21 && char === " ") {
+                    counSpace=0
+                  }
+                }
+    
+                if (counSpace > 20) {
+    
+                  return Promise.reject(new Error('Длинное слово!'));
+                } else {
+                  return Promise.resolve();
+                }
+                
+              },
+            }),
           ]}
         >
-          <Input />
+           <Input.TextArea maxLength={200} allowClear/>
         </Form.Item>
 
       </Modal>

@@ -72,7 +72,7 @@ const onFinish = (values) => {
     >
       <Input />
     </Form.Item>
-    <Form.Item name="client_illness" label="Ваши жалобы">
+    <Form.Item name="client_illness" label="Ваши жалобы" maxLength={250}>
       <Input.TextArea />
     </Form.Item>
   </div>

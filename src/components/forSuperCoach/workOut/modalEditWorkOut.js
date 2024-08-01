@@ -73,12 +73,60 @@ const ModalEditWorkOut = ({ record, updateWorkOut }) => {
           // onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item label="Тип тренировки" name="type_of_workout">
-            <Input allowClear />
-          </Form.Item>
-          <Form.Item label="Описание тренировки" name="description_of_workout">
-            <TextArea allowClear />
-          </Form.Item>
+ <Form.Item
+          name="type_of_workout"
+          label="Тип тренировки"
+          rules={[
+            {
+              required: true,
+              message: "Введите тип тренировки",
+            },
+            {
+              max: 50,
+              message: "Тип тренировки должен быть меннее 50 символов",
+            },
+          ]}
+        >
+          <Input allowClear/>
+        </Form.Item>
+        <Form.Item
+          name="description_of_workout"
+          label="Описание тренировки "
+          rules={[
+            {
+              required: true,
+              message: "Введите тип тренировки!",
+            },
+            {
+              max: 200,
+              message: "Описание должно быть меннее 200 символов",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+    
+                let counSpace = 0
+                for (let char of value){
+                  if (char !== " "){
+                    counSpace++
+                  }
+                else if (counSpace < 21 && char === " ") {
+                  counSpace=0
+                }
+                }
+    
+                if (counSpace > 20) {
+    
+                  return Promise.reject(new Error('Длинное слово!'));
+                } else {
+                  return Promise.resolve();
+                }
+                
+              },
+            }),
+          ]}
+        >
+           <Input.TextArea maxLength={200} allowClear/>
+        </Form.Item>
         </Form>
       </Modal>
     </>
