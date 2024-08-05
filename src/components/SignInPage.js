@@ -19,7 +19,8 @@ const SignInPage = () => {
   const SignInOrRegistration = async (values) => {
     try{
       const data = await axios.post(
-        "http://192.168.88.119:3500/SignInOrRegistration",
+        // "http://192.168.88.119:3500/SignInOrRegistration",
+        "http://192.168.3.18:3500/SignInOrRegistration",
         values
       );
       // const data = await axios.post(
@@ -40,8 +41,9 @@ const SignInPage = () => {
 
   const signIn = async (values) => {
     try {
-      const data = await axios.post("http://192.168.88.119:3500/signIn", values);
+      // const data = await axios.post("http://192.168.88.119:3500/signIn", values);
       // const data = await axios.post("http://192.168.3.61:3500/signIn", values);
+      const data = await axios.post("http://192.168.3.18:3500/signIn", values);
       if (data.statusText === "OK") {
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
@@ -56,7 +58,8 @@ const SignInPage = () => {
 
   const registration = async (values) => {
     try{
-      const data = await axios.post("http://192.168.88.119:3500/registration", values);
+      // const data = await axios.post("http://192.168.88.119:3500/registration", values);
+      const data = await axios.post("http://192.168.3.18:3500/registration", values);
       // const data = await axios.post("http://192.168.3.61:3500/registration", values);
       localStorage.setItem("tokens", JSON.stringify(data.data));
       dispatch(login());
