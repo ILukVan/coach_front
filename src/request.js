@@ -1,15 +1,13 @@
 import axios from "axios";
 
 
-
-
 export const instance = axios.create({
   // к запросу будет приуепляться cookies
   //   withCredentials: true,
-  // baseURL: "http://192.168.88.119:3500/",
-  // baseURL: "http://192.168.3.61:3500/",
-  baseURL: "http://192.168.3.18:3500/",
+  baseURL: `http://${process.env.REACT_APP_Api_url}/`,
 });
+
+
 
 instance.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("tokens")}`;
@@ -42,10 +40,12 @@ instance.interceptors.response.use(
       //   // переотправляем запрос с обновленным accessToken
 
       return instance.request(originalConfigRequest);
+    } else if (error.response.data === "необходим перелогин" && error.response.status === 403){
+      localStorage.removeItem("tokens")
+      
+
     } else {
-
       console.log("токен протух");
-
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции
