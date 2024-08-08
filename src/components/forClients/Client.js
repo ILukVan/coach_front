@@ -120,9 +120,6 @@ const Client = () => {
           ) : (
             <ActivityClientCard
               activity={tableData}
-              date={date}
-              workoutList={workoutList}
-              coachList={coachList}
               signUpTrain={signUpTrain}
               unSignUpTrain={unSignUpTrain}
             />

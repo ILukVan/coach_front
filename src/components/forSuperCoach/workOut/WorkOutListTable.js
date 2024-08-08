@@ -18,7 +18,7 @@ const WorkOutListTable = ({workOutList, updateWorkOut, deleteWorkOut}) => {
       dataIndex: "description_of_workout",
     },
     {
-      title: "Edit Delet",
+      title: "Управление",
       dataIndex: "edit",
       render: (_, record) => {
         return (

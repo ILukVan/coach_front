@@ -4,7 +4,7 @@ import axios from "axios";
 export const instance = axios.create({
   // к запросу будет приуепляться cookies
   //   withCredentials: true,
-  baseURL: `http://${process.env.REACT_APP_Api_url}/`,
+  baseURL: process.env.REACT_APP_Api_url,
 });
 
 

@@ -57,6 +57,7 @@ const AddWorkOut = ({createWorkOut}) => {
           rules={[
             {
               required: true,
+              whitespace: true,
               message: "Введите тип тренировки",
             },
             {
@@ -73,6 +74,7 @@ const AddWorkOut = ({createWorkOut}) => {
           rules={[
             {
               required: true,
+              whitespace: true,
               message: "Введите тип тренировки!",
             },
             {

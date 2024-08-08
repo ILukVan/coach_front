@@ -79,6 +79,7 @@ const ModalEditWorkOut = ({ record, updateWorkOut }) => {
           rules={[
             {
               required: true,
+              whitespace: true,
               message: "Введите тип тренировки",
             },
             {
@@ -95,6 +96,7 @@ const ModalEditWorkOut = ({ record, updateWorkOut }) => {
           rules={[
             {
               required: true,
+              whitespace: true,
               message: "Введите тип тренировки!",
             },
             {

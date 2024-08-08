@@ -64,14 +64,24 @@ const ClientListTable = ({ clientList, createCoach, deleteClient }) => {
       columns={columns}
       expandable={{
         expandedRowRender: (record) => (
+          <>
           <p
             style={{
-              margin: 0,
+              margin: 15,
             }}
           >
-            {`Профессия:${record.client_job}  Жалобы:${record.client_illness}
+            {`Профессия: ${record.client_job ? record.client_job : "Не указана"} 
            `}
           </p>
+                    <p
+                    style={{
+                      margin: 15,
+                    }}
+                  >
+                     {`Жалобы: \t ${record.client_illness ? record.client_illness : "Не указаны"}
+                   `}
+                  </p>
+                  </>
         ),
       }}
       dataSource={clientList}

@@ -19,7 +19,7 @@ const SignInPage = () => {
   const SignInOrRegistration = async (values) => {
     try{
       const data = await axios.post(
-        `http://${process.env.REACT_APP_Api_url}/SignInOrRegistration`,
+        `${process.env.REACT_APP_Api_url}/SignInOrRegistration`,
         values
       );
 
@@ -37,7 +37,7 @@ const SignInPage = () => {
 
   const signIn = async (values) => {
     try {
-      const data = await axios.post(`http://${process.env.REACT_APP_Api_url}/signIn`, values);
+      const data = await axios.post(`${process.env.REACT_APP_Api_url}/signIn`, values);
       if (data.statusText === "OK") {
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
@@ -52,7 +52,7 @@ const SignInPage = () => {
 
   const registration = async (values) => {
     try{
-      const data = await axios.post(`http://${process.env.REACT_APP_Api_url}/registration`, values);
+      const data = await axios.post(`${process.env.REACT_APP_Api_url}/registration`, values);
       localStorage.setItem("tokens", JSON.stringify(data.data));
       dispatch(login());
       navigate("/");

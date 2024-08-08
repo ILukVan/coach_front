@@ -55,18 +55,7 @@ const CoachListTable = ({coachList, deleteCoach}) => {
   return (
           <Table
             columns={columns}
-            expandable={{
-              expandedRowRender: (record) => (
-                <p
-                  style={{
-                    margin: 0,
-                  }}
-                >
-                  {`Профессия:${record.client_job}  Жалобы:${record.client_illness}
-           `}
-                </p>
-              ),
-            }}
+
             dataSource={coachList}
             rowKey={(clientList) => clientList.client_id}
             onChange={onChange}

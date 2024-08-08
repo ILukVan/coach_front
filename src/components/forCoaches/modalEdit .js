@@ -228,6 +228,7 @@ const ModalEdit = ({
           rules={[
             {
               required: true,
+              whitespace: true,
               message: "Введите тип тренировки!",
             },
             {
