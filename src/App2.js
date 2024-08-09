@@ -54,7 +54,7 @@ function App2 () {
 
     const logout = await instance.get("/logout");
 
-    if (logout.statusText === "OK") {
+    if (logout.status === 200) {
       localStorage.removeItem("tokens");
       localStorage.removeItem("data");
       dispatch(logoutAction());
