@@ -8,7 +8,7 @@ import Registration from "./Registration";
 import { useDispatch } from "react-redux";
 
 import { useNavigate, Link } from "react-router-dom";
-import { login } from "./store/slice/signIn"; 
+import { login } from "./store/slice/signIn";
 
 
 const SignInPage = () => {
@@ -17,28 +17,29 @@ const SignInPage = () => {
   const [user, setUser] = useState([""]);
 
   const SignInOrRegistration = async (values) => {
-    try{
+    try {
       const data = await axios.post(
         `${process.env.REACT_APP_Api_url}/SignInOrRegistration`,
         values
       );
 
       setUser(data.data);
-      console.log("sign or reg")
-    } catch {
-        notification.error({
-          message: "Введите номер телефона!",
-        });
-      
-    }
 
+    } catch {
+      notification.error({
+        message: "Введите номер телефона!",
+      });
+    }
   };
   const dispatch = useDispatch();
 
   const signIn = async (values) => {
     try {
-      const data = await axios.post(`${process.env.REACT_APP_Api_url}/signIn`, values);
-      console.log(data)
+      const data = await axios.post(
+        `${process.env.REACT_APP_Api_url}/signIn`,
+        values
+      );
+
       if (data.status === 200) {
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
@@ -52,17 +53,18 @@ const SignInPage = () => {
   };
 
   const registration = async (values) => {
-    try{
-      const data = await axios.post(`${process.env.REACT_APP_Api_url}/registration`, values);
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_Api_url}/registration`,
+        values
+      );
       localStorage.setItem("tokens", JSON.stringify(data.data));
       dispatch(login());
       navigate("/");
-    } catch (err){
-
+    } catch (err) {
       notification.error({
-
         message: "Ошибка!",
-        description:  err.response.data,
+        description: err.response.data,
       });
       // if (err.response.data === "Email занят") {
       //   form.setFields([
@@ -79,14 +81,13 @@ const SignInPage = () => {
     SignInOrRegistration(values);
     setPhoneNumber(values.phone_number);
   };
-  const onFinishFailed = (errorInfo) => {
-
-  };
+  const onFinishFailed = (errorInfo) => {};
   const { Content } = Layout;
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
 
   return (
     <Layout>
@@ -105,9 +106,7 @@ const SignInPage = () => {
         >
           {user[0] !== "" ? (
             user === "sign" ? (
-
               <SingIn phone_number={phone_number} signIn={signIn} />
-              
             ) : (
               <Registration
                 registration={registration}
@@ -133,13 +132,16 @@ const SignInPage = () => {
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-              <Form.Item name="phone_number" label="Номер телефона" 
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Введите Ваш номер телефона!',
-                      },
-                    ]}>
+              <Form.Item
+                name="phone_number"
+                label="Номер телефона"
+                rules={[
+                  {
+                    required: true,
+                    message: "Введите Ваш номер телефона!",
+                  },
+                ]}
+              >
                 <MaskedInput mask="+{7}(000)-000-00-00" />
               </Form.Item>
 
@@ -150,14 +152,22 @@ const SignInPage = () => {
                 }}
               >
                 <Button type="primary" htmlType="submit">
-                  Submit
+                  Продолжить
                 </Button>
               </Form.Item>
-                
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
+                <Link to={"/restore"}>Восстановить пароль</Link>
+              </Form.Item>
             </Form>
           )}
-          <div className="link-restore"><Link to={"/restore"}>Восстановить пароль</Link></div>
-          
+
+
         </div>
       </Content>
     </Layout>

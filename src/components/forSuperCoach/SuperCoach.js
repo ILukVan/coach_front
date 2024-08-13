@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, theme, Space, Card } from "antd";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import "./super_coach.css";
 const { Content } = Layout;
 
 const SuperCoach = () => {

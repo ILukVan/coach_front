@@ -108,7 +108,7 @@ const NewPassword = () => {
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Submit
+                Подтвердить
               </Button>
             </Form.Item>
           </Form>

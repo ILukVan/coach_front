@@ -11,6 +11,7 @@ export const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("tokens")}`;
+
   return config;
 });
 
@@ -46,6 +47,7 @@ instance.interceptors.response.use(
 
     } else {
       console.log("токен протух");
+      window.location.reload()
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции

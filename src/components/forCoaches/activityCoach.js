@@ -103,7 +103,8 @@ const ActivityCoach = ({
       render: (_, record) => {
         if (record.client_id === id || role === "super_coach") {
           return (
-            <>
+            <div className="recorded-for-coach">
+            <p>Записавшиеся: {(recordedList || []).length}/{record.occupancy_train}</p>
               <RecordedList2
                 record={record}
                 clientList={clientList}
@@ -112,7 +113,7 @@ const ActivityCoach = ({
                 deleteClient={deleteClient}
                 addClient={addClient}
               />
-            </>
+            </div>
           );
         } else {
           return <p>нет доступа</p>;

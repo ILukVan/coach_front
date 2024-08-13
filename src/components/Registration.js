@@ -248,8 +248,8 @@ const onFinish = (values) => {
         span: 16,
       }}
     >
-      <Button type="primary" htmlType="submit" >
-        Submit
+      <Button type="primary" htmlType="submit" className='button-singIn'>
+        Зарегистрировать
       </Button>
     </Form.Item>
   </Form>

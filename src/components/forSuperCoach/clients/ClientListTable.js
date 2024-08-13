@@ -30,32 +30,38 @@ const ClientListTable = ({ clientList, createCoach, deleteClient }) => {
       title: "Дата рождения",
       dataIndex: "client_birthday",
       render: (_, record) => {
-        if (record.client_birthday){
-          return  <span>
-          {dayjs(record.client_birthday).format("DD.MM.YYYY")} (
-          {dayjs(record.client_birthday).fromNow(true)})
-        </span>
+        if (record.client_birthday) {
+          return (
+            <span>
+              {dayjs(record.client_birthday).format("DD.MM.YYYY")} (
+              {dayjs(record.client_birthday).fromNow(true)})
+            </span>
+          );
         } else {
-          return <span>Не указана</span>
+          return <span>Не указана</span>;
         }
-      }
-      
-       
-    
+      },
     },
     {
       title: "Управление",
       dataIndex: "edit",
       render: (_, record) => {
-        if (role === "super_coach"){
-          return <>
-          <MakeCoach record={record} createCoach={createCoach} />
-          <DeletePerson deletePerson={deleteClient} record={record}/>
-          </>
+        if (role === "super_coach") {
+          return (
+            <>
+              <div className="client-list-options">
+                <MakeCoach record={record} createCoach={createCoach} />
+              </div>
+
+              <div className="client-list-options">
+                <DeletePerson deletePerson={deleteClient} record={record} />
+              </div>
+            </>
+          );
         } else {
-          return  <DeletePerson deletePerson={deleteClient} record={record}/>
+          return <DeletePerson deletePerson={deleteClient} record={record} />;
         }
-      }
+      },
     },
   ];
 
@@ -65,23 +71,27 @@ const ClientListTable = ({ clientList, createCoach, deleteClient }) => {
       expandable={{
         expandedRowRender: (record) => (
           <>
-          <p
-            style={{
-              margin: 15,
-            }}
-          >
-            {`Профессия: ${record.client_job ? record.client_job : "Не указана"} 
+            <p
+              style={{
+                margin: 15,
+              }}
+            >
+              {`Профессия: ${
+                record.client_job ? record.client_job : "Не указана"
+              } 
            `}
-          </p>
-                    <p
-                    style={{
-                      margin: 15,
-                    }}
-                  >
-                     {`Жалобы: \t ${record.client_illness ? record.client_illness : "Не указаны"}
+            </p>
+            <p
+              style={{
+                margin: 15,
+              }}
+            >
+              {`Жалобы: \t ${
+                record.client_illness ? record.client_illness : "Не указаны"
+              }
                    `}
-                  </p>
-                  </>
+            </p>
+          </>
         ),
       }}
       dataSource={clientList}

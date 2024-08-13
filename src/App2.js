@@ -23,6 +23,7 @@ import Menu from "./menu";
 import RestoreProfile from "./components/Restore/RestoreProfile";
 import PrivateRouteRestore from "./components/utils/router/PrivateRouteRestore";
 import NewPassword from "./components/Restore/NewPassword";
+import NotFound from "./notFound";
 
 const { Header, Footer } = Layout;
 
@@ -65,6 +66,8 @@ function App2 () {
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   const id = useSelector((state) => state.rootReducer.sign.user.id);
+
+
 
 
   return (
@@ -133,6 +136,7 @@ function App2 () {
               ></Route>
             </Route>
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer

@@ -20,3 +20,12 @@
   display: flex;
   justify-content: space-between;
 }
+
+.button-singIn{
+  margin-top: 10px;
+}
+
+.recorded-for-coach{
+  text-align: center;
+}
+

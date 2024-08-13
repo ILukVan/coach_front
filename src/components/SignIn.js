@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Form, Input } from "antd";
 import { MaskedInput } from "antd-mask-input";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 
 const SingIn = ( {phone_number ,signIn} ) => {
 
@@ -75,9 +77,18 @@ const SingIn = ( {phone_number ,signIn} ) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Submit
+          Войти
         </Button>
       </Form.Item>
+
+      <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
+                <Link to={"/restore"}>Восстановить пароль</Link>
+              </Form.Item>
     </Form>
   );
 };
