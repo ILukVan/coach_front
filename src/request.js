@@ -47,7 +47,7 @@ instance.interceptors.response.use(
 
     } else {
       console.log("токен протух");
-      // window.location.reload()
+      window.location.reload()
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции

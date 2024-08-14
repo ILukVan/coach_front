@@ -38,7 +38,7 @@ const SignInPage = () => {
 
       const data = await axios.post(`${process.env.REACT_APP_Api_url}/signIn`, values);
       if (data.statusText === "OK") {
-        console.log(data.data, " от входа")
+       
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
         navigate("/");

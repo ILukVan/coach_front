@@ -23,7 +23,7 @@ const onFinish = (values) => {
   }, [form]);
 
  function verifyEmail(value) {
-  console.log(value);
+
   return false
  }
 
@@ -146,7 +146,7 @@ const onFinish = (values) => {
             if (value.match(re)) {
               return Promise.resolve();
             }
-            console.log();
+           
             return Promise.reject(new Error('Пароль должен содержать хотя бы одну цифру, латинскую строчную и заглавную букву, и спецсимвол(!@#$%^&*) !'));
           },
         }),
