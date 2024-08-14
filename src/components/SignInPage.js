@@ -35,22 +35,21 @@ const SignInPage = () => {
 
   const signIn = async (values) => {
     try {
-      const data = await axios.post(
-        `${process.env.REACT_APP_Api_url}/signIn`,
-        values
-      );
 
-      if (data.status === 200) {
+      const data = await axios.post(`${process.env.REACT_APP_Api_url}/signIn`, values);
+      if (data.statusText === "OK") {
+        console.log(data.data, " от входа")
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
         navigate("/");
       }
-    } catch (err) {
+    }
+    catch (err) {
       notification.error({
         message: "Неверный пароль!",
       });
     }
-  };
+  }
 
   const registration = async (values) => {
     try {
@@ -66,14 +65,7 @@ const SignInPage = () => {
         message: "Ошибка!",
         description: err.response.data,
       });
-      // if (err.response.data === "Email занят") {
-      //   form.setFields([
-      //     {
-      //       name: 'email',
-      //       errors: ["Email занят"],
-      //     },
-      //   ]);
-      // }
+
     }
   };
 

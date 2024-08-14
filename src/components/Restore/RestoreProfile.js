@@ -21,7 +21,7 @@ const navigate = useNavigate();
 
     try {
       const email = await instance.post("/restore_profile", values);
-      if (email.status === 200) {
+      if (email.statusText === 'OK') {
         localStorage.setItem("restore", true);
         localStorage.setItem("email", email.data);
       }
@@ -58,7 +58,7 @@ const sendCodeAndEmail = async (values) => {
 
   try {
     const verifyCode = await instance.post("/verify_code", values);
-    if (verifyCode.status === 200) {
+    if (verifyCode.statusText === 'OK') {
       navigate("/restore/new_password");
     }
 
