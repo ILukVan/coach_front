@@ -37,7 +37,7 @@ const SignInPage = () => {
     try {
 
       const data = await axios.post(`${process.env.REACT_APP_Api_url}/signIn`, values);
-      if (data.statusText === "OK") {
+      if (data.status === 200) {
        
         localStorage.setItem("tokens", JSON.stringify(data.data));
         dispatch(login());
