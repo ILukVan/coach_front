@@ -25,6 +25,7 @@ const UserCard = ({clientData}) => {
               {clientData.client_email ? clientData.client_email : "Не указан"}{" "}
             </p>
             <p>Дата регистрации: {clientData.client_registration_date} </p>
+            <p>Абонемент: {clientData.client_pass}</p>
              </Card>
     )
 }

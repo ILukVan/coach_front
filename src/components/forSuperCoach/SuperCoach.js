@@ -52,11 +52,25 @@ const SuperCoach = () => {
               </Card>
             )}
             {role === "super_coach" && (
-              <Card title="Редактор тренировок" size="small">
+              <Card title="Редактор типа тренировок" size="small">
                 <p>Редактор тренировок: создать, удалить или изменить тип тренировок.</p>
                 <Link to="/management/workout">Управление</Link>
               </Card>
+              
             )}
+
+            
+<Card title="конструктор тренировок" size="small">
+              {role === "coach" && 
+              <p>
+                конструктор тренировок
+              </p> }
+              {role === "super_coach" && 
+              <p>
+                конструктор тренировок.
+              </p>}
+              <Link to="/management/constructor">Управление</Link>
+            </Card>
           </Space>
         </div>
       </Content>

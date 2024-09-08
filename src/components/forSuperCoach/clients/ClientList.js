@@ -61,6 +61,9 @@ const deleteClient = async (id) => {
         fetchClients(); // функция которая делает запрос в сторе
       }, []);
 
+
+
+
     return (
         <Layout>
         <Content

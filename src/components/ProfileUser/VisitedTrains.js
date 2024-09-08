@@ -21,6 +21,7 @@ const VisitedTrains = ({visited_workouts, visitedtTrains}) => {
     };
 
 
+
 return (
   <>
   <Button type="primary" onClick={showModal}>
@@ -39,6 +40,7 @@ return (
       </Button>,
     ]}
   >
+    <p>Всего посещено: {visitedtTrains.length}</p>
   <List>
     <VirtualList
       data={visitedtTrains}

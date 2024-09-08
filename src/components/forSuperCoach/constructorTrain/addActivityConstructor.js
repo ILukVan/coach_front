@@ -20,16 +20,17 @@ const disabledDate = (current) => {
 
 const { Option } = Select;
 
-const AddActivity = ({ createActivity, date, workoutList }) => {
+const AddActivityConstructor = ({ createActivity, workoutList, weekday }) => {
 
   const [form] = Form.useForm();
 
   const [open, setOpen] = useState(false);
-
+  let asd = "понедельн"
 
   const onCreate = (values) => {
-
-    createActivity(values);
+    console.log(values);
+    
+    // createActivity(values);
     setOpen(false);
   };
 
@@ -97,7 +98,7 @@ const showModal = () => {
             name="form_in_modal"
             initialValues={{
 
-              weekday_train: dayjs(date.date),
+
               start_time_train: dayjs("09:00", "HH:mm"),
               end_time_train: dayjs("10:00", "HH:mm"),
               occupancy_train: 1,
@@ -110,9 +111,8 @@ const showModal = () => {
           </Form>
         )}
       >
-        <p>{dayjs(date.date).format("DD MMMM (dddd)")}</p>
-        <Form.Item name="weekday_train" hidden="true" >
-          <DatePicker disabledDate={disabledDate} disabled/>
+  
+        <Form.Item name="weekday_train" hidden="true" initialValue={weekday} >
         </Form.Item>
 
         <Form.Item label="Начало тренировки" name="start_time_train">
@@ -152,7 +152,7 @@ const showModal = () => {
           <InputNumber min={1} max={17}/>
         </Form.Item>
         <p> Тип занятия </p>
-        <Form.Item
+        {/* <Form.Item
           name="type_of_training"
           className="collection-create-form_last-form-item"
           rules={[{ required: true, message: 'Введите тип тренировки!' }]}
@@ -167,10 +167,10 @@ const showModal = () => {
           </Option>
         ))}
       </Select>
-        </Form.Item>
+        </Form.Item> */}
       </Modal>
     </>
   );
 };
 
-export default AddActivity;
+export default AddActivityConstructor;

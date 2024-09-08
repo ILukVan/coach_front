@@ -155,6 +155,7 @@ const ModalEdit = ({
           // onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <p>{dayjs(record.start_time_train).format("DD MMMM (dddd)")}</p>
           <Form.Item label="Начало тренировки" name="start_time_train">
             <TimePicker
               changeOnScroll

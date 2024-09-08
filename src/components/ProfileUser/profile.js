@@ -6,6 +6,7 @@ import ModalEditProfile from "./modalEditProfile ";
 import UserCard from "./userCard";
 import VisitedTrains from "./VisitedTrains";
 import ModalEditProfilePassword from "./modalEditProfilePassword";
+import ModalUpdateSubscription from "./modalUpdateSubscription";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout, profile } from "../store/slice/signIn";
@@ -63,11 +64,22 @@ const Profile = () => {
     // ---------------------------------------изменить пароль ----------------------------
     const updatePassword = async (values) => {
       values.client_id = id;
-      if (id === idCurrent) {
+      if (role === idCurrent) {
         return await instance.put("/update_password", values);
     };
   }
     // ---------------------------------------изменить пароль ----------------------------
+    // ---------------------------------------абонемент ----------------------------
+        const updateSubscription = async (values) => {
+          values.client_id = id;
+          console.log(values, "qwerr");
+          
+          if (role === "coach" || role === "super_coach") {
+            const data = await instance.put("/update_subscription", values);
+            setClientData(data.data);
+        };
+      }
+  // ---------------------------------------абонемент ----------------------------
   // --------------------------------------- запрос посещенных тренировок ----------------------------
   const visited_workouts = async () => {
     const client_id = {client_id: await id}
@@ -76,6 +88,9 @@ const Profile = () => {
   };
   // --------------------------------------- запрос посещенных тренировок ----------------------------
 
+
+  console.log(clientData);
+  
   return (
     <Layout>
       <Content
@@ -114,6 +129,13 @@ const Profile = () => {
             <VisitedTrains
               visited_workouts={visited_workouts}
               visitedtTrains={visitedtTrains}
+            />
+          </div>
+
+          <div className="profile-options">
+            <ModalUpdateSubscription 
+            updateSubscription={updateSubscription}
+            idClient={id}
             />
           </div>
 

@@ -18,6 +18,7 @@ import PrivateRouteProfile from "./components/utils/router/PrivateRouteProfile";
 import Profile from "./components/ProfileUser/profile";
 import Registration from "./components/Registration";
 import SingIn from "./components/SignIn";
+import Constructor from "./components/forSuperCoach/constructorTrain/Constructor";
 import "./App.css";
 import Menu from "./menu";
 import RestoreProfile from "./components/Restore/RestoreProfile";
@@ -120,7 +121,7 @@ function App2 () {
           <Route path="/restore/new_password" element={<NewPassword />}></Route>
           </Route>
           <Route element={<PrivateRouteCoach />}>
- 
+          <Route path="/management/constructor" element={<Constructor />}></Route>
             <Route path="/coach" element={<Coach />}></Route>
             <Route path="/management" element={<SuperCoach />}></Route>
             <Route path="/management/client" element={<ClientList />}></Route>

@@ -1,11 +1,12 @@
 import React from "react";
-import { Layout, theme, DatePicker } from "antd";
+import { Layout, theme, DatePicker, notification } from "antd";
 import ActivityClient from "./activityClient";
 import ActivityClientCard from "./activityClientCard";
 import { useState, useEffect } from "react";
 import { instance } from "../../request";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
+
 
 const { Content } = Layout;
 
@@ -31,7 +32,10 @@ const Client = () => {
   const [coachList, setCoachList] = useState([]);
 
 
+  // console.log(dayjs(date).format("dddd"), "weekday");
 
+  
+  
   // ---------------------------------------запрос тренировок по дате ----------------------------
   const selectDateActivity = async (values) => {
     setDate(values);
@@ -58,6 +62,8 @@ const Client = () => {
   // ---------------------------------------запрос трениров ----------------------------
   // --------------------------------------- выбор даты для последующего запроса тренировкок ---------------------
   const onChangeDate = (date, dateString) => {
+    console.log( dayjs(dateString).format("dddd"));
+    
     let selectDate = {
       date: dateString,
     };
@@ -67,9 +73,28 @@ const Client = () => {
   // --------------------------------------- выбор даты для последующего запроса тренировкок ---------------------
   //------------------------- клиент записывается на тренировку -----------------------------------
   const signUpTrain = async (values) => {
-    await instance.post("/sign_up_train", values);
+    // await instance.post("/sign_up_train", values);
 
-    selectDateActivity(date)
+    // selectDateActivity(date)
+
+        try {
+        await instance.post("/sign_up_train", values);
+
+        selectDateActivity(date)
+      
+      notification.success({
+        message: "Успех!",
+        description: "Данные успешно обновлены",
+      });
+  
+      
+    } catch (err){
+
+      notification.error({
+        message: "Ошибка!",
+        description: err.response.data,
+      });
+    }
   };
   //------------------------- клиент записывается на тренировку -----------------------------------
   //------------------------- клиент отписывается от тренировки -----------------------------------
