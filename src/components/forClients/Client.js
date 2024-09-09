@@ -78,13 +78,14 @@ const Client = () => {
     // selectDateActivity(date)
 
         try {
-        await instance.post("/sign_up_train", values);
-
+        const pass = await instance.post("/sign_up_train", values);
+          console.log(pass, "pass");
+          
         selectDateActivity(date)
       
       notification.success({
-        message: "Успех!",
-        description: "Данные успешно обновлены",
+        message: `${pass.data.pass_status}!`,
+        description: Number.isInteger(pass.data.client_pass) ? `Остаток занятий по абонементу: ${pass.data.client_pass}` : pass.data.client_pass,
       });
   
       

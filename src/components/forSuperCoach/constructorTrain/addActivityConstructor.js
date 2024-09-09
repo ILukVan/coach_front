@@ -7,7 +7,7 @@ import {
   Select,
   TimePicker,
   DatePicker,
-
+  notification
 } from "antd";
 import { useState } from "react";
 import dayjs from 'dayjs';
@@ -20,7 +20,7 @@ const disabledDate = (current) => {
 
 const { Option } = Select;
 
-const AddActivityConstructor = ({ createActivity, workoutList, weekday }) => {
+const AddActivityConstructor = ({ createActivityConstructor, workOutList, weekday }) => {
 
   const [form] = Form.useForm();
 
@@ -30,7 +30,7 @@ const AddActivityConstructor = ({ createActivity, workoutList, weekday }) => {
   const onCreate = (values) => {
     console.log(values);
     
-    // createActivity(values);
+    createActivityConstructor(values);
     setOpen(false);
   };
 
@@ -152,13 +152,13 @@ const showModal = () => {
           <InputNumber min={1} max={17}/>
         </Form.Item>
         <p> Тип занятия </p>
-        {/* <Form.Item
+        <Form.Item
           name="type_of_training"
           className="collection-create-form_last-form-item"
           rules={[{ required: true, message: 'Введите тип тренировки!' }]}
         >
   <Select placeholder="Выберите тип занятия" style={{ width: '100%' }} >
-        {(workoutList).map((item) => (
+        {(workOutList).map((item) => (
           <Option
             key={item.workout_id}
             value={item.type_of_workout}
@@ -167,7 +167,7 @@ const showModal = () => {
           </Option>
         ))}
       </Select>
-        </Form.Item> */}
+        </Form.Item>
       </Modal>
     </>
   );

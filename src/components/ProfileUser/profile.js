@@ -131,14 +131,14 @@ const Profile = () => {
               visitedtTrains={visitedtTrains}
             />
           </div>
-
+            {role.includes("coach") &&
           <div className="profile-options">
             <ModalUpdateSubscription 
             updateSubscription={updateSubscription}
             idClient={id}
             />
           </div>
-
+        }
         </div>
         </div>
       </Content>

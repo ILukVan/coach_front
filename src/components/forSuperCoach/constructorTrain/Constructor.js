@@ -5,7 +5,7 @@ import AddWorkOut from "./AddWorkOut.js";
 import WorkOutListTable from "./WorkOutListTable.js";
 import WorkOutListCard from "./WorkOutListCard.js";
 import { useSelector } from "react-redux";
-import {  Layout, theme, Flex, Button, Select } from "antd";
+import {  Layout, theme, Flex, Button, Select, notification } from "antd";
 
 const { Content } = Layout;
 
@@ -16,11 +16,11 @@ const Constructor = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  // useEffect(() => {
-  //   fetchActivities(); // функция которая делает запрос в сторе
-  // }, []);
+  useEffect(() => {
+    fetchActivities(); // функция которая делает запрос в сторе
+  }, []);
 
-  const [workOutList, setWorkOutList] = useState();
+  const [workOutList, setWorkOutList] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [weekday, setWeekday] = useState("Понедельник");
 
@@ -28,6 +28,7 @@ const Constructor = () => {
   const fetchActivities = async () => {
     const data = await instance.get("/workout_list");
 
+    
     setWorkOutList(data.data);
   };
   // ----------------------------запрос типа тренировок----------------------------------------
@@ -38,19 +39,19 @@ const Constructor = () => {
 
 
     // ---------------------------------------создать тренировку ----------------------------
-    const createActivity = async (values) => {
+    const createActivityConstructor = async (values) => {
+      try{
+        const data = await instance.post("/add_activity_constructor", values);
+        setTableData(data.data)
+      } catch (err){
+       notification.error({
+          message: "Ошибка!",
+          description:  err.response.data,
+        });
+    };
+  }
+    
 
-    }
-  //     try{
-  //       const data = await instance.post("/add_activity_constructor", values);
-  //       setTableData(data.data)
-  //     } catch (err){
-  //      notification.error({
-  //         message: "Ошибка!",
-  //         description:  err.response.data,
-  //       });
-  //   };
-  // }
     // ---------------------------------------создать тренировку ----------------------------
     const handleChange = (value) => {
       console.log(`selected ${value}`);
@@ -120,7 +121,7 @@ const Constructor = () => {
               updateWorkOut={updateWorkOut}
               deleteWorkOut={deleteWorkOut}
             /> }*/}
-      <AddActivityConstructor createActivity={createActivity} weekday={weekday}/>  
+      <AddActivityConstructor createActivityConstructor={createActivityConstructor} weekday={weekday} workOutList={workOutList}/>  
       </div>
       </Content>
     </Layout>
