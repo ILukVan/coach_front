@@ -47,7 +47,6 @@ const ActivityCoach = ({
               <DeleteActivity
                 record={record}
                 deleteActivity={deleteActivity}
-                date={date}
               />
             </div>
           </div>
@@ -102,9 +101,11 @@ const ActivityCoach = ({
 
       render: (_, record) => {
         if (record.client_id === id || role === "super_coach") {
+          console.log(record.recorded_client.length);
+          
           return (
             <div className="recorded-for-coach">
-            <p>Записавшиеся: {(recordedList || []).length}/{record.occupancy_train}</p>
+            <p>Записавшиеся: {record.recorded_client.length}/{record.occupancy_train}</p>
               <RecordedList2
                 record={record}
                 clientList={clientList}

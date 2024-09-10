@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Layout, theme, DatePicker, notification } from "antd";
+import { Layout, theme, DatePicker, notification, Button } from "antd";
 import ActivityCoach from "./activityCoach";
 import ActivityCoachCard from "./activityCoachCard";
 import { useState } from "react";
@@ -103,6 +103,7 @@ const Coach = () => {
   // ---------------------------------------удалить клиента с тренировки ----------------------------
   // ---------------------------------------добавить клиента на тренировку ----------------------------
   const addClient = async (value, key, id) => {
+    try {
     const dataSign = {
       client_id: key.key,
       training_id: id,
@@ -110,6 +111,13 @@ const Coach = () => {
     const data = await instance.post("/sign_up_train_coach", dataSign);
     setClientList(data.data.difference);
     setRecordedList(data.data.recorded);
+  } catch {
+    notification.error({
+      message: "Ошибка!",
+      description:  "Нет абонемента",
+    });
+    
+  }
   };
 
   // ---------------------------------------добавить клиента на тренировку ----------------------------
@@ -129,8 +137,23 @@ const Coach = () => {
       setCoachList(coach.data);
     };
     // ---------------------------------------запрос трениров ----------------------------
-  
-console.log(tableData);
+    // ---------------------------------------запрос шаблона тренировок----------------------------
+    const getTemplateTrain = async () => {
+      console.log("шаблон");
+      
+      const templateTrain = await instance.post("/add_activity_template", {weekday_train: date.date});
+
+      console.log(templateTrain.data, "шаблон тренировок");
+      setTableData(templateTrain.data)
+      
+    }
+
+    // ---------------------------------------запрос шаблона тренировок----------------------------
+  const activityFlag = "activity"
+
+
+
+
 
   return (
     <Layout>
@@ -189,11 +212,16 @@ console.log(tableData);
         dayjs().format("YYYY-MM-DD") <=
         dayjs(date.date).format("YYYY-MM-DD")
       ) && 
+      <>
 <AddActivity
         createActivity={createActivity}
         date={date}
         workoutList={workoutList}
-      /> }
+        flag={activityFlag}
+      />
+      <Button onClick={getTemplateTrain}>Шаблон {dayjs(date.date).format("dddd")}</Button>
+      </>
+      }
         </div>
       </Content>
     </Layout>

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { instance } from "../../../request.js";
-import AddActivityConstructor from "./addActivityConstructor.js";
-import AddWorkOut from "./AddWorkOut.js";
-import WorkOutListTable from "./WorkOutListTable.js";
-import WorkOutListCard from "./WorkOutListCard.js";
 import { useSelector } from "react-redux";
-import {  Layout, theme, Flex, Button, Select, notification } from "antd";
+import { Layout, theme, Select, notification } from "antd";
+import AddActivity from "../../forCoaches/addActivity.js";
+import ConstructorListTable from "./ConstructorListTable.js";
+import ConstructorListCard from "./ConstructorListCard.js";
 
 const { Content } = Layout;
 
@@ -17,112 +16,149 @@ const Constructor = () => {
   } = theme.useToken();
 
   useEffect(() => {
-    fetchActivities(); // функция которая делает запрос в сторе
+    fetchWorkOutList(); // функция которая делает запрос в сторе
+    fetchWeekDayActivity(weekday);
   }, []);
 
   const [workOutList, setWorkOutList] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const [weekday, setWeekday] = useState("Понедельник");
+  const [weekday, setWeekday] = useState("понедельник");
 
   // ----------------------------запрос типа тренировок----------------------------------------
-  const fetchActivities = async () => {
+  const fetchWorkOutList = async () => {
     const data = await instance.get("/workout_list");
-
-    
     setWorkOutList(data.data);
   };
   // ----------------------------запрос типа тренировок----------------------------------------
+  // ----------------------------запрос тренироков по дню недели -----------------------------
+  const fetchWeekDayActivity = async (weekdayFetch) => {
+    const data = await instance.post("/activity_constructor", {
+      weekday_train: weekdayFetch,
+    });
+    setTableData(data.data);
+  };
 
+  // ----------------------------запрос тренироков по дню недели -----------------------------
+  const constructorFlag = "constructor";
 
+  console.log(tableData);
 
+  // ---------------------------------------создать тренировку ----------------------------
+  const createActivityConstructor = async (values) => {
+    try {
+      const data = await instance.post("/add_activity_constructor", values);
+      setTableData(data.data);
+    } catch (err) {
+      notification.error({
+        message: "Ошибка!",
+        description: err.response.data,
+      });
+    }
+  };
 
+  // ---------------------------------------создать тренировку ----------------------------
+  const handleChange = (value) => {
+    fetchWeekDayActivity(value);
+    setWeekday(value);
+  };
 
-
-    // ---------------------------------------создать тренировку ----------------------------
-    const createActivityConstructor = async (values) => {
-      try{
-        const data = await instance.post("/add_activity_constructor", values);
-        setTableData(data.data)
-      } catch (err){
-       notification.error({
-          message: "Ошибка!",
-          description:  err.response.data,
-        });
-    };
-  }
-    
-
-    // ---------------------------------------создать тренировку ----------------------------
-    const handleChange = (value) => {
-      console.log(`selected ${value}`);
-      setWeekday(value)
-    };
-
+  // ---------------------------------------изменить тренировку ----------------------------
+  const updateConstructorActivity = async (values) => {
+    try {
+      const data = await instance.put("/edit_activity_constructor", values);
+      setTableData(data.data);
+    } catch (err) {
+      notification.error({
+        message: "Ошибка!",
+        description: err.response.data,
+      });
+    }
+  };
+  // ---------------------------------------изменить тренировку ----------------------------
+  // ---------------------------------------удалить тренировку ----------------------------
+  const deleteConstructorActivity = async (values) => {
+    const data = await instance.delete("/delete_activity_constructor", {
+      data: { training_id: values, weekday_train: weekday },
+    });
+    setTableData(data.data);
+  };
+  // ---------------------------------------удалить тренировку ----------------------------
 
   return (
     <Layout>
-    <Content
-      style={{
-        padding: "0 48px",
-      }}
-    >
-      <div
+      <Content
         style={{
-          padding: 24,
-          minHeight: 380,
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
+          padding: "0 48px",
         }}
-      > 
-
-      <Select
-      defaultValue="Monday"
-
-      onChange={handleChange}
-      options={[
-        {
-          value: 'Monday',
-          label: 'Понедельник',
-        },
-        {
-          value: 'Tuesday',
-          label: 'Вторник',
-        },
-        {
-          value: 'Wednesday',
-          label: 'Среда',
-        },
-        {
-          value: 'Thursday',
-          label: 'Четверг',
-        },
-        {
-          value: 'Friday',
-          label: 'Пятница',
-        },
-        {
-          value: 'Saturday',
-          label: 'Суббота',
-        },
-        {
-          value: 'Sunday',
-          label: 'Воскресенье',
-        },
-      ]}
-    />
-      {/* {screen >= 900 ?
-      <WorkOutListTable
-        workOutList={workOutList}
-        updateWorkOut={updateWorkOut}
-        deleteWorkOut={deleteWorkOut}
-      /> :
-      <WorkOutListCard 
-              workOutList={workOutList}
-              updateWorkOut={updateWorkOut}
-              deleteWorkOut={deleteWorkOut}
-            /> }*/}
-      <AddActivityConstructor createActivityConstructor={createActivityConstructor} weekday={weekday} workOutList={workOutList}/>  
-      </div>
+      >
+        <div
+          style={{
+            padding: 24,
+            minHeight: 380,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Select
+            defaultValue="Понедельник"
+            onChange={handleChange}
+            options={[
+              {
+                value: "понедельник",
+                label: "Понедельник",
+              },
+              {
+                value: "вторник",
+                label: "Вторник",
+              },
+              {
+                value: "среда",
+                label: "Среда",
+              },
+              {
+                value: "четверг",
+                label: "Четверг",
+              },
+              {
+                value: "пятница",
+                label: "Пятница",
+              },
+              {
+                value: "суббота",
+                label: "Суббота",
+              },
+              {
+                value: "воскресенье",
+                label: "Воскресенье",
+              },
+            ]}
+          />
+          {screen >= 900 ?
+          <ConstructorListTable
+            constructorList={tableData}
+            workoutList={workOutList}
+            updateConstructorActivity={updateConstructorActivity}
+            deleteConstructorActivity={deleteConstructorActivity}
+          /> :
+      <ConstructorListCard 
+            activity={tableData}
+            workoutList={workOutList}
+            updateConstructorActivity={updateConstructorActivity}
+            deleteConstructorActivity={deleteConstructorActivity}
+            /> }
+          {/* <ConstructorListTable
+            constructorList={tableData}
+            workoutList={workOutList}
+            updateConstructorActivity={updateConstructorActivity}
+            deleteConstructorActivity={deleteConstructorActivity}
+          /> */}
+          <AddActivity
+            createActivity={createActivityConstructor}
+            workoutList={workOutList}
+            flag={constructorFlag}
+            weekday={weekday}
+          />
+        </div>
       </Content>
     </Layout>
   );
