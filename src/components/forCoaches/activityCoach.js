@@ -101,8 +101,7 @@ const ActivityCoach = ({
 
       render: (_, record) => {
         if (record.client_id === id || role === "super_coach") {
-          console.log(record.recorded_client.length);
-          
+
           return (
             <div className="recorded-for-coach">
             <p>Записавшиеся: {record.recorded_client.length}/{record.occupancy_train}</p>

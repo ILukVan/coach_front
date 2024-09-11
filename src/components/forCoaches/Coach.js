@@ -28,6 +28,7 @@ const Coach = () => {
   const [clientList, setClientList] = useState([]);
   const [recordedList, setRecordedList] = useState();
   const [coachList, setCoachList] = useState([]);
+  const [counter, setCounter] = useState(0);
 
 
   // ---------------------------------------создать тренировку ----------------------------
@@ -98,6 +99,7 @@ const Coach = () => {
     const data = await instance.post("/unsign_up_train_coach", dataUnSign);
     setClientList(data.data.difference);
     setRecordedList(data.data.recorded);
+
   };
 
   // ---------------------------------------удалить клиента с тренировки ----------------------------
@@ -118,6 +120,7 @@ const Coach = () => {
     });
     
   }
+
   };
 
   // ---------------------------------------добавить клиента на тренировку ----------------------------

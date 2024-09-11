@@ -7,6 +7,8 @@ const PrivateRouteProfile = () => {
 
 
     if(!role) {
+        console.log("tut5");
+        
         return <Navigate to={"/sign"} />
     } 
 
@@ -17,6 +19,7 @@ const PrivateRouteProfile = () => {
     if (role === "coach" || role === "super_coach") {
         return <Outlet />
     } else {
+        console.log("tut6");
         return <Navigate to={"/sign"} />
     }
 }

@@ -16,8 +16,9 @@ const SignUpTrain = ({record, signUpTrain}) => {
 
 
     if (!role) {
-
+      console.log("tut1");
       navigate("/sign");
+     
     } 
     if (role === "client" ) {
       signUpTrain(record)

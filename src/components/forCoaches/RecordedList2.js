@@ -12,12 +12,9 @@ const RecordedList2 = ({ record, getClientList, clientList, recordedList, delete
 
 
   const handleChange = async (value, key) => {
-    
-
     await addClient(value, key, record.training_id)
     setIsOpen(!isOpen)
   };
-
 
   const showDeleteConfirm = (client_id) => {
 

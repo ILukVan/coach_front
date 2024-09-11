@@ -68,6 +68,9 @@ function App2 () {
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   
+console.log(role, "роль");
+
+
   return (
     <>
       <Layout>
