@@ -47,6 +47,8 @@ const Constructor = () => {
   const createActivityConstructor = async (values) => {
     try {
       const data = await instance.post("/add_activity_constructor", values);
+      console.log(data);
+      
       setTableData(data.data);
     } catch (err) {
       notification.error({
