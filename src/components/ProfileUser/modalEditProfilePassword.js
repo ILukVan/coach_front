@@ -103,7 +103,7 @@ const ModalEditProfilePassword = ({ updatePassword, idClient }) => {
             <Input.Password />
           </Form.Item>
           <Form.Item
-            label="Новый повторите пароль"
+            label="Повторите пароль"
             name="rePassword"
             dependencies={["client_password"]}
             rules={[

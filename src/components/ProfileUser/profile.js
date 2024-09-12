@@ -7,6 +7,7 @@ import UserCard from "./userCard";
 import VisitedTrains from "./VisitedTrains";
 import ModalEditProfilePassword from "./modalEditProfilePassword";
 import ModalUpdateSubscription from "./modalUpdateSubscription";
+import HistoryPass from "./HistoryPass";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout, profile } from "../store/slice/signIn";
@@ -24,19 +25,20 @@ const Profile = () => {
 
   const { id } = useParams();
 
-
   useEffect(() => {
-    if (role==="client" && idCurrent !== id) {
+    if (role === "client" && idCurrent !== id) {
       localStorage.removeItem("tokens");
       localStorage.removeItem("data");
       dispatch(logout());
       navigate("/sign");
     } else {
-    getUserData();
-}}, [id]);
+      getUserData();
+    }
+  }, [id]);
 
   const [clientData, setClientData] = useState({});
   const [visitedtTrains, setVisitedtTrains] = useState([]);
+  const [historyPass, setHistoryPass] = useState([]);
   // ---------------------------------------запрос профиля ----------------------------
   const getUserData = async () => {
     let idClient = { id: await id };
@@ -51,46 +53,52 @@ const Profile = () => {
     values.client_id = id;
     const data = await instance.put("/update_profile", values);
     if (id === idCurrent) {
-      const user ={
+      const user = {
         id: idCurrent,
         role: role,
         name: data.data.client_fio,
-      }
-      dispatch(profile(user))
+      };
+      dispatch(profile(user));
     }
     setClientData(data.data);
   };
   // ---------------------------------------изменить профиль ----------------------------
-    // ---------------------------------------изменить пароль ----------------------------
-    const updatePassword = async (values) => {
-      values.client_id = id;
-      if (role === idCurrent) {
-        return await instance.put("/update_password", values);
-    };
-  }
-    // ---------------------------------------изменить пароль ----------------------------
-    // ---------------------------------------абонемент ----------------------------
-        const updateSubscription = async (values) => {
-          values.client_id = id;
-          console.log(values, "qwerr");
-          
-          if (role === "coach" || role === "super_coach") {
-            const data = await instance.put("/update_subscription", values);
-            setClientData(data.data);
-        };
-      }
+  // ---------------------------------------изменить пароль ----------------------------
+  const updatePassword = async (values) => {
+    values.client_id = id;
+    if (role === idCurrent) {
+      return await instance.put("/update_password", values);
+    }
+  };
+  // ---------------------------------------изменить пароль ----------------------------
+  // ---------------------------------------абонемент ----------------------------
+  const updateSubscription = async (values) => {
+    values.client_id = id;
+    console.log(values, "qwerr");
+
+    if (role === "coach" || role === "super_coach") {
+      const data = await instance.put("/update_subscription", values);
+      setClientData(data.data);
+    }
+  };
   // ---------------------------------------абонемент ----------------------------
   // --------------------------------------- запрос посещенных тренировок ----------------------------
   const visited_workouts = async () => {
-    const client_id = {client_id: await id}
+    const client_id = { client_id: await id };
     const data = await instance.post("/visited_trains", client_id);
     setVisitedtTrains(data.data);
   };
   // --------------------------------------- запрос посещенных тренировок ----------------------------
-
+    // --------------------------------------- запрос истории абонементов ----------------------------
+    const getHistoryPass = async () => {
+      const client_id = { client_id: await id };
+      const history = await instance.post("/history_pass", client_id);
+      setHistoryPass(history.data);
+    };
+    // --------------------------------------- запрос истории абонементов ----------------------------
 
   console.log(clientData);
-  
+
   return (
     <Layout>
       <Content
@@ -107,39 +115,48 @@ const Profile = () => {
           }}
         >
           <div className="profile-card">
-          <UserCard clientData={clientData} />
-          <div className="profile-options">
-            <ModalEditProfile
-              record={clientData}
-              updateProfile={updateProfile}
-              idClient={id}
-            />
+            <UserCard clientData={clientData} role={role} />
+            <div className="profile-options">
+              <ModalEditProfile
+                record={clientData}
+                updateProfile={updateProfile}
+                idClient={id}
+              />
+            </div>
+            {idCurrent === id && (
+              <div className="profile-options">
+                <ModalEditProfilePassword
+                  record={clientData}
+                  updatePassword={updatePassword}
+                  idClient={id}
+                />
+              </div>
+            )}
+            {clientData.client_job !== "тренер студии" && (
+              <div className="profile-options">
+                <VisitedTrains
+                  visited_workouts={visited_workouts}
+                  visitedtTrains={visitedtTrains}
+                />
+              </div>
+            )}
+            {clientData.client_job !== "тренер студии" && (
+              <div className="profile-options">
+                <HistoryPass
+                  getHistoryPass={getHistoryPass}
+                  historyPass={historyPass}
+                />
+              </div>
+            )}
+            {role.includes("coach") & (idCurrent !== id) ?
+              <div className="profile-options">
+                <ModalUpdateSubscription
+                  updateSubscription={updateSubscription}
+                  idClient={id}
+                />
+              </div> : <></>}
+
           </div>
-          {idCurrent === id && 
-          <div className="profile-options"> 
-          
-          <ModalEditProfilePassword 
-                        record={clientData}
-                        updatePassword={updatePassword}
-                        idClient={id}
-                      />
-          </div>}
-          <div className="profile-options">
-            
-            <VisitedTrains
-              visited_workouts={visited_workouts}
-              visitedtTrains={visitedtTrains}
-            />
-          </div>
-            {role.includes("coach") &&
-          <div className="profile-options">
-            <ModalUpdateSubscription 
-            updateSubscription={updateSubscription}
-            idClient={id}
-            />
-          </div>
-        }
-        </div>
         </div>
       </Content>
     </Layout>

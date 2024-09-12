@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "antd";
 
 
-const UserCard = ({clientData}) => {
+const UserCard = ({clientData, role}) => {
 
     return ( 
         <Card title={clientData.client_fio}>
@@ -25,7 +25,9 @@ const UserCard = ({clientData}) => {
               {clientData.client_email ? clientData.client_email : "Не указан"}{" "}
             </p>
             <p>Дата регистрации: {clientData.client_registration_date} </p>
+            {clientData.client_job !== "тренер студии" &&
             <p>Абонемент: {clientData.client_pass}</p>
+          }
              </Card>
     )
 }

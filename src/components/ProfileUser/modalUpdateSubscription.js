@@ -64,7 +64,7 @@ console.log(idClient);
         Абонемент
       </Button>
       <Modal
-        title="Редактирование данных"
+        title="Управление абонементами"
         open={isModalOpen}
         onOk={handleOk}
         okText="Сохранить"
