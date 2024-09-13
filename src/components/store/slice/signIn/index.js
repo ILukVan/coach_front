@@ -5,8 +5,6 @@ const initialState = {
     user: JSON.parse(localStorage.getItem("tokens")) ? jwtDecode(JSON.parse(localStorage.getItem("tokens")).token) : {},
     isLogged: false,
 }
-
-    console.log(initialState);
     
 export const signInSlice = createSlice({
     name: 'sign',

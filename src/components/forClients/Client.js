@@ -30,11 +30,6 @@ const Client = () => {
   const [date, setDate] = useState();
   const [workoutList, setWorkOutList] = useState([]);
   const [coachList, setCoachList] = useState([]);
-
-
-  // console.log(dayjs(date).format("dddd"), "weekday");
-
-  
   
   // ---------------------------------------запрос тренировок по дате ----------------------------
   const selectDateActivity = async (values) => {
@@ -62,8 +57,7 @@ const Client = () => {
   // ---------------------------------------запрос трениров ----------------------------
   // --------------------------------------- выбор даты для последующего запроса тренировкок ---------------------
   const onChangeDate = (date, dateString) => {
-    console.log( dayjs(dateString).format("dddd"));
-    
+
     let selectDate = {
       date: dateString,
     };
@@ -79,7 +73,6 @@ const Client = () => {
 
         try {
         const pass = await instance.post("/sign_up_train", values);
-          console.log(pass, "pass");
           
         selectDateActivity(date)
       

@@ -30,8 +30,6 @@ instance.interceptors.response.use(
 
     if (error.response.status === 401) {
 
-      console.log(error.response.data, "пришел новый токен");
-      
       localStorage.setItem(
         "tokens",
         JSON.stringify(error.response.data)
@@ -48,7 +46,7 @@ instance.interceptors.response.use(
 
     } else {
       console.log("токен протух");
-      // window.location.reload()
+      window.location.reload()
     }
 
     // Любые коды состояния, выходящие за пределы диапазона 2xx, вызывают срабатывание этой функции

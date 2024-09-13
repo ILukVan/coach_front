@@ -36,7 +36,6 @@ const ModalUpdateSubscription = ({ updateSubscription, idClient}) => {
     setIsModalOpen(false);
   };
   const onFinish = async (values) => {
-    console.log(values);
     try {
       await updateSubscription(values);
       
@@ -53,9 +52,6 @@ const ModalUpdateSubscription = ({ updateSubscription, idClient}) => {
       });
     }
   };
-
-
-console.log(idClient);
 
 
   return (

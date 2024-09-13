@@ -74,7 +74,6 @@ const Profile = () => {
   // ---------------------------------------абонемент ----------------------------
   const updateSubscription = async (values) => {
     values.client_id = id;
-    console.log(values, "qwerr");
 
     if (role === "coach" || role === "super_coach") {
       const data = await instance.put("/update_subscription", values);
@@ -96,8 +95,6 @@ const Profile = () => {
       setHistoryPass(history.data);
     };
     // --------------------------------------- запрос истории абонементов ----------------------------
-
-  console.log(clientData);
 
   return (
     <Layout>
