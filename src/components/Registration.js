@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Form, Input, DatePicker, Checkbox, Collapse} from 'antd';
+import { Button, Form, Input, DatePicker, Checkbox, Collapse, Select} from 'antd';
 import { useEffect } from "react";
 import { MaskedInput } from "antd-mask-input";
 import dayjs from 'dayjs';
+const { Option } = Select;
 const Registration = ( {phone_number ,registration} ) => {
   const [form] = Form.useForm();
 const onFinish = (values) => {
@@ -27,57 +28,7 @@ const onFinish = (values) => {
   return false
  }
 
-  const items = [
-    {
-      key: '1',
-      label: 'Чтобы лучше Вас почувствовать',
-      children:<div> 
-    <Form.Item
-      name="client_patronymic"
-      label="Отчество"
-      rules={[
-        {
-          whitespace: true,
-          message: 'Введите Ваше отчество!',
-          
-        },
-        {
-          max: 15,
-          message: "Предел символов",
-        }, 
-      ]}
-      normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item
-      name="Email"
-      label="Email"
-      rules={[
-        {
-          type: 'email',
-          whitespace: true,
-          message: "Некорректный Email!",
-        },
-      ]}
-      normalize={(value) => value.trim()}
-      onFinish={verifyEmail}
-    >
-      <Input />
-    </Form.Item>     
-    <Form.Item
-      name="client_job"
-      label="Ваша профессия"
-      
-    >
-      <Input />
-    </Form.Item>
-    <Form.Item name="client_illness" label="Ваши жалобы" maxLength={250}>
-      <Input.TextArea />
-    </Form.Item>
-  </div>
-    },
-  ]
+ 
   
   return (
     
@@ -219,7 +170,24 @@ const onFinish = (values) => {
     >
       <Input />
     </Form.Item>
-
+    <Form.Item
+      name="client_patronymic"
+      label="Отчество"
+      rules={[
+        {
+          whitespace: true,
+          message: 'Введите Ваше отчество!',
+          
+        },
+        {
+          max: 15,
+          message: "Предел символов",
+        }, 
+      ]}
+      normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
+    >
+      <Input />
+    </Form.Item>
 
     <Form.Item
       name="client_birthday"
@@ -241,7 +209,45 @@ const onFinish = (values) => {
     >
     <CheckboxGroup options={plainOptions} />
     </Form.Item>
-    <Collapse items={items} />
+    <Form.Item
+      name="Email"
+      label="Email"
+      rules={[
+        {
+          type: 'email',
+          whitespace: true,
+          message: "Некорректный Email!",
+        },
+      ]}
+      normalize={(value) => value.trim()}
+      onFinish={verifyEmail}
+    >
+      <Input />
+    </Form.Item>     
+    <Form.Item
+      name="client_job"
+      label="Тип работы"
+      rules={[
+        {
+          required: true,
+          whitespace: true,
+          message: 'Введите Вашу активность',
+        },
+      ]}
+      
+    >
+             <Select
+          placeholder="Выберите тип работы"
+          allowClear
+        >
+          <Option value="Сидячая">Сидячая</Option>
+          <Option value="Активная">Активная</Option>
+        </Select>
+    </Form.Item>
+    <Form.Item name="client_illness" label="Ваши жалобы" maxLength={250}>
+      <Input.TextArea />
+    </Form.Item>
+
     <Form.Item
       wrapperCol={{
         offset: 8,

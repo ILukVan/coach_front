@@ -11,7 +11,7 @@ const UserCard = ({clientData, role}) => {
             </p>
             <p>Номер телефона: {clientData.client_phone_number}</p>
             <p>
-              Профессия:{" "}
+              Тип работы:{" "}
               {clientData.client_job ? clientData.client_job : "Не указана"}{" "}
             </p>
             <p>

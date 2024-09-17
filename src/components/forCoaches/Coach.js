@@ -7,6 +7,7 @@ import { instance } from "../../request";
 import dayjs from "dayjs";
 import AddActivity from "./addActivity";
 import { useSelector } from "react-redux";
+import "./activityCardCoach.css";
 const { Content } = Layout;
 
 const Coach = () => {
@@ -177,6 +178,7 @@ const Coach = () => {
             defaultValue={dayjs()}
             allowClear={false}
           />
+          <span className="weekDay-datePicker">{dayjs(date?.date).format("dddd")}</span>
 </div>
           {screen >= 900 ?
           <ActivityCoach
@@ -220,7 +222,7 @@ const Coach = () => {
         workoutList={workoutList}
         flag={activityFlag}
       />
-      <Button onClick={getTemplateTrain}>Шаблон {dayjs(date.date).format("dddd")}</Button>
+      <Button onClick={getTemplateTrain} className="TemplateButton">Шаблон {dayjs(date.date).format("dddd")}</Button>
       </>
       }
         </div>

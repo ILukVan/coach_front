@@ -97,8 +97,8 @@ activity.forEach(train => {
         if (record.status_train === "тренировка завершена") {
           return <p>Запись завершена</p>;
         }
-        if (dayjs(record.start_time_train)<dayjs().add(30, "m") & record.recorded_client.includes(id)){
-          return <p>уже все</p>;
+        if (dayjs(record.start_time_train)<dayjs().add(90, "m") & record.recorded_client.includes(id)){
+          return <p>Запись отменить нельзя</p>;
         }
         if (
           

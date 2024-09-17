@@ -4,7 +4,7 @@ import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
 import { useSelector } from "react-redux";
 import "./activityClientList.css";
-
+import dayjs from "dayjs";
 
 const ActivityClientCard = ({
   activity,
@@ -35,6 +35,9 @@ const clientEndTime = []
     }
     if (record.status_train === "тренировка завершена") {
       return <span style={{padding:"0px"}}>Запись завершена</span>;
+    }
+    if (dayjs(record.start_time_train)<dayjs().add(90, "m") & record.recorded_client.includes(id)){
+      return <span>Запись отменить нельзя</span>;
     }
     if (
           

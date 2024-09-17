@@ -6,11 +6,13 @@ import {
   notification,
   Input,
   DatePicker,
+  Select
 } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { MaskedInput } from "antd-mask-input";
 import { useSelector } from "react-redux";
+const { Option } = Select;
 dayjs.extend(customParseFormat);
 
 
@@ -195,8 +197,14 @@ const ModalEditProfile = ({ record, updateProfile, idClient}) => {
           >
             <Input disabled={disabledEmail()}/>
           </Form.Item>
-          <Form.Item name="client_job" label="Ваша профессия">
-            <Input disabled={record.client_job==="тренер студии"}/>
+          <Form.Item name="client_job" label="Тип работы">
+          <Select
+          placeholder="Выберите тип работы"
+          allowClear
+        >
+          <Option value="Сидячая">Сидячая</Option>
+          <Option value="Активная">Активная</Option>
+        </Select>
           </Form.Item>
           <Form.Item name="client_illness" label="Ваши жалобы">
             <Input.TextArea />
