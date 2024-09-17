@@ -1,6 +1,6 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Layout } from "antd";
+import { Layout, ConfigProvider } from "antd";
 import SignInPage from "./components/SignInPage";
 import Client from "./components/forClients/Client";
 import { instance } from "./request";
@@ -25,6 +25,7 @@ import RestoreProfile from "./components/Restore/RestoreProfile";
 import PrivateRouteRestore from "./components/utils/router/PrivateRouteRestore";
 import NewPassword from "./components/Restore/NewPassword";
 import NotFound from "./notFound";
+import locale from 'antd/es/locale/ru_RU';
 
 const { Header, Footer } = Layout;
 
@@ -68,10 +69,9 @@ function App2 () {
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   const id = useSelector((state) => state.rootReducer.sign.user.id);
   
-console.log(role, "роль");
-
 
   return (
+    <ConfigProvider locale={locale}>
     <>
       <Layout>
         <Header
@@ -149,6 +149,7 @@ console.log(role, "роль");
         </Footer>
       </Layout>
     </>
+    </ConfigProvider>
   );
 }
 

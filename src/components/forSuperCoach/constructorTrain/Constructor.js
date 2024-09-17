@@ -41,13 +41,11 @@ const Constructor = () => {
   // ----------------------------запрос тренироков по дню недели -----------------------------
   const constructorFlag = "constructor";
 
-  console.log(tableData);
 
   // ---------------------------------------создать тренировку ----------------------------
   const createActivityConstructor = async (values) => {
     try {
       const data = await instance.post("/add_activity_constructor", values);
-      console.log(data);
       
       setTableData(data.data);
     } catch (err) {

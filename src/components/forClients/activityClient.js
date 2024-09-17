@@ -3,7 +3,7 @@ import { Table, Progress } from "antd";
 import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
 import { useSelector } from "react-redux";
-
+import dayjs from "dayjs";
 const onChange = (pagination, filters, sorter, extra) => {
 
 };
@@ -97,7 +97,9 @@ activity.forEach(train => {
         if (record.status_train === "тренировка завершена") {
           return <p>Запись завершена</p>;
         }
-
+        if (dayjs(record.start_time_train)<dayjs().add(30, "m") & record.recorded_client.includes(id)){
+          return <p>уже все</p>;
+        }
         if (
           
           record.recorded_client.includes(id)
@@ -125,8 +127,12 @@ activity.forEach(train => {
           if (clientStartTime[i]<record.end_time_train && clientStartTime[i]>record.start_time_train){
             return <p>В это время Вы на занятии</p>;
           }
+    
+
 
         }
+
+
 
         if (record.status_train !== "тренировка завершена") {
           return (
@@ -142,6 +148,7 @@ activity.forEach(train => {
       },
     },
   ];
+
 
   return (
     <div>

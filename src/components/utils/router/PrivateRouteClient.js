@@ -6,7 +6,6 @@ const PrivateRouteClient = () => {
     const role = useSelector((state) => state.rootReducer.sign.user.role);
 
     if(!role) {
-        console.log("tut3");
         return <Navigate to={"/sign"} />
     } 
 

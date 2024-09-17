@@ -142,11 +142,9 @@ const Coach = () => {
     // ---------------------------------------запрос трениров ----------------------------
     // ---------------------------------------запрос шаблона тренировок----------------------------
     const getTemplateTrain = async () => {
-      console.log("шаблон");
-      
+    
       const templateTrain = await instance.post("/add_activity_template", {weekday_train: date.date});
 
-      console.log(templateTrain.data, "шаблон тренировок");
       setTableData(templateTrain.data)
       
     }

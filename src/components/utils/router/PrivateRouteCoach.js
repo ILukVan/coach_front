@@ -8,8 +8,7 @@ const PrivateRouteCoach = () => {
 
 
     if(!role) {
-        console.log("tut4");
-        
+
         return <Navigate to={"/sign"} />
 
 

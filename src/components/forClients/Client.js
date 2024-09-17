@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 
 
+
 const { Content } = Layout;
 
 const Client = () => {
@@ -31,10 +32,6 @@ const Client = () => {
   const [workoutList, setWorkOutList] = useState([]);
   const [coachList, setCoachList] = useState([]);
 
-
-  // console.log(dayjs(date).format("dddd"), "weekday");
-
-  
   
   // ---------------------------------------запрос тренировок по дате ----------------------------
   const selectDateActivity = async (values) => {
@@ -62,8 +59,7 @@ const Client = () => {
   // ---------------------------------------запрос трениров ----------------------------
   // --------------------------------------- выбор даты для последующего запроса тренировкок ---------------------
   const onChangeDate = (date, dateString) => {
-    console.log( dayjs(dateString).format("dddd"));
-    
+
     let selectDate = {
       date: dateString,
     };
@@ -79,7 +75,7 @@ const Client = () => {
 
         try {
         const pass = await instance.post("/sign_up_train", values);
-          console.log(pass, "pass");
+
           
         selectDateActivity(date)
       
@@ -133,6 +129,7 @@ const Client = () => {
             defaultValue={dayjs()}
             allowClear={false}
           />
+  <span className="weekDay-datePicker">{dayjs(date?.date).format("dddd")}</span>
 </div>
           {screen >= 900 ? (
             <ActivityClient

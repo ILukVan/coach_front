@@ -10,7 +10,6 @@ const PrivateRouteRestore = () => {
 
     if(!restore && !email) {
         localStorage.clear()
-        console.log("tut7");
         return <Navigate to={"/sign"} />
     } else {
         return <Outlet email={email}/>

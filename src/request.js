@@ -30,8 +30,6 @@ instance.interceptors.response.use(
 
     if (error.response.status === 401) {
 
-      console.log(error.response.data, "пришел новый токен");
-      
       localStorage.setItem(
         "tokens",
         JSON.stringify(error.response.data)
