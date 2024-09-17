@@ -54,7 +54,6 @@ const ModalUpdateSubscription = ({ updateSubscription, idClient}) => {
   };
 
 
-
   return (
     <>
       <Button type="primary" onClick={showModal}>

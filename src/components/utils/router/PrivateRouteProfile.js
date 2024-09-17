@@ -18,6 +18,7 @@ const PrivateRouteProfile = () => {
     if (role === "coach" || role === "super_coach") {
         return <Outlet />
     } else {
+
         return <Navigate to={"/sign"} />
     }
 }

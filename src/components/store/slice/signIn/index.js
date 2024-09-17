@@ -6,7 +6,6 @@ const initialState = {
     isLogged: false,
 }
 
-    
 export const signInSlice = createSlice({
     name: 'sign',
     initialState,
