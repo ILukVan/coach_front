@@ -146,7 +146,7 @@ const onFinish = (values) => {
           message: "Предел символов",
         }, 
       ]}
-      normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
+      normalize={(value) => value.replace(/[^а-яА-ЯёЁ]/gu, "").trim()}
     >
       <Input />
     </Form.Item>
@@ -166,7 +166,7 @@ const onFinish = (values) => {
           message: "Предел символов",
         }, 
       ]}
-      normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
+      normalize={(value) => value.replace(/[^а-яА-ЯёЁ]/gu, "").trim()}
     >
       <Input />
     </Form.Item>
@@ -184,7 +184,7 @@ const onFinish = (values) => {
           message: "Предел символов",
         }, 
       ]}
-      normalize={(value) => value.replace(/[^а-яА-я]/gu, "").trim()}
+      normalize={(value) => value.replace(/[^а-яА-ЯёЁ]/gu, "").trim()}
     >
       <Input />
     </Form.Item>
