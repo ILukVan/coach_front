@@ -12,7 +12,7 @@ const UserCard = ({clientData, role}) => {
             <p>Номер телефона: {clientData.client_phone_number}</p>
             <p>
               Тип работы:{" "}
-              {clientData.client_job ? clientData.client_job : "Не указана"}{" "}
+              {clientData.client_job ? clientData.client_job : "Не указан"}{" "}
             </p>
             <p>
               Жалобы:{" "}
