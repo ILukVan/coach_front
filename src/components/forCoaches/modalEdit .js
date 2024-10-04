@@ -221,8 +221,33 @@ const ModalEdit = ({
               ))}
             </Select>
           </Form.Item>
-
-
+      {record.type_of_training === "Барре" && 
+          <Form.Item label="сложность тренировки" name="complexity_of_training">
+          <Select
+      style={{
+        width: "100%",
+      }}
+      options={[
+        {
+          value: '5/6',
+          label: '5/6',
+        },
+        {
+          value: '7/8',
+          label: '7/8',
+        },
+        {
+          value: '9',
+          label: '9',
+        },
+        {
+          value: '10',
+          label: '10',
+        },
+      ]}
+    />
+      </Form.Item>
+    }
           <Form.Item
           name="description"
           label="Описание тренировки "

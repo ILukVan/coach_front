@@ -6,6 +6,7 @@ import DeleteActivity from "./DeleteActivity";
 import ModalEdit from "./modalEdit ";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
+import  giry2  from "../forClients/mdi--weights.svg"
 
 const ActivityCoachCard = ({
   activity,
@@ -79,6 +80,46 @@ const ActivityCoachCard = ({
   
   // -------------------------------- функция рендера редактора ----------------------------
 
+  function weight (value, type) {
+    if (value === "5/6"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"green", borderRadius:"inherit"}}>{type} </p>
+        </>
+      )
+    }
+
+    if (value === "7/8"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"yellow", borderRadius:"inherit"}}>{type}  <img src={giry2}/></p>
+        </>
+      )
+    }
+
+    if (value === "9"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"orange", borderRadius:"inherit"}}>{type}  <img src={giry2}/> <img src={giry2}/> </p>
+        </>
+      )
+    }
+    if (value === "10"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"red", borderRadius:"inherit"}}>{type}  <img src={giry2}/> <img src={giry2}/> <img src={giry2}/> </p>
+        </>
+      )
+    } else {
+      return (
+        <>
+        <p className="title-name" >{type}</p>
+        </>
+      )
+    }
+  }
+
+
   return (
     <div>
       <List
@@ -95,7 +136,7 @@ const ActivityCoachCard = ({
         renderItem={(item, index) => (
           <List.Item>
             <div className="card">
-              <p className="title-name">{item.type_of_training}</p>
+            {weight(item.complexity_of_training, item.type_of_training)}
               <div className="card">
               <p className="title-name">
                 {item.start_time_train.slice(-5)}-

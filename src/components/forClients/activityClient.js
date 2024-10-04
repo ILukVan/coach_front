@@ -4,6 +4,7 @@ import SignUpTrain from "./SignUpTrain";
 import UnSignUpTrain from "./UnSignUpTrain ";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import  giry2  from "./mdi--weights.svg"
 const onChange = (pagination, filters, sorter, extra) => {
 
 };
@@ -42,6 +43,9 @@ activity.forEach(train => {
     {
       title: "Тип занятия",
       dataIndex: "type_of_training",
+      render: (_, record) => (
+        weight(record.complexity_of_training, record.type_of_training)
+      ),
       filters: workoutList.map(item => ({
         text: item.type_of_workout,
         value: item.type_of_workout,
@@ -149,6 +153,44 @@ activity.forEach(train => {
     },
   ];
 
+  function weight (value, type) {
+    if (value === "5/6"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"green", borderRadius:"inherit"}}>{type} </p>
+        </>
+      )
+    }
+
+    if (value === "7/8"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"yellow", borderRadius:"inherit"}}>{type}  <img src={giry2}/></p>
+        </>
+      )
+    }
+
+    if (value === "9"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"orange", borderRadius:"inherit" }}>{type}  <img src={giry2}/> <img src={giry2}/> </p>
+        </>
+      )
+    }
+    if (value === "10"){
+      return (
+        <>
+        <p className="title-name" style={{backgroundColor:"red", borderRadius:"inherit"}}>{type}  <img src={giry2}/> <img src={giry2}/> <img src={giry2}/> </p>
+        </>
+      )
+    } else {
+      return (
+        <>
+        <p className="title-name" >{type}</p>
+        </>
+      )
+    }
+  }
 
   return (
     <div>
