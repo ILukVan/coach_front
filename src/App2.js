@@ -26,6 +26,7 @@ import PrivateRouteRestore from "./components/utils/router/PrivateRouteRestore";
 import NewPassword from "./components/Restore/NewPassword";
 import NotFound from "./notFound";
 import locale from 'antd/es/locale/ru_RU';
+import SmallPass from "./components/smallPass";
 
 const { Header, Footer } = Layout;
 
@@ -68,8 +69,7 @@ function App2 () {
   const name = useSelector((state) => state.rootReducer.sign.user.name);
   const role = useSelector((state) => state.rootReducer.sign.user.role);
   const id = useSelector((state) => state.rootReducer.sign.user.id);
-
-
+ 
   return (
     <ConfigProvider locale={locale}>
     <>
@@ -92,8 +92,16 @@ function App2 () {
  <Menu role={role} name={name} id={id}/> :
  <Link to="/">
  Расписание
-</Link>}
+</Link>}  
             </div>
+            
+            <div>
+            {role === "super_coach"? 
+            <SmallPass />: 
+            ""
+            }
+            </div> 
+
 <div className="header-Profile">
 
             {id ? (
