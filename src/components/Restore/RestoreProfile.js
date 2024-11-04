@@ -26,8 +26,15 @@ const navigate = useNavigate();
         localStorage.setItem("email", email.data);
       }
       SetRestoreEmail(email.data)
+      notification.success({
+        message: "Успех!",
+        description: " Код отправлен, проверте почту!",
+      });
     } catch {
-      console.log("нет мыла");
+      notification.error({
+        message: "Ошибка!",
+        description: "Email не найден",
+      });
     }
   };
 // ---------------------------------------------- отправить код подтверждения ------------
@@ -71,6 +78,12 @@ const sendCodeAndEmail = async (values) => {
   }
 };
 // ---------------------------------------------- верификация код подтверждения ------------
+// ----------------------------------------------- Отмена восстановления  ------------
+const cancelRestore = () => {
+  localStorage.clear()
+  navigate("/sign");
+};
+// ---------------------------------------------- Отмена восстановления ------------
 
 
   return (
@@ -89,7 +102,7 @@ const sendCodeAndEmail = async (values) => {
           }}
         >
           {localStorage.getItem("restore") ? <RestoreEmailAndCode sendCodeAndEmail={sendCodeAndEmail}
-          restoreEmail={restoreEmail} reSendEmailCode={reSendEmailCode}/>: <RestoreEmail sendEmailCode={sendEmailCode}/>}
+          restoreEmail={restoreEmail} reSendEmailCode={reSendEmailCode} cancelRestore={cancelRestore}/>: <RestoreEmail sendEmailCode={sendEmailCode}/>}
         </div>
       </Content>
     </Layout>

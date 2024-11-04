@@ -66,7 +66,7 @@ const Profile = () => {
   // ---------------------------------------изменить пароль ----------------------------
   const updatePassword = async (values) => {
     values.client_id = id;
-    if (role === idCurrent) {
+    if (id === idCurrent) {
       return await instance.put("/update_password", values);
     }
   };

@@ -32,9 +32,7 @@ const ModalEditProfilePassword = ({ updatePassword, idClient }) => {
         });
         setIsModalOpen(false);
       }
-      // $2b$10$83bTKLWiBNBrAQGihyOHYuIZe7z/kMEfY/1y9ryhxpPm4aPtvWOsS
-      // $2b$10$83bTKLWiBNBrAQGihyOHYuIZe7z/kMEfY/1y9ryhxpPm4aPtvWOsS
-      // $2b$10$uqpIW6tSlMLYi9BIZyspS.ICqtrVUopwNxGwDtC5MnJMKQW4ST69S
+
     } catch {
       notification.error({
         message: "Ошибка!",
@@ -95,31 +93,54 @@ const ModalEditProfilePassword = ({ updatePassword, idClient }) => {
             name="client_password"
             rules={[
               {
+                min: 3,
+                message: "Минимальная длинна пароля 3 символа",
+              }, 
+              {
                 required: true,
-                message: "Введите Ваш пароль!",
+                whitespace: true,
+                message: 'Введите Ваш пароль!',
               },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  const re = new RegExp('(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{3,}', 'g');
+                  
+      
+                  if (value.match(re)) {
+                    return Promise.resolve();
+                  }
+                 
+                  return Promise.reject(new Error('Пароль должен содержать хотя бы одну цифру, латинскую строчную и заглавную букву, и спецсимвол(!@#$%^&*) !'));
+                },
+              }),
             ]}
+            normalize={(value) => value.trim()}
           >
             <Input.Password />
           </Form.Item>
           <Form.Item
             label="Повторите пароль"
             name="rePassword"
-            dependencies={["client_password"]}
+            dependencies={['client_password']}
             rules={[
+      
               {
                 required: true,
-                message: "Введите Ваш пароль!",
+                whitespace: true,
+                message: 'Введите Ваш пароль!',
               },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("client_password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Пароли не совпадают!"));
-                },
-              }),
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+      
+                    if (!value || getFieldValue('client_password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error('Пароли не совпадают!'));
+                  },
+                }),
             ]}
+      
+            normalize={(value) => value.trim()}
           >
             <Input.Password />
           </Form.Item>

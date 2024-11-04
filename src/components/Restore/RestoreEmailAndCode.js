@@ -5,6 +5,7 @@ const RestoreEmailAndCode = ({
   restoreEmail,
   reSendEmailCode,
   sendCodeAndEmail,
+  cancelRestore,
 }) => {
   const emailCurrent = localStorage.getItem("email");
   const onFinish = async (values) => {
@@ -39,7 +40,23 @@ const RestoreEmailAndCode = ({
           >
             <Input disabled />
           </Form.Item>
-          <Form.Item name="verifyCode" label="Код восстановления">
+          <Form.Item name="verifyCode" label="Код восстановления" 
+          rules={[
+        {
+          required: true,
+          whitespace: true,
+          message: 'Введите Ваше имя!',
+        },
+        {
+          min: 8,
+          message: "Код должен состоять из 8 символов",
+        }, 
+        {
+          max: 8,
+          message: "Предел символов",
+        }, 
+      ]}
+      normalize={(value) => value.replace(/[^A-z\d+$]/gu, "").trim()}>
             <Input />
           </Form.Item>
           <Form.Item
@@ -60,6 +77,16 @@ const RestoreEmailAndCode = ({
           >
         <Button onClick={() => reSendEmailCode(emailCurrent)} >
         Отправить код еще раз
+            </Button>
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+        <Button onClick={cancelRestore} >
+        Отменить восстановление
             </Button>
           </Form.Item>
         </Form>

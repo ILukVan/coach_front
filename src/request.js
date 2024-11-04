@@ -45,7 +45,7 @@ instance.interceptors.response.use(
       
 
     } else {
-      console.log("токен протух");
+      console.log("токеn");
       // window.location.reload()
     }
 

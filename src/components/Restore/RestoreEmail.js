@@ -26,8 +26,13 @@ const RestoreEmail = ({ sendEmailCode }) => {
         rules={[
           {
             type: "email",
+            whitespace: true,
+            required: true,
+            message: 'Некорректный Email!',
           },
+          
         ]}
+        normalize={(value) => value.trim()}
       >
         <Input />
       </Form.Item>
